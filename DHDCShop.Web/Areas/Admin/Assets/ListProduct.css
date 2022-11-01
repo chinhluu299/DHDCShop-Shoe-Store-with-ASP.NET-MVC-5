@@ -1,0 +1,40 @@
+﻿/*
+@media only screen and (min-width: 1200px) {
+    table .sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after {
+        content: "\25B4\25BE"
+    }
+
+    table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after {
+        opacity: 0.2;
+    }
+
+    #example > thead > tr > th:hover {
+        background-color: lightgray;
+    }
+}
+.option-mobile{
+    display: none;
+}
+@media only screen and (max-width: 1200px) {
+    .option-mobile {
+        display: block;
+       
+    }
+
+    .option-computer {
+        display: none;
+    }
+}*/
+.column-center{
+    vertical-align: middle;
+}
+#searchBox {
+    width: 100%;
+    padding: 4px;
+    padding-left: 12px;
+    margin-bottom: 12px;
+    border: #CCCCCC 0.5px solid;
+}
+#searchBox:focus{
+    outline: none;
+}

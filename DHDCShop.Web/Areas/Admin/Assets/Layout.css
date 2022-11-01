@@ -1,0 +1,19 @@
+﻿@media only screen and (max-width: 600px) {
+
+}
+a.nav-link:hover{
+   transform: scale(1.1);
+   transition: 0.3s;
+}
+* {
+    font-family: 'Oswald', sans-serif;
+}
+
+table tr th{
+    cursor: pointer;
+}
+
+table tr:hover {
+    background-color: #f2f2f2;
+    transition: 0.02s;
+}

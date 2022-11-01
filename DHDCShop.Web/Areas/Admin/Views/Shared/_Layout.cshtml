@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    @{
+        <link href="~/Areas/Admin/Assets/Layout.css" rel="stylesheet" />
+    }
+
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+            <div class="col-auto col-md-2 col-xl-2 px-sm-2 px-0 bg-dark collapse collapse-horizontal show border-end" id="sidebar">
+                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100" id="sidebar-nav">
+                    <a href="#" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                        <span class="fs-5 d-none d-sm-inline">Menu</span>
+                    </a>
+                    <ul class="nav nav-pills flex-column mb-sm-auto  mb-0 align-items-start " id="menu">
+                        @*<li class="nav-item">
+                                <a href="#" class="nav-link align-middle px-0 text-warning">
+                                    <i class="fs-4 bi-house"></i> <span class="ms-1  d-sm-inline">Home</span>
+                                </a>
+                            </li>*@
+                        <li>
+                            <a href="@Url.Action("Index","Dashboard")" class="nav-link px-0 align-middle text-warning">
+                                <i class="fs-4 bi-speedometer2 "></i> <span class="ms-1 d-sm-inline">Dashboard</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index","Order")" class="nav-link px-0 align-middle text-warning">
+                                <i class="fs-4 bi-table"></i> <span class="ms-1  d-sm-inline">Orders</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle text-warning ">
+                                <i class="fs-4 bi-grid"></i> <span class="ms-1  d-sm-inline">Products</span>
+                            </a>
+                            <ul class="collapse nav flex-column ms-1" id="submenu3" data-bs-parent="#menu">
+                                <li class="w-100 ">
+
+                                    <a href="@Url.Action("Index","Product")" class="nav-link px-0"> <span class="text-warning d-sm-inline">List product</span></a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Create","Product")" class="nav-link px-0"> <span class="text-warning d-sm-inline">Create product</span></a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index","Customer")" class="nav-link px-0 align-middle text-warning">
+                                <i class="fs-4 bi-people"></i> <span class="ms-1 d-sm-inline">Customers</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index","Blog")" class="nav-link px-0 align-middle text-warning">
+                                <i class="fs-4 bi bi-newspaper"></i> <span class="ms-1 d-sm-inline">Blogs</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Logout","Home")" class="nav-link px-0 align-middle text-warning">
+                                <i class="fs-4 bi bi-door-open-fill"></i> <span class="ms-1 d-sm-inline">Log out</span>
+                            </a>
+                        </li>
+
+
+                    </ul>
+                    <hr>
+
+                </div>
+            </div>
+            <div class="col min-vh-100" style="background-color: #f5f7fa;">
+                <div class="container-fluid body-content ms-2 me-2">
+                    <a id="btn-menu" href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class="p text-decoration-none mb-5 m-0"><i class="bi bi-list bi-lg h2 fw-bold text-warning"></i></a>
+                    <div class="me-3">
+                        @RenderBody()
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @RenderSection("scripts", required: false)
+</body>
+
+</html>

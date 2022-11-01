@@ -1,0 +1,66 @@
+﻿@model DHDCShop.Models.ViewModel.LoginViewModel
+
+@{
+    ViewBag.Title = "Login";
+    <link href="~/Areas/Admin/Assets/Login.css" type="text/css" rel="stylesheet" />
+    Layout = "";
+
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3 col-md-2"></div>
+        <div class="col-lg-6 col-md-8 login-box">
+            <div class="col-lg-12 login-key">
+                <i class="bi bi-lock-fill"></i>
+            </div>
+            <div class="col-lg-12 login-title">
+                ADMIN PANEL
+            </div>
+
+            <div class="col-lg-12 login-form">
+                <div class="col-lg-12 login-form">
+                    @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="form-group">
+                            <label class="form-control-label">USERNAME</label>
+                            @Html.TextBoxFor(m => m.Username, "", new { @class = "form-control", @placeholder = "" })
+
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label">PASSWORD</label>
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "" })
+                        </div>
+
+                        <div class="col-lg-12 loginbttm">
+                            <div class="col-lg-8 login-btm login-text">
+                                @if (ViewBag.error != null)
+                                {
+                                    <div>
+                                        <strong class="text-danger">Error!</strong> Your username or password is incorrect.
+                                    </div>
+                                }
+                            </div>
+                            <div class="col-lg-4 login-btm login-button">
+                                <button type="submit" class="btn btn-outline-primary">LOGIN</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-2"></div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
