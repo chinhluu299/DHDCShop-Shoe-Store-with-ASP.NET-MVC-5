@@ -1,0 +1,406 @@
+﻿@model DHDCShop.Models.Model.Product
+
+@{
+    ViewBag.Title = "Create";
+
+
+}
+
+<script src="https://cdn.ckeditor.com/ckeditor5/35.2.0/super-build/ckeditor.js"></script>
+
+<style>
+    body {
+        background-color: #f5f7fa;
+    }
+
+    .card {
+        border-radius: 0px;
+    }
+
+    .form-control {
+        border-radius: 0px;
+    }
+
+    .input-size, .input-quantity {
+        width: 100%;
+    }
+
+
+    /* CSS */
+    .button-52 {
+        font-size: 16px;
+        font-weight: 200;
+        letter-spacing: 1px;
+        padding: 13px 20px 13px;
+        outline: 0;
+        border: 1px solid black;
+        cursor: pointer;
+        position: relative;
+        background-color: rgba(0, 0, 0, 0);
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+    }
+
+    .btn-52-add::after {
+        content: "ADD";
+        background-color: #ffe54c;
+        width: 100%;
+        z-index: 0;
+        position: absolute;
+        height: 100%;
+        top: 7px;
+        left: 7px;
+        transition: 0.2s;
+        text-align: center;
+    }
+
+    .btn-52-del::after {
+        text-align: center;
+        content: "SUB";
+        background-color: #ffe54c;
+        width: 100%;
+        z-index: 0;
+        position: absolute;
+        height: 100%;
+        top: 7px;
+        left: 7px;
+        transition: 0.2s;
+    }
+
+    .button-52:hover::after {
+        top: 0px;
+        left: 0px;
+    }
+
+    @@media (min-width: 768px) {
+        .button-52 {
+            padding: 6px 20px 6px;
+        }
+    }
+</style>
+
+<h3 class="mb-4">Create Product</h3>
+@using (Html.BeginForm("Create", "Product", FormMethod.Post,
+                            new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="d-lg-flex justify-content-between flex-row">
+            <div class="me-lg-4 form-group col-lg-8">
+                <div class="card-body card mb-3 ps-4 d-flex">
+                    <div class="d-flex ">
+                        <div class="form-group mb-3 col-8">
+                            <label class="form-control-label h6">Name</label>
+                            <div class="me-2">
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control " } })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3 col-4 ">
+                            <label class="form-control-label h6">Gender</label>
+                            <div class="me-2">
+                                @Html.EditorFor(model => model.Gender, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group mb-3">
+                        <label class="form-control-label h6">
+                            The detail information of product
+                        </label>
+                        <div class="me-2">
+                            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control"} })
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class=" card card-body ps-4 mb-3">
+                    <label class="form-control-label h6">Brand</label>
+                    <div class="me-2">
+                        @Html.EditorFor(model => model.Brand, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Brand, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+
+                <div class="card card-body ps-4 mb-3">
+                    <label class="form-control-label h6">Price</label>
+                    <div class="me-2">
+                        @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-lg-4">
+                <div class="card form-group p-4 mb-3 text-center">
+                    <label class="form-control-label h6">Image</label>
+                    <div class="mb-2">
+                        <img id="user_img" height="100"
+                             width="90" style="border:solid" />
+                    </div>
+                    <div>
+                        <input type="file" accept=".jpg, .png, .jpeg" multiple title="search image" id="files" name="files" />
+                    </div>
+                    <div id="images" class="border-1 mt-2 flex-nowrap overflow-auto" style="height: 100px; border: solid;">
+
+                    </div>
+                </div>
+                <div class="card form-group mb-3 p-4">
+                    <label class="form-control-label h6">Size</label>
+                    <div class="">
+                        <table id="myTable" class="table-responsive table">
+                            <thead>
+                                <tr>
+                                    <th>Size</th>
+                                    <th>Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th><input type="number" placeholder="Enter size" class="input-size m-auto" name="size_1" /></th>
+                                    <th><input type="number" placeholder="Enter quantity" class="input-quantity m-auto" name="quantity_1" /></th>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="d-flex">
+
+                        <div class="button-52 btn-52-add me-3" role="button" onclick="addSize()">+</div>
+                        <div class="button-52 btn-52-del" role="button" onclick="delSize()">-</div>
+
+                    </div>
+                </div>
+                @*<div class="card form-group mb-3 p-4">
+                        <label class="form-control-label  h6">Number of product</label>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.soluong, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.soluong, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+            </div>
+        </div>
+
+
+
+
+
+        <div class="form-group d-flex">
+            <div class="col-md-offset-2 mb-3 ">
+                <input type="submit" value="Create" class="btn btn-default bg-success opacity-75 text-white text-center border-0 me-2" />
+            </div>
+            <div>
+                <a href="@Url.Action("Index","Product")" class="btn btn-default bg-danger opacity-75 text-white text-center border-0">Back to List</a>
+            </div>
+            <div class="ms-2 text-danger p-1">
+                @ViewBag.Error
+            </div>
+        </div>
+    </div>
+}
+
+
+
+<script type="text/javascript">
+    //function show(input) {
+    //    if (input.files && input.files[0]) {
+    //        var filerdr = new FileReader();
+    //        filerdr.onload = function (e) {
+    //            $('#user_img').attr('src', e.target.result);
+    //        }
+    //        filerdr.readAsDataURL(input.files[0]);
+    //    }
+    //}
+
+    const images = document.getElementById('images');
+
+    CKEDITOR.ClassicEditor.create(document.getElementById("contentEditor"), {
+
+        toolbar: {
+            items: [
+                'exportPDF', 'exportWord', '|',
+                'findAndReplace', 'selectAll', '|',
+                'heading', '|',
+                'bold', 'italic', 'strikethrough', 'underline', 'code', 'subscript', 'superscript', 'removeFormat', '|',
+                'bulletedList', 'numberedList', 'todoList', '|',
+                'outdent', 'indent', '|',
+                'undo', 'redo',
+                '-',
+                'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'highlight', '|',
+                'alignment', '|',
+                'link', 'insertImage', 'blockQuote', 'insertTable', 'mediaEmbed', 'codeBlock', 'htmlEmbed', '|',
+                'specialCharacters', 'horizontalLine', 'pageBreak', '|',
+                'textPartLanguage', '|',
+                'sourceEditing'
+            ],
+            shouldNotGroupWhenFull: true
+        },
+        // Changing the language of the interface requires loading the language file using the <script> tag.
+        // language: 'es',
+        list: {
+            properties: {
+                styles: true,
+                startIndex: true,
+                reversed: true
+            }
+        },
+        // https://ckeditor.com/docs/ckeditor5/latest/features/headings.html#configuration
+        heading: {
+            options: [
+                { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
+                { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
+                { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' }
+            ]
+        },
+        // https://ckeditor.com/docs/ckeditor5/latest/features/editor-placeholder.html#using-the-editor-configuration
+
+        // https://ckeditor.com/docs/ckeditor5/latest/features/font.html#configuring-the-font-family-feature
+        fontFamily: {
+            options: [
+                'default',
+                'Arial, Helvetica, sans-serif',
+                'Courier New, Courier, monospace',
+                'Georgia, serif',
+                'Lucida Sans Unicode, Lucida Grande, sans-serif',
+                'Tahoma, Geneva, sans-serif',
+                'Times New Roman, Times, serif',
+                'Trebuchet MS, Helvetica, sans-serif',
+                'Verdana, Geneva, sans-serif'
+            ],
+            supportAllValues: true
+        },
+        // https://ckeditor.com/docs/ckeditor5/latest/features/font.html#configuring-the-font-size-feature
+        fontSize: {
+            options: [10, 12, 14, 'default', 18, 20, 22],
+            supportAllValues: true
+        },
+        // Be careful with the setting below. It instructs CKEditor to accept ALL HTML markup.
+        // https://ckeditor.com/docs/ckeditor5/latest/features/general-html-support.html#enabling-all-html-features
+        htmlSupport: {
+            allow: [
+                {
+                    name: /.*/,
+                    attributes: true,
+                    classes: true,
+                    styles: true
+                }
+            ]
+        },
+        // Be careful with enabling previews
+        // https://ckeditor.com/docs/ckeditor5/latest/features/html-embed.html#content-previews
+        htmlEmbed: {
+            showPreviews: true
+        },
+        // https://ckeditor.com/docs/ckeditor5/latest/features/link.html#custom-link-attributes-decorators
+        link: {
+            decorators: {
+                addTargetToExternalLinks: true,
+                defaultProtocol: 'https://',
+                toggleDownloadable: {
+                    mode: 'manual',
+                    label: 'Downloadable',
+                    attributes: {
+                        download: 'file'
+                    }
+                }
+            }
+        },
+        // https://ckeditor.com/docs/ckeditor5/latest/features/mentions.html#configuration
+
+        // The "super-build" contains more premium features that require additional configuration, disable them below.
+        // Do not turn them on unless you read the documentation and know how to configure them and setup the editor.
+        removePlugins: [
+            // These two are commercial, but you can try them out without registering to a trial.
+            // 'ExportPdf',
+            // 'ExportWord',
+            'CKBox',
+            'CKFinder',
+            'EasyImage',
+            // This sample uses the Base64UploadAdapter to handle image uploads as it requires no configuration.
+            // https://ckeditor.com/docs/ckeditor5/latest/features/images/image-upload/base64-upload-adapter.html
+            // Storing images as Base64 is usually a very bad idea.
+            // Replace it on production website with other solutions:
+            // https://ckeditor.com/docs/ckeditor5/latest/features/images/image-upload/image-upload.html
+            // 'Base64UploadAdapter',
+            'RealTimeCollaborativeComments',
+            'RealTimeCollaborativeTrackChanges',
+            'RealTimeCollaborativeRevisionHistory',
+            'PresenceList',
+            'Comments',
+            'TrackChanges',
+            'TrackChangesData',
+            'RevisionHistory',
+            'Pagination',
+            'WProofreader',
+            // Careful, with the Mathtype plugin CKEditor will not load when loading this sample
+            // from a local file system (file://) - load this site via HTTP server if you enable MathType
+            'MathType'
+        ]
+    });
+
+
+    function show(evt) {
+        var files = evt.target.files; // FileList object
+
+        // Loop through the FileList and render image files as thumbnails.
+        for (var i = 0, f; f = files[i]; i++) {
+            images.innerHTML = "";
+            // Only process image files.
+            if (!f.type.match('image.*')) {
+                continue;
+            }
+
+            var reader = new FileReader();
+
+            // Closure to capture the file information.
+            reader.onload = (function (theFile) {
+                return function (e) {
+                    // Render thumbnail.
+                    var span = document.createElement('span');
+                    span.innerHTML = ['<img class="thumb m-1" width="90" height="90" src="', e.target.result,
+                        '" title="', escape(theFile.name), '"/>'].join('');
+                    images.insertBefore(span, null);
+                };
+            })(f);
+
+            // Read in the image file as a data URL.
+            reader.readAsDataURL(f);
+        }
+    }
+
+    document.getElementById('files').addEventListener('change', show, false);
+
+    const tableSize = document.getElementById("myTable");
+
+    function delSize() {
+        if (tableSize.rows.length > 2) {
+            tableSize.deleteRow(tableSize.rows.length - 1);
+        }
+
+    }
+
+    function addSize() {
+        var length = tableSize.rows.length;
+        var row = tableSize.insertRow(length);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        cell1.innerHTML = `<input type="number" placeholder="Enter size" class="input-size" name=${"size_" + length}>`;
+        cell2.innerHTML = `<input type="number" placeholder="Enter quantity" class="input-quantity" name=${"quantity_" + length}>`;
+
+    }
+</script>

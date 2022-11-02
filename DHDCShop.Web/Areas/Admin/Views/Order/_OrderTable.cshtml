@@ -1,0 +1,268 @@
+﻿
+@model PagedList.IPagedList<DHDCShop.Models.Model.Order>
+@using PagedList.Mvc;
+
+<div class="card" id="my-body">
+    <table id="example" class="table table-borderless sortable" style="width:100%">
+
+        <thead class="bg-opacity-10 bg-black">
+            <tr>
+                <th>
+                    Number
+                </th>
+
+                <th>
+                    Date
+                </th>
+
+                <th>
+                    Customer
+                </th>
+
+                <th>
+                    Status
+                </th>
+
+                <th>
+                    Total
+                </th>
+            </tr>
+        </thead>
+
+        <tbody id="my-body">
+
+            @foreach (var item in Model)
+            {
+
+                <tr class="row-table">
+
+                    <td class="column-center">
+                        <a href="@Url.Action("Details", "Order", new { id = item.OrderId })">#@item.OrderId</a>
+
+                    </td>
+                    <td class="column-center">
+                        <div>
+                            @if (item.CreateDate != null)
+                            {
+                                <h6>
+                                    @DateTime.Parse(item.CreateDate.ToString()).ToString("dddd, dd MMMM yyyy")
+                                </h6>}
+
+                        </div>
+                    </td>
+
+                    <td class="column-center">
+                        <div>
+                            <h6>@item.Customer.FullName</h6>
+                        </div>
+
+                    </td>
+                    <td class="column-center">
+                        <div>
+                            @if (item.Status.Name.Equals("shipping"))
+                            {
+                                <div class="bg-warning bg-opacity-25 text-warning fw-bolder p-0 text-center w-50" style="font-size: 0.8em;">Shipping</div> }
+                            else if (item.Status.Name.Equals("pending"))
+                            {
+                                <div class="bg-info bg-opacity-25 text-info fw-bolder p-0 text-center w-50 " style="font-size: 0.8em;">Pending</div> }
+                            else if (item.Status.Name.Equals("cancel"))
+                            {
+                                <div class="bg-dark bg-opacity-25 text-dark fw-bolder p-0 text-center w-50" style="font-size: 0.8em;">Cancel</div> }
+                            else if (item.Status.Name.Equals("completed"))
+                            {
+                                <div class="bg-success bg-opacity-25 text-success fw-bolder p-0 text-center w-50" style="font-size: 0.8em;">Completed</div>}
+                        </div>
+                    </td>
+
+                    <td class="option-mobile column-center">
+                        <div class="dropdown">
+                            <a class="btn bg-white dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </a>
+
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <li> <a class="dropdown-item" href="@Url.Action("Details", "Order", new { id = item.OrderId })">Details</a></li>
+
+                                <li><button class="dropdown-item text-danger" onclick="DelConfirm(@item.OrderId)">Delete</button></li>
+                            </ul>
+                        </div>
+
+                    </td>
+                </tr>
+
+            }
+
+
+        </tbody>
+
+
+    </table>
+
+    @Html.PagedListPager(Model, page => Url.Action("_OrderTable", "Order", new
+{
+    page,
+    filter = (string)ViewBag.Filter
+}))
+</div>
+
+
+
+
+<script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="~/Areas/Admin/Assets/table_libary/paginate.js"></script>
+<script>
+
+    function ResetTableSort() {
+        var option = 0;
+        let options = {
+            //    numberPerPage: 10,
+            //    constNumberPerPage: 10,
+            //    numberOfPages: 0,
+            //    goBar: false,
+            //    pageCounter: true,
+            //    hasPagination: false,
+        };
+        let filterOptions = {
+            el: '#searchBox'
+        };
+        paginate.init('#example', options, filterOptions);
+        $(document).ready(function () {
+            $('#example').DataTable;
+        });
+
+    };
+    ResetTableSort();
+    function DelConfirm(sohd) {
+        if (confirm("Are you sure you want to delete this?")) {
+            $.post(`/Admin/Order/Delete`, { id: sohd });
+            window.location.href = "/Admin/Order";
+        } else {
+
+        }
+    }
+
+    var option_all = document.getElementsByClassName("option-all")[0];
+    var option_shipping = document.getElementsByClassName("option-shipping")[0];
+    var option_pending = document.getElementsByClassName("option-pending")[0];
+    var option_cancel = document.getElementsByClassName("option-cancel")[0];
+    var option_complete = document.getElementsByClassName("option-complete")[0];
+    var table_body = document.querySelector("tbody");
+
+    option_all.onclick = () => {
+        option = 0;
+        if (!option_all.classList.contains("opacity-100"))
+            option_all.classList.add("opacity-100");
+        option_shipping.classList.remove('opacity-100');
+        option_pending.classList.remove('opacity-100');
+        option_cancel.classList.remove('opacity-100');
+        option_complete.classList.remove('opacity-100');
+
+
+        $.ajax({
+            url: `/Admin/Order/_OrderTable`,
+            data: { filter: "" },
+            type: "GET",
+            success: function (response) {
+                $('#my-body').html(response);
+                ResetTableSort();
+            }
+        })
+
+
+
+    }
+    option_shipping.onclick = () => {
+        option = 1;
+        if (!option_shipping.classList.contains("opacity-100"))
+            option_shipping.classList.add("opacity-100");
+        option_all.classList.remove('opacity-100');
+        option_pending.classList.remove('opacity-100');
+        option_cancel.classList.remove('opacity-100');
+        option_complete.classList.remove('opacity-100');
+        $.ajax({
+            url: `/Admin/Order/_OrderTable`,
+            data: { filter: "shipping" },
+            type: "GET",
+            success: function (response) {
+                $('#my-body').html(response);
+                ResetTableSort();
+            }
+        })
+
+    }
+    option_pending.onclick = () => {
+        option = 2;
+        if (!option_pending.classList.contains("opacity-100"))
+            option_pending.classList.add("opacity-100");
+        option_shipping.classList.remove('opacity-100');
+        option_all.classList.remove('opacity-100');
+        option_cancel.classList.remove('opacity-100');
+        option_complete.classList.remove('opacity-100');
+        $.ajax({
+            url: `/Admin/Order/_OrderTable`,
+            data: { filter: "pending" },
+            type: "GET",
+            success: function (response) {
+                $('#my-body').html(response);
+                ResetTableSort();
+            }
+        })
+
+    }
+    option_cancel.onclick = () => {
+        option = 3;
+        if (!option_cancel.classList.contains("opacity-100"))
+            option_cancel.classList.add("opacity-100");
+        option_shipping.classList.remove('opacity-100');
+        option_pending.classList.remove('opacity-100');
+        option_all.classList.remove('opacity-100');
+        option_complete.classList.remove('opacity-100');
+        $.ajax({
+            url: `/Admin/Order/_OrderTable`,
+            data: { filter: "cancel" },
+            type: "GET",
+            success: function (response) {
+                $('#my-body').html(response);
+                ResetTableSort();
+            }
+        })
+
+    }
+    option_complete.onclick = () => {
+        option = 4;
+        if (!option_complete.classList.contains("opacity-100"))
+            option_complete.classList.add("opacity-100");
+        option_shipping.classList.remove('opacity-100');
+        option_pending.classList.remove('opacity-100');
+        option_cancel.classList.remove('opacity-100');
+        option_all.classList.remove('opacity-100');
+        $.ajax({
+            url: `/Admin/Order/_OrderTable`,
+            data: { filter: "completed" },
+            type: "GET",
+            success: function (response) {
+                $('#my-body').html(response);
+                ResetTableSort();
+            }
+        })
+    }
+
+    $(document).ready(function () {
+
+        $(document).on("click", ".pagination a[href]", function () {
+            $.ajax({
+                url: $(this).attr("href"),
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#my-body').html(result);
+                }
+
+            });
+            return false;
+        });
+
+    });
+
+</script>

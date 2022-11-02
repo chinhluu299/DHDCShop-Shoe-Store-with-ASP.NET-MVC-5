@@ -1,0 +1,303 @@
+﻿@model DHDCShop.Models.Model.Product
+@using System.Web;
+@{
+    ViewBag.Title = "Edit";
+
+}
+
+<script src="https://cdn.ckeditor.com/ckeditor5/35.2.1/classic/ckeditor.js"></script>
+
+<style>
+    body {
+        background-color: #f5f7fa;
+    }
+
+    .card {
+        border-radius: 0px;
+    }
+
+    .form-control {
+        border-radius: 0px;
+    }
+
+    .input-size, .input-quantity {
+        width: 100%;
+    }
+
+    .button-52 {
+        font-size: 16px;
+        font-weight: 200;
+        letter-spacing: 1px;
+        padding: 13px 20px 13px;
+        outline: 0;
+        border: 1px solid black;
+        cursor: pointer;
+        position: relative;
+        background-color: rgba(0, 0, 0, 0);
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+    }
+
+    .btn-52-add::after {
+        content: "ADD";
+        background-color: #ffe54c;
+        width: 100%;
+        z-index: 0;
+        position: absolute;
+        height: 100%;
+        top: 7px;
+        left: 7px;
+        transition: 0.2s;
+        text-align: center;
+    }
+
+    .btn-52-del::after {
+        text-align: center;
+        content: "SUB";
+        background-color: #ffe54c;
+        width: 100%;
+        z-index: 0;
+        position: absolute;
+        height: 100%;
+        top: 7px;
+        left: 7px;
+        transition: 0.2s;
+    }
+
+    .button-52:hover::after {
+        top: 0px;
+        left: 0px;
+    }
+
+    @@media (min-width: 768px) {
+        .button-52 {
+            padding: 6px 20px 6px;
+        }
+    }
+</style>
+<h2>Edit product</h2>
+
+@using (Html.BeginForm("Edit", "Product", FormMethod.Post,
+                            new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.HiddenFor(model => model.ProductId)
+
+        <div class="d-lg-flex justify-content-between flex-row">
+            <div class="me-lg-4 form-group col-lg-8">
+                <div class="card-body card  mb-3 ps-4 d-flex">
+                    <div class="d-flex">
+                        <div class="form-group mb-3 col-8 ">
+                            <label class="form-control-label  h6">Name</label>
+                            <div class="me-2">
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control " } })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3 col-4 ">
+                            <label class="form-control-label  h6">Gender</label>
+                            <div class="me-2">
+                                @Html.EditorFor(model => model.Gender, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group mb-3">
+                        <label class="form-control-label h6">
+                            The detail information of product
+                        </label>
+                        <div class="me-2">
+
+                            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body card ps-4 mb-3">
+                    <label class="form-control-label h6">Brand</label>
+                    <div class="me-2">
+                        @Html.EditorFor(model => model.Brand, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Brand, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+
+                <div class="card-body card ps-4 mb-3">
+                    <label class="form-control-label h6">Price</label>
+                    <div class="me-2">
+                        @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-lg-4">
+                <div class="card form-group p-4 mb-3 text-center">
+                    <label class="form-control-label h6">Image</label>
+                    <div class="mb-2">
+                        <img id="user_img" height="100"
+                             width="90" style="border:solid" src="@Url.Content(Model.ImagePath ?? "~/Source/Default/giay_default.png")" />
+
+                    </div>
+                    <div>
+                        <input type="file" accept=".jpg, .png, .jpeg" multiple title="search image" id="files" name="files" />
+                    </div>
+                    <div id="images" class="border-1 mt-2 flex-nowrap overflow-auto" style="height: 100px; border: solid;">
+                        @foreach (var item in Model.ProductImages)
+                        {
+                            <img height="90"
+                                 width="90" class="m-1" src="@Url.Content(item.ImagePath)" />
+                        }
+                    </div>
+                </div>
+                <div class="card form-group mb-3 p-4">
+                    <label class="form-control-label h6">Size</label>
+                    <div class="">
+                        <table id="myTable" class="table-responsive table">
+                            <thead>
+                                <tr>
+                                    <th>Size</th>
+                                    <th>Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 1; i <= Model.ProductSizes.Count; i++)
+                                {
+                                    var item = Model.ProductSizes.ElementAt(i - 1);
+                                    <tr>
+                                        <th><input type="number" placeholder="Enter size" class="input-size" name="size_@i" value="@item.Size" /></th>
+                                        <th><input type="number" placeholder="Enter quantity" class="input-quantity" name="quantity_@i" value="@item.Quantity" /></th>
+                                    </tr>
+                                }
+                                @*<tr>
+                                        <th><input type="number" placeholder="Enter size" class="input-size" name="size_1" /></th>
+                                        <th><input type="number" placeholder="Enter quantity" class="input-quantity" name="quantity_1" /></th>
+                                    </tr>*@
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="d-flex">
+                        <div class="button-52 btn-52-add me-3" role="button" onclick="addSize()">+</div>
+                        <div class="button-52 btn-52-del" role="button" onclick="delSize()">-</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group d-flex">
+            <div class="col-md-offset-2 mb-3 ">
+                <input type="submit" value="Edit" class="btn btn-default bg-success opacity-75 text-white text-center border-0 me-2" />
+            </div>
+            <div>
+                <a href="@Url.Action("Index","Product")" class="btn btn-default bg-danger opacity-75 text-white text-center border-0">Back to List</a>
+            </div>
+            <div>
+                @ViewBag.Error
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    const images = document.getElementById('images');
+
+    function show(evt) {
+        var files = evt.target.files; // FileList object
+
+        // Loop through the FileList and render image files as thumbnails.
+        for (var i = 0, f; f = files[i]; i++) {
+            images.innerHTML = "";
+            // Only process image files.
+            if (!f.type.match('image.*')) {
+                continue;
+            }
+
+            var reader = new FileReader();
+
+            // Closure to capture the file information.
+            reader.onload = (function (theFile) {
+                return function (e) {
+                    // Render thumbnail.
+                    var span = document.createElement('span');
+                    span.innerHTML = ['<img class="thumb m-1" width="90" height="90" src="', e.target.result,
+                        '" title="', escape(theFile.name), '"/>'].join('');
+                    images.insertBefore(span, null);
+                };
+            })(f);
+
+            // Read in the image file as a data URL.
+            reader.readAsDataURL(f);
+        }
+    }
+
+    document.getElementById('files').addEventListener('change', show, false);
+
+    const tableSize = document.getElementById("myTable");
+
+    function delSize() {
+        if (tableSize.rows.length > 2) {
+            tableSize.deleteRow(tableSize.rows.length - 1);
+        }
+
+    }
+
+    function addSize() {
+        var length = tableSize.rows.length;
+        var row = tableSize.insertRow(length);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        cell1.innerHTML = `<input type="number" placeholder="Enter size" class="input-size" name=${"size_" + length}>`;
+        cell2.innerHTML = `<input type="number" placeholder="Enter quantity" class="input-quantity" name=${"quantity_" + length}>`;
+
+    }
+
+    let editor;
+    ClassicEditor
+        .create(document.querySelector('#editor'), {
+            toolbar: {
+                items: [
+                    'exportPDF', 'exportWord', '|',
+                    'findAndReplace', 'selectAll', '|',
+                    'heading', '|',
+                    'bold', 'italic', 'strikethrough', 'underline', 'code', 'subscript', 'superscript', 'removeFormat', '|',
+                    'bulletedList', 'numberedList', 'todoList', '|',
+                    'outdent', 'indent', '|',
+                    'undo', 'redo',
+
+                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'highlight', '|',
+                    'alignment', '|',
+                    'link', 'insertImage', 'blockQuote', 'insertTable', 'mediaEmbed', 'codeBlock', 'htmlEmbed', '|',
+                    'specialCharacters', 'horizontalLine', 'pageBreak', '|',
+                    'textPartLanguage', '|',
+                    'sourceEditing'
+                ],
+                shouldNotGroupWhenFull: true
+            }
+        })
+        @*.then(newEditor => {
+            newEditor.setData(`@Html.Raw(DHDCShop.Common.StringEncodeHelper.Base64Decode(Model.Description))`);
+        })
+        .catch(error => {
+            console.error(error);
+        });*@
+
+
+
+
+
+</script>

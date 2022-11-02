@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHDCShop.Web", "DHDCShop.We
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHDCShop.Models", "DHDCShop.Models\DHDCShop.Models.csproj", "{3832E60D-2AE8-469E-A83D-F449BC69408A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHDCShop.Common", "DHDCShop.Common\DHDCShop.Common.csproj", "{F5B27743-2E91-47E9-AB93-85A2F6E7595D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{3832E60D-2AE8-469E-A83D-F449BC69408A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3832E60D-2AE8-469E-A83D-F449BC69408A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3832E60D-2AE8-469E-A83D-F449BC69408A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5B27743-2E91-47E9-AB93-85A2F6E7595D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5B27743-2E91-47E9-AB93-85A2F6E7595D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5B27743-2E91-47E9-AB93-85A2F6E7595D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5B27743-2E91-47E9-AB93-85A2F6E7595D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

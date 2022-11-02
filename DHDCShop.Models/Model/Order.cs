@@ -21,6 +21,9 @@ namespace DHDCShop.Models.Model
         public decimal TotalMoney { get; set; }
         [Required]
         public int StatusId { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime CreateDate { get; set; }
         
         public string FeedBack { get; set; }
         [Required]

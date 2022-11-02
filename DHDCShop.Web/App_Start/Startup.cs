@@ -13,6 +13,58 @@ namespace DHDCShop.Web
         public void Configuration(IAppBuilder app)
         {
             CreateAdminAccount();
+            CreateStatusType();
+        }
+
+        private void CreateStatusType()
+        {
+            DHDCShopDbContext db = new DHDCShopDbContext();
+            var check1= db.Statuses.Where(x => x.Name=="pending").FirstOrDefault();
+            var check2 = db.Statuses.Where(x => x.Name == "shipping").FirstOrDefault();
+            var check3 = db.Statuses.Where(x => x.Name == "completed").FirstOrDefault();
+            var check4 = db.Statuses.Where(x => x.Name == "cancel").FirstOrDefault();
+
+
+            if (check1== null)
+            {
+                Status status = new Status();
+                status.ID = 1;
+                status.Name = "pending";
+                status.Description = "The order is pending and have to be submited by admin";
+
+                db.Statuses.Add(status);
+                db.SaveChanges();
+            }
+            if (check2 == null)
+            {
+                Status status = new Status();
+                status.ID = 2;
+                status.Name = "shipping";
+                status.Description = "The order is shipping and a shipper is taking to the customer";
+
+                db.Statuses.Add(status);
+                db.SaveChanges();
+            }
+            if (check3 == null)
+            {
+                Status status = new Status();
+                status.ID = 3;
+                status.Name = "completed";
+                status.Description = "The order is shipped completely";
+
+                db.Statuses.Add(status);
+                db.SaveChanges();
+            }
+            if (check4 == null)
+            {
+                Status status = new Status();
+                status.ID = 4;
+                status.Name = "cancel";
+                status.Description = "The order is canceled by the customer";
+
+                db.Statuses.Add(status);
+                db.SaveChanges();
+            }
         }
 
         private void CreateAdminAccount()
@@ -29,6 +81,7 @@ namespace DHDCShop.Web
                 db.Admins.Add(admin);
                 db.SaveChanges();
             }
+            
         }
     }
 }
