@@ -10,6 +10,13 @@ namespace DHDCShop.Models.Model
 {
     public class Customer
     {
+        public Customer()
+        {
+            Comments = new HashSet<Comment>();
+            Orders = new HashSet<Order>();
+            WishLists = new HashSet<WishList>();
+            Ratings = new HashSet<Rating>();
+        }
         [Key]
         public string Username { get; set; }
         [Required]
@@ -34,5 +41,9 @@ namespace DHDCShop.Models.Model
         public virtual ICollection<Comment> Comments { get; set; }
       
         public virtual ICollection<Order> Orders { get; set; }
+
+        public virtual ICollection<WishList> WishLists { get; set; }
+
+        public virtual ICollection<Rating> Ratings { get; set; }
     }
 }

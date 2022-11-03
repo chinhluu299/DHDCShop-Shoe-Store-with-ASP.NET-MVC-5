@@ -4,36 +4,456 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
-  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="~/Public/main.css" type="text/css" />
+    @*<link href="~/Public/collections.css" rel="stylesheet" type="text/css" />*@
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" title="more options">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
-            </div>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    #navigation-button {
+        cursor: pointer;
+        font-size: 2em;
+    }
+
+    @@keyframes slide {
+        from {
+            left: -100%;
+        }
+
+        to {
+            left: 0;
+        }
+    }
+
+    @@keyframes slide_reverse {
+        from {
+            left: 0;
+        }
+
+        to {
+            left: -100%;
+        }
+    }
+
+    #navigation-open-div {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: black;
+        opacity: 0.9;
+        z-index: 100;
+    }
+
+    .anim-appear {
+        animation: slide 0.3s ease-in-out;
+    }
+
+    .d-none-anim {
+        animation: slide_reverse 0.3s ease-in-out;
+    }
+
+    #navigation-open-div-close {
+        color: white;
+        font-size: 3em;
+        margin-left: 22px;
+        cursor: pointer;
+    }
+
+    .navigation-open-div-item {
+        text-align: center;
+    }
+
+    .cart-trash {
+        border-radius: 2.5px;
+        font-size: 1.2em;
+        opacity: 0.75;
+        transition: 0.3s;
+        cursor: pointer;
+    }
+
+        .cart-trash:hover {
+            opacity: 1;
+        }
+
+    .display-card {
+        width: 100vw;
+        height: 100vh;
+        position: fixed;
+        z-index: 1000;
+        display: flex;
+        top: 0;
+        left: 0;
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        align-content: center;
+        align-items: center;
+        align-self: center;
+        justify-content: center;
+        transition: 0.5s;
+    }
+
+    .display-card-content {
+        max-width: 1120px;
+    }
+
+    .cart-item-exit {
+        color: orangered;
+        font-size: 1.6em;
+        transition: 0.3s;
+        cursor: pointer;
+    }
+
+        .cart-item-exit:hover {
+            opacity: 0.75;
+        }
+
+    .btn-style {
+        padding: 8px;
+        margin: 6px;
+        margin-left: 0px;
+        border: 3px solid black;
+        cursor: pointer;
+        transition: 0.5s;
+        color: black;
+        text-decoration: none;
+        font-size: 0.9em;
+    }
+
+        .btn-style:hover {
+            border: 3px solid transparent;
+            background: red;
+            color: white;
+            text-decoration: none;
+        }
+
+    .navbar.navbar-expand-sm {
+        position: fixed;
+        padding-bottom: 0;
+        padding-top: 0;
+        z-index: 1000;
+    }
+</style>
+<body class="display-card-active">
+    <header class="header">
+        <div class="grid">
+            <nav class="header_navbar">
+                <nav class="navbar navbar-expand-sm " style=" background-color: #f8f8f8;">
+                    <div class="header_navbar-logo">
+                        <img src="~/Public/Assets/logo-website.png" alt="Logo Shoes" class="logo  d-none d-md-inline-block" width="100" height="100">
+                        <div class="d-inline-block d-md-none">
+                            <i id="navigation-button" class="bi bi-list bi-lg fw-bold text-dark"></i>
+                        </div>
+
+                    </div>
+                    <!-- Links -->
+                    <div id="navigation-open-div" class="d-none">
+                        <div>
+                            <div id="navigation-open-div-close">
+                                <i class="bi bi-x"></i>
+                            </div>
+                        </div>
+                        <div class="navigation-open-div-item">
+                            <a class="nav-link text-white" href="@Url.Action("Index","Home")">Home</a>
+                        </div>
+                        <div class="navigation-open-div-item">
+                            <a class="nav-link  text-white" href="@Url.Action("Index","Collection")">Collections</a>
+                        </div>
+
+                        <div class="navigation-open-div-item">
+                            <a class="nav-link blogs-color text-white" href="@Url.Action("Index","Blog")">Blogs</a>
+                        </div>
+                        <div class="navigation-open-div-item">
+                            <a class="nav-link text-white" href="@Url.Action("Contact","Home")">Pages</a>
+                        </div>
+                    </div>
+                    <ul class="navbar-nav d-none d-md-flex">
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Index","Home")">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Index","Collection")">Collections</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link blogs-color" href="@Url.Action("Index","Blog")">Blogs</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Contact","Home")">Pages</a>
+                        </li>
+                    </ul>
+                    <ul class="header_navbar-menu text-start">
+                        <li class="header_navbar-menu-item ">
+                            <div id="icon-cart">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                            </div>
+
+                        </li>
+                        <li class="header_navbar-menu-item header_navbar-menu-item-avatar">
+                            <i class="fa-solid fa-user"></i>
+
+
+                            <ul class="header_navbar-menu-item-user">
+                                <li class="header_navbar-menu-item-user-like wishlist">
+                                    <i class="fa-solid fa-heart"></i>
+                                    <a class="likea text-decoration-none" href="@Url.Action("WishList","User")">Wishlist</a>
+                                </li>
+
+                                <li class="header_navbar-menu-item-user-like login">
+                                    <i class="fa-solid fa-user"></i>
+                                    @if (Session["username"] != null && Session["type"].Equals("user"))
+                                    {
+                                        <a class="likea text-decoration-none" href="@Url.Action("Index","User")">Profile</a> }
+                                    else
+                                    {
+                                        <a class="likea text-decoration-none" href="@Url.Action("SignInUp","User")">Login</a>}
+
+                                </li>
+
+                                <li class="header_navbar-menu-item-user-like checkout">
+
+                                    <i class="fa-solid fa-basket-shopping"></i>
+                                    <a class="likea text-decoration-none" href="@Url.Action("Index","Purchasing")">Checkout</a>
+                                </li>
+                                @if (Session["username"] != null && Session["type"].Equals("user"))
+                                {
+                                    <li class="header_navbar-menu-item-user-like order-history">
+                                        <i class="fa-solid fa-truck"></i>
+                                        <a class="likea text-decoration-none" href="@Url.Action("Index","Order")">Order History</a>
+                                    </li>
+
+                                    <li class="header_navbar-menu-item-user-like checkout">
+
+                                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                                        <a class="likea text-decoration-none" href="@Url.Action("Logout","User")">Logout</a>
+                                    </li>
+}
+
+                            </ul>
+                        </li>
+                        <li class="header_navbar-menu-item header_navbar-menu-item-search-nav">
+                            <i class="fa-solid fa-magnifying-glass header_navbar-menu-item-icon-search"></i>
+                            <div class="header_navbar-menu-item-search">
+                                <input class="header_navbar-menu-item-search-input" type="search" placeholder="Search...">
+                                <button class="header_navbar-menu-item-search-btn" type="submit">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+
+                </nav>
+            </nav>
         </div>
-    </div>
-    <div class="container body-content">
+
+    </header>
+    @*<div class="display-card d-none">
+        @Html.Partial("_Cart")
+    </div>*@
+
+    <div class="">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <div class="footer-container">
+                <section id="footercenter" class="footer-center footer-center-update">
+                    <div class="container">
+                        <div class="footer-center-wrap">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="row">
+                                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 col-sp-12">
+                                            <div class="footer-block">
+                                                <h4 class="title-block-footer">Happy hours</h4>
+                                                <div class="block-content block-content-footer ">
+                                                    <p class="day">Monday - Friday</p>
+                                                    <p class="open">8a.m - 10 p.m</p>
+                                                    <p class="day">Saturday & Sunday</p>
+                                                    <p class="open">10a.m - 8 p.m</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 col-sp-12">
+                                            <div class="footer-block">
+                                                <h4 class="title-block-footer">Your Account</h4>
+                                                <div class="block-content">
+                                                    <ul class="toogle-footer">
+                                                        <li class="item">
+                                                            <a href="#" title="Running Shoes">Running Shoes</a>
+                                                        </li>
+                                                        <li class="item">
+                                                            <a href="#" title="Running Shoes">Football Shoes</a>
+                                                        </li>
+                                                        <li class="item">
+                                                            <a href="#" title="Running Shoes">Basketball Shoes</a>
+                                                        </li>
+                                                        <li class="item">
+                                                            <a href="#" title="Running Shoes">Volleyball Shoes</a>
+                                                        </li>
+                                                        <li class="item">
+                                                            <a href="#" title="Running Shoes">Trainee Shoes</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 col-sp-12">
+                                            <div class="footer-block">
+                                                <h4 class="title-block-footer">Information</h4>
+                                                <div class="block-content">
+                                                    <ul class="toogle-footer">
+                                                        <li class="item">
+                                                            <a href="#" title="Running Shoes">Returns</a>
+                                                        </li>
+                                                        <li class="item">
+                                                            <a href="#" title="Running Shoes">F.A.Q</a>
+                                                        </li>
+                                                        <li class="item">
+                                                            <a href="#" title="Running Shoes">Shipping Policy</a>
+                                                        </li>
+                                                        <li class="item">
+                                                            <a href="#" title="Running Shoes">Search Teams</a>
+                                                        </li>
+                                                        <li class="item">
+                                                            <a href="#" title="Running Shoes">Contact Us</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 col-sp-12">
+                                            <div class="footer-block">
+                                                <h4 class="title-block-footer">Quick links</h4>
+                                                <div class="block-content">
+                                                    <ul class="toogle-footer">
+                                                        <li class="item">
+                                                            <a href="#" title="Running Shoes">My order</a>
+                                                        </li>
+                                                        <li class="item">
+                                                            <a href="#" title="Running Shoes">My credit slips</a>
+                                                        </li>
+                                                        <li class="item">
+                                                            <a href="#" title="Running Shoes">Beauty</a>
+                                                        </li>
+                                                        <li class="item">
+                                                            <a href="#" title="Running Shoes">My addresses</a>
+                                                        </li>
+                                                        <li class="item">
+                                                            <a href="#" title="Running Shoes">My personal info</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 col-sp-12">
+                                            <div class="footer-block">
+                                                <h4 class="title-block-footer">Footer links</h4>
+                                                <div class="block-content">
+                                                    <ul class="toogle-footer">
+                                                        <li class="item">
+                                                            <a href="#" title="Running Shoes">Search</a>
+                                                        </li>
+                                                        <li class="item">
+                                                            <a href="#" title="Running Shoes">About Us</a>
+                                                        </li>
+                                                        <li class="item">
+                                                            <a href="#" title="Running Shoes">Typo</a>
+                                                        </li>
+                                                        <li class="item">
+                                                            <a href="#" title="Running Shoes">Blog</a>
+                                                        </li>
+                                                        <li class="item">
+                                                            <a href="#" title="Running Shoes">Wishlist</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 col-sp-12">
+                                            <div class="footer-block">
+                                                <h4 class="title-block-footer">Services</h4>
+                                                <div class="block-content">
+                                                    <ul class="toogle-footer">
+                                                        <li class="item">
+                                                            <a href="#" title="Running Shoes">Search</a>
+                                                        </li>
+                                                        <li class="item">
+                                                            <a href="#" title="Running Shoes">About Us</a>
+                                                        </li>
+                                                        <li class="item">
+                                                            <a href="#" title="Running Shoes">Typo</a>
+                                                        </li>
+                                                        <li class="item">
+                                                            <a href="#" title="Running Shoes">Blog</a>
+                                                        </li>
+                                                        <li class="item">
+                                                            <a href="#" title="Running Shoes">Wishlist</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div id="social_block" class="social-block">
+                                                <div class="social-block-content">
+                                                    <div class="block_content">
+                                                        <ul class="list-unstyled ">
+                                                            <li class="facebook">
+                                                                <a target="_blank" class="fa-brands fa-facebook text-decoration-none" href="#" title="App shoes store on Facebook"></a>
+                                                            </li>
+                                                            <li class="twitter">
+                                                                <a target="_blank" class="fa-brands fa-twitter text-decoration-none" href="#" title="App shoes store on Twitter"></a>
+                                                            </li>
+                                                            <li class="gg-plus">
+                                                                <a target="_blank" class="fa-brands fa-google-plus-g text-decoration-none" href="#" title="App shoes store on Google-plus"></a>
+                                                            </li>
+                                                            <li class="rss">
+                                                                <a target="_blank" class="fa-solid fa-rss text-decoration-none" href="#" title="App shoes store on Rss"></a>
+                                                            </li>
+                                                            <li class="youtube">
+                                                                <a target="_blank" class="fa-brands fa-youtube text-decoration-none" href="#" title="App shoes store on Youtube"></a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id="footernav" class="footer-nav">
+                    <div id="powered" class="powered">
+
+                        <div class="paypal">
+                            <img src="~/Public/Assets/payment.webp" alt="Logo Payment" class="">
+                        </div>
+                    </div>
+                </section>
+            </div>
+
         </footer>
     </div>
 
-    
 </body>
+
+<script type="text/javascript" src="~/Public/Cart.js"></script>
+
 </html>

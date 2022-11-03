@@ -1,0 +1,120 @@
+﻿@model IEnumerable<DHDCShop.Models.Model.Customer>
+
+@{
+    ViewBag.Title = "Index";
+
+    <link href="~/Areas/Admin/Assets/ListProduct.css" rel="stylesheet" />
+    <link href="~/Areas/Admin/Assets/table_libary/paginate.css" rel="stylesheet" />
+}
+<style>
+</style>
+<div class="d-flex justify-content-between mb-4 ">
+    <h2 class="fw-bold">Customers</h2>
+    @*<a href="@Url.Action("Create","Customer")" class="btn btn-primary p-2 text-black fw-bold bg-warning border-0 rounded-0 text-center h5">Create new</a>*@
+</div>
+<input type="search" id="searchBox" placeholder="Filter...">
+
+<div class="card">
+    <table id="example" class="table table-striped sortable" style="width:100%">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+
+                <th>
+                    Register
+                </th>
+
+                <th>
+                    Country
+                </th>
+
+                <th>
+                    Spent
+                </th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="row-table  ">
+
+                    <td class="column-center d-flex">
+                        <img src="@Url.Content(item.AvatarPath ?? "~/Source/Default/avatar_default.png" )" width="60" height="60" class="p-1 me-3" />
+                        <div class="align-items-center mt-2">
+                            <h5 class="m-0" style="font-size:1.1em">@item.FullName</h5>
+                            <div class="opacity-75 p-0 m-0">@item.Email</div>
+                        </div>
+
+
+                    </td>
+
+                    @if (item.DateOfRegister != null)
+                    {
+                        <td class="column-center">
+                            @DateTime.Parse(item.DateOfRegister.ToString()).ToString("dd/MM/yyyy")
+                        </td>
+                    }
+                    else
+                    {
+                        <td class="column-center">
+                        </td>
+                    }
+
+                    <td class="column-center">
+                        @Html.DisplayFor(modelItem => item.Nation)
+                    </td>
+                    <td class="column-center">
+                        @item.TotalSpent
+                    </td>
+
+                    <td class="option-mobile column-center">
+                        <div class="dropdown">
+                            <a class="btn bg-white dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </a>
+
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <li> <a class="dropdown-item" href="@Url.Action("Details","Customer", new { id = item.Username })">Detail</a></li>
+
+                                <li><button class="dropdown-item text-danger" onclick="DelConfirm(`@item.Username`)">Delete</button></li>
+                            </ul>
+                        </div>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+
+    </table>
+</div>
+<script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="~/Areas/Admin/Assets/table_libary/paginate.js"></script>
+<script>let options = {
+        numberPerPage: 10,
+        constNumberPerPage: 10,
+        numberOfPages: 0,
+        goBar: false,
+        pageCounter: true,
+        hasPagination: true,
+    };
+    let filterOptions = {
+        el: '#searchBox'
+    };
+    paginate.init('#example', options, filterOptions);
+
+    $(document).ready(function () {
+        $('#example').DataTable;
+    });
+
+    function DelConfirm(tendangnhap) {
+        if (confirm("Are you sure you want to delete this?")) {
+            $.post(`/Admin/Customer/Delete`, { id: tendangnhap });
+            window.location.href = "/Admin/Customer";
+        }
+    }</script>

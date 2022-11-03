@@ -1,0 +1,225 @@
+﻿@model ICollection<DHDCShop.Models.Model.Product>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="~/Public/collections.css" rel="stylesheet" type="text/css" />
+}
+
+<style>
+    option:disabled {
+        background: #dddddd;
+    }
+
+    .pagination > li > a {
+        margin-left: 0;
+    }
+
+    .active {
+        background-color: antiquewhite;
+        overflow: hidden;
+        border: 1px black solid;
+    }
+</style>
+<div id="breadcrumbs">
+</div>
+<div class="bg-main">
+    <div class="container">
+
+        <div class="box">
+            <div class="row">
+                <div class="col-lg-3 col-sm-4 filter-col d-md-block d-none" id="filter-col">
+                    <!-- <div class="box filter-toggle-box">
+                        <button class="btn-flat btn-hover" id="filter-close">close</button>
+                    </div>-->
+
+                    <div class="box">
+                        <span class="filter-header">
+                            Price
+                        </span>
+                        <div class="price-range">
+                            <input type="text" class="form-control p-2">
+                            <span>-</span>
+                            <input type="text" class="form-control p-2">
+                        </div>
+                    </div>
+                    <div class="box">
+                        <span class="filter-header">
+                            Status
+                        </span>
+                        <ul class="filter-list">
+                            <li>
+                                <div class="group-checkbox">
+                                    <input type="checkbox" id="status1" class="filter-status" value="1">
+                                    <label for="status1">
+                                        On sale
+                                        <i class='bx bx-check'></i>
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="group-checkbox">
+                                    <input type="checkbox" id="status2" class="filter-status" value="2">
+                                    <label for="status2">
+                                        In stock
+                                        <i class='bx bx-check'></i>
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="group-checkbox">
+                                    <input type="checkbox" id="status3" class="filter-status" value="3">
+                                    <label for="status3">
+                                        Out of stock
+                                        <i class='bx bx-check'></i>
+                                    </label>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="box">
+                        <span class="filter-header">
+                            Brands
+                        </span>
+                        <ul class="filter-list">
+                            @{
+                                var brands = (List<string>)ViewBag.brands;
+                                for (var i = 1000; i < 1000 + brands.Count; i++)
+                                {
+                                    <li>
+                                        <div class="group-checkbox">
+                                            <input type="checkbox" id="@i" class="brand-filter">
+                                            <label for="@i">
+                                                @brands[i - 1000]
+                                                <i class='bx bx-check'></i>
+                                            </label>
+                                        </div>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </div>
+
+
+                    <div class="box">
+                        <span class="filter-header">
+                            rating
+                        </span>
+                        <ul class="filter-list">
+                            <li>
+                                <div class="group-checkbox">
+                                    <input type="checkbox" id="five-star" class="filter-star" value="5">
+                                    <label for="five-star">
+                                        <span class="rating">
+                                            <i class='bx bxs-star'></i>
+                                            <i class='bx bxs-star'></i>
+                                            <i class='bx bxs-star'></i>
+                                            <i class='bx bxs-star'></i>
+                                            <i class='bx bxs-star'></i>
+                                        </span>
+                                        <i class='bx bx-check'></i>
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="group-checkbox">
+                                    <input type="checkbox" id="four-star" class="filter-star" value="4">
+                                    <label for="four-star">
+                                        <span class="rating">
+                                            <i class='bx bxs-star'></i>
+                                            <i class='bx bxs-star'></i>
+                                            <i class='bx bxs-star'></i>
+                                            <i class='bx bxs-star'></i>
+                                            <i class='bx bx-star'></i>
+                                        </span>
+                                        <i class='bx bx-check'></i>
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="group-checkbox">
+                                    <input type="checkbox" id="three-star" class="filter-star" value="3">
+                                    <label for="three-star">
+                                        <span class="rating">
+                                            <i class='bx bxs-star'></i>
+                                            <i class='bx bxs-star'></i>
+                                            <i class='bx bxs-star'></i>
+                                            <i class='bx bx-star'></i>
+                                            <i class='bx bx-star'></i>
+                                        </span>
+                                        <i class='bx bx-check'></i>
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="group-checkbox">
+                                    <input type="checkbox" id="two-star" class="filter-star" value="2">
+                                    <label for="two-star">
+                                        <span class="rating">
+                                            <i class='bx bxs-star'></i>
+                                            <i class='bx bxs-star'></i>
+                                            <i class='bx bx-star'></i>
+                                            <i class='bx bx-star'></i>
+                                            <i class='bx bx-star'></i>
+                                        </span>
+                                        <i class='bx bx-check'></i>
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="group-checkbox">
+                                    <input type="checkbox" id="one-star" class="filter-star" value="1">
+                                    <label for="one-star">
+                                        <span class="rating">
+                                            <i class='bx bxs-star'></i>
+                                            <i class='bx bx-star'></i>
+                                            <i class='bx bx-star'></i>
+                                            <i class='bx bx-star'></i>
+                                            <i class='bx bx-star'></i>
+                                        </span>
+                                        <i class='bx bx-check'></i>
+                                    </label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-8 col-sm-12" id="show-product">
+                    <div class="box">
+                        <div class="producttt" id="products">
+                            @for (int i = 0; i < Model.Count; i++)
+                            {
+                                var item = Model.ElementAt(i);
+                                <div style="width: 280px;" class="m-2 card card-body product-item">
+                                    <div class="product-card">
+                                        <div class="product-card-img">
+                                            <img src="@Url.Content(item.ImagePath)" alt="" />
+                                            <img src="@Url.Content(item.ImagePath)" alt="" />
+                                        </div>
+                                        <div class="product-card-info">
+                                            <div class="product-btn">
+                                                <a href="@Url.Action("Item","Collection", new { id= item.ProductId })" class="btn-flat btn-hover btn-shop-now">shop now</a>
+                                                <button onclick="openView(this)" class="btn-flat btn-hover btn-cart-add btn-quick-view" id="@item.ProductId">
+                                                    <i class='bx bxs-cart-add'></i>
+                                                </button>
+                                                <button onclick="addwishlist(@item.ProductId)" class="btn-flat btn-hover btn-cart-add">
+                                                    <i class='bx bxs-heart'></i>
+                                                </button>
+                                            </div>
+                                            <div class="product-card-name">
+                                                @item.Name
+                                            </div>
+                                            <div class="product-card-price">
+                                                @*<span><del>@ShopGiayOnline.Models.FormatMoney.format(item.gia.Value)</del></span>*@
+                                                <span class="curr-price">@item.Price</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

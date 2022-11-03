@@ -1,0 +1,106 @@
+﻿@*<div class="card card-body p-5 display-card-content">
+    <div class="d-flex justify-content-between mb-2">
+        <h2 style="color: #EA9515;">SHOPPING CART</h2>
+        <div class="pt-2 cart-item-exit"><i class="fa-solid fa-circle-xmark"></i></div>
+    </div>
+    <table class="table" style="color:gray;">
+        <thead>
+            <tr>
+                <td>Product</td>
+                <td>Price</td>
+                <td>Quantity</td>
+                <td>Total</td>
+                <td>Remove</td>
+            </tr>
+        </thead>
+        <tbody class="cart-table-body">
+            @{ if (Session["cart"] != null)
+                {
+                    var list_cart = (List<ShopGiayOnline.Models.CartItem>)Session["cart"];
+                    foreach (var item in list_cart)
+                    {
+                        <tr class="cart-table-body-list">
+                            <td class="column-center">
+                                <div class="d-flex">
+                                    <img src="@Url.Content(item.Giay.hinh ?? "~/Source/Default/giay_default.png")" width="60" height="60" class="p-1 me-3" />
+                                    <div>
+
+                                        <div style="vertical-align: middle;">@item.Giay.tengiay</div>
+                                        <div style="vertical-align:middle; color:grey;">
+                                            <span>SIZE: </span>
+                                            <span class="item-cart-size">@item.Size</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="d-none shoe-id">@item.Giay.magiay</div>
+                            </td>
+                            <td class="column-center" style="vertical-align: middle;">
+                                <h6 class="text-danger">@ShopGiayOnline.Models.FormatMoney.format(item.Giay.gia.Value)</h6>
+                                <h6 class="cart-money d-none">@item.Giay.gia.Value</h6>
+                            </td>
+                            <td class="column-center" style="vertical-align: middle;">
+                                <div class="js-qty">
+                                    <button type="button" class="js-qty__adjust js-qty__adjust--minus cart-minus">-</button>
+                                    <input type="text" class="js-qty__num cart-quantity-detail" value="@item.Quantity">
+                                    <button type="button" class="js-qty__adjust js-qty__adjust--plus  cart-plus">+</button>
+                                </div>
+                            </td>
+                            <td class="column-center" style="vertical-align: middle;">
+                                @{ var kq = item.Giay.gia.Value * item.Quantity;
+                                    <h6 class="text-danger cart-total">@ShopGiayOnline.Models.FormatMoney.format(kq)</h6> }
+                            </td>
+                            <td class="column-center" style="vertical-align: middle;">
+                                <a href="" data-id="@item.Giay.magiay" data-size="@item.Size" class="cart-trash">
+                                    <i class="fa-solid fa-trash bg-danger text-white p-2 "></i>
+                                </a>
+
+                            </td>
+                        </tr>
+ }
+                    if (list_cart.Count == 0)
+                    {
+                        <h6>There's no item at all</h6>
+ }
+                }
+                else
+                {
+                    <tr>
+                        <h6>There's no item at all</h6>
+                    </tr>
+ } }
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-between">
+        @if (Session["cart"] != null)
+        {
+            <div class="d-flex">
+                <a href="@Url.Action("Index","Collection")" class="btn-style">Continue shopping</a>
+                <a href="@Url.Action("Index","Purchasing")" class="btn-style">Check out</a>
+            </div>
+            <div class="d-flex" style="text-align: right;">
+
+                @{var list_cart = (List<ShopGiayOnline.Models.CartItem>)Session["cart"];
+                    decimal tong = 0;
+                    if (list_cart.Count > 0)
+                    {
+                        foreach (var item in list_cart)
+                        {
+                            tong += item.Giay.gia.Value * item.Quantity;
+                        }
+
+                        <span class="pt-2" style="color:gray">Subtotal </span>
+                        <h3 class="cart-total-price-all-item" style="line-height:1.1;">@ShopGiayOnline.Models.FormatMoney.format(tong)</h3>
+                        <div class="d-none cart-total-price-all-item-getValue">@tong</div> } }
+            </div> }
+        else
+        {
+            <div class="d-flex">
+                <a href="@Url.Action("Index","Collection")" class="btn-style">Continue shopping</a>
+                <a href="@Url.Action("Index","Purchasing")" class="btn-style" disabled>Check out</a>
+            </div>}
+    </div>
+</div>*@
+
+

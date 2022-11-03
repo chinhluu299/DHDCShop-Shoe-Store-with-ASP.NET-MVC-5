@@ -1,31 +1,766 @@
-﻿@{
-    ViewBag.Title = "Home Page";
-}
+﻿@using Newtonsoft.Json;
+@{ ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+@*<div class="row ">
+        <div class="col-md-12 col-xs-12 slide-banner">
+            <div class="slide-banner_img">
+
+            </div>
+            <div class="slide-banner_text text-center">
+                <h2 class="text-1">Westcode since 1992</h2>
+                <h2 class="text-2">CASUAL SHOES</h2>
+                <p class="text-3">They key is to have every key, the key to open every door. Learning is <br>cool, but knowing is better, and I know the key to success. The key is<br> to enjoy life, they don’t enjoy life.</p>
+            </div>
+        </div>
+
+    </div>*@
+<section class="splide" aria-labelledby="carousel-heading">
+    <div class="splide__track">
+        <ul class="splide__list">
+            <li class="splide__slide">
+                <div class="col-md-12 col-xs-12 slide-banner">
+                    <div class="slide-banner_img">
+
+                    </div>
+                    <div class="slide-banner_text text-center">
+                        <h2 class="text-1">Westcode since 1992</h2>
+                        <h2 class="text-2">CASUAL SHOES</h2>
+                        <p class="text-3">They key is to have every key, the key to open every door. Learning is <br>cool, but knowing is better, and I know the key to success. The key is<br> to enjoy life, they don’t enjoy life.</p>
+                    </div>
+                </div>
+            </li>
+            <li class="splide__slide">
+                <div class="col-md-12 col-xs-12 slide-banner">
+                    <div class="slide-banner_img-2">
+
+                    </div>
+                    <div class="slide-banner_text text-center">
+                        <h2 class="text-1">Westcode since 1992</h2>
+                        <h2 class="text-2">CASUAL SHOES</h2>
+                        <p class="text-3">They key is to have every key, the key to open every door. Learning is <br>cool, but knowing is better, and I know the key to success. The key is<br> to enjoy life, they don’t enjoy life.</p>
+                    </div>
+                </div>
+            </li>
+
+        </ul>
+    </div>
+</section>
+<script>new Splide('.splide', {type:'loop', autoplay: true}).mount();</script>
+<div class="container">
+    <div class="col-12">
+        <div class="productlist">
+            <h4 class="title-block">Our products</h4>
+            <div class="content-block">
+                <div class="product-list">
+                    <!--Sản phẩm ở một cột-->
+                    @if (ViewBag.TopGiay != null)
+                    {
+                        foreach (var item in ViewBag.TopGiay)
+                        {
+                            <div class="">
+                                <div class="item" style="width: 380px;">
+                                    <div class="class-product">
+                                        <div class="left-block">
+                                            <div class="product-image-content">
+                                                <a class="product-img-link" href="#"></a>
+                                                <img class="img-product" src="@Url.Content(item.ImagePath ??"~/Source/Default/giay_default.png")" width="380" height="380">
+                                            </div>
+                                        </div>
+                                        <div class="right-block">
+                                            <div class="product-meta">
+                                                <h5 class="name">
+                                                    <a class="product-name" href="@Url.Action("Item","Collection", new { id= item.ProductId })">
+                                                        @item.Name
+                                                    </a>
+                                                </h5>
+                                                <div class="review-star">
+                                                    @{ int dem = 0;
+                                                        for (int i = 0; i < item.Rating; i++)
+                                                        {
+                                                            <i class="fa-solid fa-star icon-star text-warning"></i> dem++;
+                                                        }
+                                                        while (dem < 5)
+                                                        {
+                                                            <i class="fa-solid fa-star icon-star"></i> dem++;
+                                                        } }
+                                                </div>
+                                                <div class="content-price">
+                                                    <span class="money">@item.Price</span>
+                                                </div>
+                                                @*<div class="function">
+                                                        <div class="arrow">
+                                                            <a class="arrow-link icon-function">
+                                                                <i class="fa-solid fa-arrows-to-circle colorheart"></i>
+                                                            </a>
+                                                        </div>
+                                                        <div class="wish-list icon-function">
+                                                            <a class="wish-list-link" href="#">
+                                                                <i class="fa-solid fa-heart colorheart"></i>
+                                                            </a>
+                                                        </div>
+                                                        <form>
+                                                            <a class="btnrounded icon-function" href="#">
+                                                                <i class="fa-solid fa-cart-arrow-down colorheart "></i>
+                                                            </a>
+                                                        </form>
+                                                    </div>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>}
+                    }
+
+                    <!--Sản phẩm ở một cột-->
+                    @*<div class="owl-item">
+
+                            <div class="item" style="width: 380px;">
+                                <div class="class-product">
+                                    <div class="left-block">
+                                        <div class="product-image-content">
+                                            <a class="product-img-link" href="#"></a>
+                                            <img class="img-product" src="~/Public/Assets/image3.png">
+                                        </div>
+                                    </div>
+                                    <div class="right-block">
+                                        <div class="product-meta">
+                                            <h5 class="name">
+                                                <a class="product-name" href="#">
+                                                    Aeneanin consequated sagittis lacini
+                                                </a>
+                                            </h5>
+                                            <div class="review-star">
+                                                <i class="fa-solid fa-star icon-star"></i>
+                                                <i class="fa-solid fa-star icon-star"></i>
+                                                <i class="fa-solid fa-star icon-star"></i>
+                                                <i class="fa-solid fa-star icon-star"></i>
+                                                <i class="fa-solid fa-star icon-star"></i>
+                                            </div>
+                                            <div class="content-price">
+                                                <span class="money">$53.60</span>
+                                            </div>
+                                            <div class="function">
+                                                <div class="arrow">
+                                                    <a class="arrow-link icon-function" href="#">
+                                                        <i class="fa-solid fa-arrows-to-circle colorheart"></i>
+                                                    </a>
+                                                </div>
+                                                <div class="wish-list icon-function">
+                                                    <a class="wish-list-link" href="#">
+                                                        <i class="fa-solid fa-heart colorheart"></i>
+                                                    </a>
+                                                </div>
+                                                <form>
+                                                    <a class="btnrounded icon-function" href="#">
+                                                        <i class="fa-solid fa-cart-arrow-down colorheart "></i>
+
+                                                    </a>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="class-product">
+                                    <div class="left-block">
+                                        <div class="product-image-content">
+                                            <a class="product-img-link" href="#"></a>
+                                            <img class="img-product" src="~/Public/Assets/image3.png">
+                                        </div>
+                                    </div>
+                                    <div class="right-block">
+                                        <div class="product-meta">
+                                            <h5 class="name">
+                                                <a class="product-name" href="#">
+                                                    Aeneanin consequated sagittis lacini
+                                                </a>
+                                            </h5>
+                                            <div class="review-star">
+                                                <i class="fa-solid fa-star icon-star"></i>
+                                                <i class="fa-solid fa-star icon-star"></i>
+                                                <i class="fa-solid fa-star icon-star"></i>
+                                                <i class="fa-solid fa-star icon-star"></i>
+                                                <i class="fa-solid fa-star icon-star"></i>
+                                            </div>
+                                            <div class="content-price">
+                                                <span class="money">$53.60</span>
+                                            </div>
+                                            <div class="function">
+                                                <div class="arrow">
+                                                    <a class="arrow-link icon-function" href="#">
+                                                        <i class="fa-solid fa-arrows-to-circle colorheart"></i>
+                                                    </a>
+                                                </div>
+                                                <div class="wish-list icon-function">
+                                                    <a class="wish-list-link" href="#">
+                                                        <i class="fa-solid fa-heart colorheart"></i>
+                                                    </a>
+                                                </div>
+                                                <form>
+                                                    <a class="btnrounded icon-function" href="#">
+                                                        <i class="fa-solid fa-cart-arrow-down colorheart "></i>
+
+                                                    </a>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                    <!--Sản phẩm ở một cột-->
+                    <!-- <div class="owl-item">
+
+                        <div class="item" style="width: 380px;">
+                            <div class="class-product">
+                                <div class="left-block">
+                                    <div class="product-image-content">
+                                        <a class="product-img-link" href="#"></a>
+                                        <img class="img-product" src="./Image/image3.png">
+                                    </div>
+                                </div>
+                                <div class="right-block">
+                                    <div class="product-meta">
+                                        <h5 class="name">
+                                            <a class="product-name" href="#">
+                                                Aeneanin consequated sagittis lacini
+                                            </a>
+                                        </h5>
+                                        <div class="review-star">
+                                            <i class="fa-solid fa-star icon-star"></i>
+                                            <i class="fa-solid fa-star icon-star"></i>
+                                            <i class="fa-solid fa-star icon-star"></i>
+                                            <i class="fa-solid fa-star icon-star"></i>
+                                            <i class="fa-solid fa-star icon-star"></i>
+                                        </div>
+                                        <div class="content-price">
+                                            <span class="money">$53.60</span>
+                                        </div>
+                                        <div class="function">
+                                            <div class="arrow">
+                                                <a class="arrow-link icon-function" href="#">
+                                                    <i class="fa-solid fa-arrows-to-circle colorheart"></i>
+                                                </a>
+                                            </div>
+                                            <div class="wish-list icon-function">
+                                                <a class="wish-list-link" href="#">
+                                                    <i class="fa-solid fa-heart colorheart"></i>
+                                                </a>
+                                            </div>
+                                            <form>
+                                                <a class="btnrounded icon-function" href="#">
+                                                    <i class="fa-solid fa-cart-arrow-down colorheart "></i>
+
+                                                </a>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="class-product">
+                                <div class="left-block">
+                                    <div class="product-image-content">
+                                        <a class="product-img-link" href="#"></a>
+                                        <img class="img-product" src="./Image/image3.png">
+                                    </div>
+                                </div>
+                                <div class="right-block">
+                                    <div class="product-meta">
+                                        <h5 class="name">
+                                            <a class="product-name" href="#">
+                                                Aeneanin consequated sagittis lacini
+                                            </a>
+                                        </h5>
+                                        <div class="review-star">
+                                            <i class="fa-solid fa-star icon-star"></i>
+                                            <i class="fa-solid fa-star icon-star"></i>
+                                            <i class="fa-solid fa-star icon-star"></i>
+                                            <i class="fa-solid fa-star icon-star"></i>
+                                            <i class="fa-solid fa-star icon-star"></i>
+                                        </div>
+                                        <div class="content-price">
+                                            <span class="money">$53.60</span>
+                                        </div>
+                                        <div class="function">
+                                            <div class="arrow">
+                                                <a class="arrow-link icon-function" href="#">
+                                                    <i class="fa-solid fa-arrows-to-circle colorheart"></i>
+                                                </a>
+                                            </div>
+                                            <div class="wish-list icon-function">
+                                                <a class="wish-list-link" href="#">
+                                                    <i class="fa-solid fa-heart colorheart"></i>
+                                                </a>
+                                            </div>
+                                            <form>
+                                                <a class="btnrounded icon-function" href="#">
+                                                    <i class="fa-solid fa-cart-arrow-down colorheart "></i>
+
+                                                </a>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>-->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="warpper">
+        <div class="group-boxline">
+            <div class="column col-md-4 col-sm-6 col-xs-6 col-sp-12">
+                <div class="block-box">
+                    <div class="block-content">
+                        <div class="media-box">
+                            <div class="icon-box">
+                                <i class="fa-solid fa-car"></i>
+                            </div>
+                            <h4>
+                                <a href="#" title="Free shipping">Free shipping</a>
+                            </h4>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column col-md-4 col-sm-6 col-xs-6 col-sp-12">
+                <div class="block-box">
+                    <div class="block-content">
+                        <div class="media-box">
+                            <div class="icon-box">
+                                <i class="fa-solid fa-headset"></i>
+                            </div>
+                            <h4>
+                                <a href="#" title="SUPPORT 24/7">SUPPORT 24/7</a>
+                            </h4>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column col-md-4 col-sm-6 col-xs-6 col-sp-12">
+                <div class="block-box">
+                    <div class="block-content">
+                        <div class="media-box">
+                            <div class="icon-box">
+                                <i class="fa-solid fa-arrows-rotate"></i>
+                            </div>
+                            <h4>
+                                <a href="#" title="FREE 1ST EXCHANGE">FREE 1ST EXCHANGE</a>
+                            </h4>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column col-md-4 col-sm-6 col-xs-6 col-sp-12">
+                <div class="block-box">
+                    <div class="block-content">
+                        <div class="media-box">
+                            <div class="icon-box">
+                                <i class="fa-solid fa-anchor"></i>
+                            </div>
+                            <h4>
+                                <a href="#" title="PLANNING STRATEGY">PLANNING STRATEGY</a>
+                            </h4>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column col-md-4 col-sm-6 col-xs-6 col-sp-12">
+                <div class="block-box">
+                    <div class="block-content">
+                        <div class="media-box">
+                            <div class="icon-box">
+                                <i class="fa-solid fa-gift"></i>
+                            </div>
+                            <h4>
+                                <a href="#" title="MEMBER DISCOUNT">MEMBER DISCOUNT</a>
+                            </h4>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column col-md-4 col-sm-6 col-xs-6 col-sp-12">
+                <div class="block-box">
+                    <div class="block-content">
+                        <div class="media-box">
+                            <div class="icon-box">
+                                <i class="fa-brands fa-salesforce"></i>
+                            </div>
+                            <h4>
+                                <a href="#" title="BLACK FRIDAY">BLACK FRIDAY</a>
+                            </h4>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<div class="block-promotion">
+    <div class="col-xs-12 col-sm-12 col-md-6 no-padding">
+        <div class="widget-banner ">
+            <div class="block_content">
+                <div class="image-item">
+                    <span class="img-animation">
+                        <a href="#">
+                            <img src="~/Public/Assets/blockpromotion_img.png" alt="adv banner" class="img-responsive">
+                        </a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 no-padding bg-speacial">
+        <div class="block-img">
+            <h4 class="block-title">Adidas Superstar</h4>
+            <p class="block-subtitle">THE LEGEND IS BACK</p>
+            <div class="block-content">
+                <p>
+                    Lorem Khaled Ipsum is a major key to success. The key to more success is to get a massage once a week, very important, major key, cloth talk. Egg whites, turkey sausage, wheat toast, water. Of course they don’t want us to eat our breakfast.
 
+
+                </p>
+                <a href="@Url.Action("Index","Collection")" class="btn btn-outline-warning">discover more</a>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    <div class="col-xs-12 col-sm-12">
+        <div id="testimonials" class="block-testimonial">
+            <div class="linebox">
+                <div class="box-text">
+                    <div class="box-text-content">
+                        <div class="testimonial-body">
+                            Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum.
+                            <br> Mirum est notare quam littera gothica, quam nunc putamus parum claram,
+                            <br> anteposuerit litterarum formas
+                            <h4 class="author">bodyover</h4>
+                            <p class="from">from Shoptify</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
 </div>
+@*<div id="quick-view-product">
+        <div class="quickview-overlay fancybox-overlay fancybox-overlay-fixed"></div>
+        <div class="quick-view-product">
+            <div class="block-quickview primary_block row">
+                <div class="product-left-column col-xs-12 col-sm-4 col-md-4">
+                    <div class="clearfix image-block">
+                        <span class="view_full_size">
+                            <a class="img-product" id="product-img" title="Aeneanin consequated sagittis lacini" href="#">
+                                <img id="product-featured-image-quickview" class="img-responsive product-featured-image-quickview" src="" alt="">
+                            </a>
+                        </span>
+                        <div class="loading-imgquickview" style="display:none;"></div>
+                    </div>
+                    <div class="box">
+                        <div class="product-img-list">
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="product-center-column product-info col-xs-12 col-sm-4 col-md-5">
+                    <h3 class="qwp-name">Aeneanin consequated sagittis lacini</h3>
+                    <div class="product-description rte">
+                        Note:the size is Asian size, run smaller than US size,please check the size chart before you place order.We recommend one size larger to buy The Classic jersey is the...
+                    </div>
+                    <h5 class="brand">
+                        <span>Brand:</span> Apollotheme
+                    </h5>
+                    <div class="availability">
+                        <p class="available instock">In Stock</p>
+                    </div>
+
+                    <div class="socialsharing_product no-print mt-4">
+                        <ul class="social-sharing list-unstyled">
+                            <li>
+                                <a class="btn social-sharing btn-facebook" href="#">
+                                    <i class="fa fa--facebook"></i> Facebook
+                                </a>
+                            </li>
+                            <li>
+                                <a class="btn social-sharing btn-twitter" href="#">
+                                    <i class="fa fa--facebook"></i> Tweet
+
+                                </a>
+                            </li>
+                            <li>
+                                <a class="btn social-sharing btn-google-plus" href="#">
+                                    <i class="fa fa--facebook"></i> Google+
+
+                                </a>
+                            </li>
+                            <li>
+                                <a class="btn social-sharing btn-pinterest" href="#">
+                                    <i class="fa fa--facebook"></i> Pinterest
+
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="product-right-column product-item col-xs-12 col-sm-4 col-md-3" id="product-3635844932">
+                    <div>
+                        <div id="form-product">
+
+                            <span class="prices">
+                                <span class="price h2">
+                                    <span class="money money-per-one">$41.93</span>
+                                </span>
+                            </span>
+                            <span class="price-product-detail">
+                                <span class="old-price product-price compare-price"></span>
+                            </span>
+                            <div class="clearfix"></div>
+                            <div class="">
+                                <label for="size-option" class="quantity-selector">Size</label>
+                                <select id="size-option" class="form-select form-select-sm" style="width: 70px;" aria-label="Default select example">
+                                </select>
+                            </div>
+                            <div class="mt-3">
+                                <label class="me-4">Quantity: </label>
+                                <i class="quantity-in-stock">0</i>
+                            </div>
+                            <div class="quantity_wanted_p mt-3">
+
+                                <div class="js-qty">
+                                    <button type="button" id="collection-detail-minus" class="js-qty__adjust js-qty__adjust--minus">-</button>
+                                    <input type="text" class="js-qty__num" value="1" id="collection-quantity-detail">
+                                    <button type="button" id="collection-detail-plus" class="js-qty__adjust js-qty__adjust--plus">+</button>
+                                </div>
+                            </div>
+                            <div class="total-price">
+                                <label>Subtotal :</label>
+                                <span>
+                                    <span class="money money-total">$41.93 </span>
+                                </span>
+                            </div>
+                            <a href="#" id="add-to-cart" class="btn add_to_cart_detail">
+                                <span>Add to cart </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <a title="Close" class="quickview-close fancybox-close"></a>
+        </div>
+
+    </div>*@
+<script>
+    @*var formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+
+        // These options are needed to round to whole numbers if that's what you want.
+        //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+        //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+    });
+
+    const quickView = document.getElementById("quick-view-product");
+    const quickViewClose = document.getElementsByClassName("quickview-close")[0];
+    const quickViewMinus = document.getElementById("collection-detail-minus");
+    const quickViewPlus = document.getElementById("collection-detail-plus");
+
+    //detail
+    const quickView_shoeName = document.getElementsByClassName("qwp-name")[0];
+    const quickView_description = document.getElementsByClassName("product-description")[0];
+    const quickView_brand = document.getElementsByClassName("brand")[0];
+    const quickView_availability = document.getElementsByClassName("availability")[0];
+    const quickView_moneyOne = document.getElementsByClassName("money-per-one")[0];
+    const quickView_quantity = document.getElementById("collection-quantity-detail");
+    const quickView_moneyTotal = document.getElementsByClassName("money-total")[0];
+    const quickView_imgList = document.getElementsByClassName("product-img-list")[0];
+    const quickView_imgMain = document.getElementById("product-featured-image-quickview");
+    const quickView_quantityInStock = document.getElementsByClassName("quantity-in-stock")[0];
+    const icons = document.getElementsByClassName("btn-quick-view");
+    const form = document.getElementById("form-product");
+    const addCart = document.getElementById("add-to-cart");
+    const sizes = document.getElementById("size-option");
+
+
+    //resize
+    window.onresize = function () {
+
+        if (window.innerWidth < 1140) {
+            if (quickView.classList.contains('d-block')) {
+                quickView.classList.remove('d-block');
+            }
+            for (let i = 0; i < icons.length; i++) {
+                if (!icons[i].classList.contains("d-none"))
+                    icons[i].classList.add("d-none");
+            }
+
+        } else {
+            for (let i = 0; i < icons.length; i++) {
+
+                    icons[i].classList.remove("d-none");
+            }
+
+        }
+    }
+
+    window.onload = function () {
+
+        if (window.innerWidth < 1140) {
+            if (quickView.classList.contains('d-block')) {
+                quickView.classList.remove('d-block');
+            }
+            for (let i = 0; i < icons.length; i++) {
+                if (!icons[i].classList.contains("d-none"))
+                    icons[i].classList.add("d-none");
+            }
+
+        } else {
+            for (let i = 0; i < icons.length; i++) {
+
+                icons[i].classList.remove("d-none");
+            }
+
+        }
+    }
+
+    //logic
+    /**/
+    var moneyPerOne;
+    var itemString;
+
+    var listItem = @Html.Raw(JsonConvert.SerializeObject(ViewBag.listItem))
+        /**/
+    quickViewClose.onclick = function () {
+        if (quickView.classList.contains('d-block')) {
+            quickView.classList.remove('d-block');
+        }
+    }
+
+
+
+
+    function openView(e) {
+        var item = listItem[e.id];
+
+        quickView_imgList.innerHTML = '';
+        quickView_imgMain.src = '';
+        quickView_shoeName.textContent = item.tengiay;
+        quickView_description.textContent = item.chitiet;
+        quickView_brand.textContent = item.hang;
+        quickView_moneyOne.textContent = formatter.format(item.gia);
+        moneyPerOne = item.gia;
+        quickView_quantity.value = 1;
+        quickView_moneyTotal.textContent = formatter.format(item.gia * quickView_quantity.value);
+
+        if (item.soluong > 0) {
+            quickView_availability.innerHTML = `<p class="available instock">In Stock</p>`
+        } else {
+            quickView_availability.innerHTML = `<p class="available text-danger">Out Stock</p>`
+        }
+        console.log(item)
+
+
+        var images = item.IMAGES;
+        for (let i = 0; i <= 2; i++) {
+            if (images.length <= i)
+                break;
+            else {
+                if (i == 0) {
+                    let url = images[i].substring(2);
+                    quickView_imgList.innerHTML = ` <div class="product-img-item">
+                            <img src="../${url}">
+                        </div>`
+                    quickView_imgMain.src = `../${url}`;
+                } else {
+                    let url = images[i].substring(2);
+                    quickView_imgList.innerHTML += ` <div class="product-img-item">
+                            <img src="../${url}">
+                        </div>`
+                }
+            }
+        }
+
+        sizes.innerHTML = "";
+        item.SIZESLIST.forEach((value, index) => {
+            if (item.QUANTITYLIST[index] != 0) {
+
+                sizes.innerHTML += `<option value=${value}>${value}</option>`
+            } else {
+                sizes.innerHTML += `<option value=${value} disabled>${value}</option>`
+            }
+
+        });
+        var indexSelect = sizes.selectedIndex;
+        if (indexSelect > -1) {
+            quickView_quantityInStock.textContent = item.QUANTITYLIST[indexSelect];
+        }
+        sizes.onchange = (e) => {
+            indexSelect = sizes.selectedIndex;
+            quickView_quantityInStock.textContent = item.QUANTITYLIST[indexSelect];
+            itemString = `/purchasing/AddItemToCart?maGiay=${item.magiay}&size=${sizes.value}&soLuong=`;
+            addCart.href = `/purchasing/AddItemToCart?maGiay=${item.magiay}&size=${sizes.value}&soLuong=${quickView_quantity.value}`;
+        }
+        quickView_quantityInStock
+
+        document.querySelectorAll('.product-img-item').forEach(e => {
+            e.addEventListener('click', () => {
+
+                let img = e.querySelector('img').getAttribute('src')
+                document.querySelector('#product-img > img').setAttribute('src', img)
+            })
+        })
+        quickView.classList.add('d-block');
+
+
+        itemString = `/purchasing/AddItemToCart?maGiay=${item.magiay}&size=${sizes.value}&soLuong=`;
+        addCart.href = `/purchasing/AddItemToCart?maGiay=${item.magiay}&size=${sizes.value}&soLuong=${quickView_quantity.value}`;
+
+        quickViewMinus.onclick = function () {
+            if (quickView_quantity.value > 0) {
+                quickView_quantity.value -= 1;
+                quickView_moneyTotal.textContent = formatter.format(moneyPerOne * quickView_quantity.value);
+                addCart.href = itemString + `${quickView_quantity.value}`;
+            }
+
+        }
+        quickViewPlus.onclick = function () {
+            quickView_quantity.value = Number(quickView_quantity.value) + 1;
+            quickView_moneyTotal.textContent = formatter.format(moneyPerOne * quickView_quantity.value);
+            addCart.href = itemString + `${quickView_quantity.value}`;
+
+        }
+        quickView_quantity.onkeyup = function () {
+            quickView_moneyTotal.textContent = formatter.format(moneyPerOne * quickView_quantity.value);
+            addCart.href = itemString + `${quickView_quantity.value}`;
+        };
+
+
+    }*@
+
+
+
+
+</script>

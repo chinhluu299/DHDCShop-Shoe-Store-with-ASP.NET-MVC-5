@@ -11,6 +11,11 @@ namespace DHDCShop.Models.Model
 {
     public class Order
     {
+        public Order()
+        {
+            OrderDetails = new HashSet<OrderDetail>();
+            Ratings = new HashSet<Rating>();
+        }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int OrderId { get; set; }
