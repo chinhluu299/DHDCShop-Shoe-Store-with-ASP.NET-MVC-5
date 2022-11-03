@@ -1,0 +1,172 @@
+﻿@model DHDCShop.Models.Model.Customer
+
+@{
+    ViewBag.Title = "Details";
+}
+<style>
+    body {
+        font-size: 0.9em;
+    }
+
+    .vach-ngan {
+        height: 0.5px;
+        background-color: gray;
+        opacity: 50%;
+        margin: auto;
+        width: 100%;
+        margin-top: 24px;
+        margin-bottom: 24px;
+    }
+
+    .text-size-12 {
+        font-size: 1.2em;
+    }
+
+    .text-size-11 {
+        font-size: 1.1em;
+    }
+
+    .btn-del {
+        height: 99%;
+        border-radius: 0px;
+    }
+
+    td {
+        min-width: 80px;
+        font-weight: 500;
+        height: 40px;
+        vertical-align: middle;
+    }
+</style>
+<div class="d-flex justify-content-between">
+    <h2 class="mb-4">@Model.FullName</h2>
+    <button class="btn btn-danger btn-sm btn-del p-2" onclick="DelConfirm()">Remove</button>
+</div>
+
+<div class="me-lg-5 me-md-3">
+    <div class="dl-horizontal row d-flex justify-content-between">
+        <div class="card col-md-4 mb-4">
+            <div class="card-body">
+                <div>
+                    <div style="border-radius: 50%;" class="text-center">
+                        <img src="@Url.Content(Model.AvatarPath ?? "~/Source/Default/avatar_default.png")" width="100" height="100" />
+                    </div>
+                    <div class="text-center mt-3">
+                        <div class="fw-bold m-0 text-size-12">@Model.FullName</div>
+                        <div><a href="mailto:@Model.Email">@Model.Email</a></div>
+                        <div class="opacity-75">@Model.PhoneNumber</div>
+                    </div>
+                </div>
+                <div class="vach-ngan"></div>
+                <div>
+                    <div class="mb-2">
+                        <div class="text-size-11"><strong>Registered</strong></div>
+                        <div class="opacity-75">
+                            @if (Model.DateOfRegister != null)
+                            {
+                                <div>
+                                    @DateTime.Parse(Model.DateOfRegister.ToString()).ToString("dd/MM/yyyy")
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <div class="text-size-11"><strong>Total order</strong></div>
+                        <div class="opacity-75">@Model.Orders.Count</div>
+                    </div>
+                    <div class="mb-2">
+                        <div class="text-size-11"><strong>Total spent</strong></div>
+                        <div class="opacity-75">@Model.TotalSpent</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card card-body mb-4">
+                <div style="margin-bottom: -12px;">
+                    <h5>Order</h5>
+                </div>
+                <div class="table-responsive">
+                    <table class="text-nowrap table" width="100%">
+
+                        <tbody>
+                            @foreach (var item in Model.Orders)
+                            {
+                                <tr>
+                                    <td><a href="@Url.Action("Details","Order", new { id = item.OrderId })">#@item.OrderId</a></td>
+                                    <td>
+                                        @if (item.CreateDate != null)
+                                        {
+                                            <div>
+                                                @DateTime.Parse(item.CreateDate.ToString()).ToString("dd/MM/yyyy")
+                                            </div>
+                                        }
+                                    </td>
+                                    <td>
+                                        <div>
+                                            @if (item.Status.Name.Equals("shipping"))
+                                            {
+                                                <div style="font-weight: 500;">Shipping</div>
+                                            }
+                                            else if (item.Status.Name.Equals("pending"))
+                                            {
+                                                <div style="font-weight: 500;">Pending</div>
+                                            }
+                                            else if (item.Status.Name.Equals("cancel"))
+                                            {
+                                                <div style="font-weight: 500;">Cancel</div>
+                                            }
+                                            else if (item.Status.Name.Equals("completed"))
+                                            {
+                                                <div style="font-weight: 500;">Completed</div>
+                                            }
+                                        </div>
+                                    </td>
+                                    <td><div>@item.TotalMoney</div></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card card-body p-0">
+                <div class="m-3">
+                    <h5>Personal information</h5>
+                </div>
+                <div class="vach-ngan m-0 p-0"></div>
+                <div>
+                    <div class="mb-2 p-3">
+                        <div class="text-size-11"><strong>Gender</strong></div>
+                        <div class="opacity-75">@Model.Gender</div>
+                    </div>
+                    <div class="mb-2 p-3">
+                        <div class="text-size-11"><strong>Date of birth</strong></div>
+                        <div class="opacity-75">@Model.DateOfBirth</div>
+                    </div>
+                    <div class="mb-2 p-3">
+                        <div class="text-size-11"><strong>Address</strong></div>
+                        <div class="opacity-75">@Model.Address</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p>
+    <div>
+        <a href="@Url.Action("Index","Customer")" class="btn btn-sm btn-dark text-light opacity-75">Back to list</a>
+    </div>
+</p>
+
+<script>
+    function DelConfirm() {
+        if (confirm("Are you sure you want to delete this?")) {
+            $.post(`/Admin/Customer/Delete`, { id: "@Model.Username" });
+            window.location.href = "/Admin/Customer";
+        } else {
+
+        }
+
+    }
+</script>
