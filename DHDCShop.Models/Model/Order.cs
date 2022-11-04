@@ -29,6 +29,8 @@ namespace DHDCShop.Models.Model
 
         [DataType(DataType.Date)]
         public DateTime CreateDate { get; set; }
+
+        public string AddressReceive { get; set; }
         
         public string FeedBack { get; set; }
         [Required]

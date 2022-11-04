@@ -15,6 +15,8 @@ namespace DHDCShop.Models.Model
         public int CommentId { get; set; }
         public int ProductId { get; set; }
         public string CustomerUsername { get; set; }
+        [DataType(DataType.Time)]
+        public DateTime CreatedDate { get; set; }
         [DataType(DataType.MultilineText)]
         public string Comments { get; set; }
 

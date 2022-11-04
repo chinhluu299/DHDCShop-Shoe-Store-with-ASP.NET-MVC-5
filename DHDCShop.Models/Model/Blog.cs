@@ -16,7 +16,7 @@ namespace DHDCShop.Models.Model
         [Required]
         public string Title { get; set; }
         [DataType(DataType.Date)]
-        public DateTime NgayDang { get; set; }
+        public DateTime DatePost { get; set; }
         [Required]
         public string Content { get; set; }
         

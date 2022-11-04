@@ -1,4 +1,5 @@
 ﻿using DHDCShop.Models;
+using DHDCShop.Models.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,16 @@ namespace DHDCShop.Web.Controllers
             var listBrands = db.Products.Select(x => x.Brand).Distinct().ToList();
             ViewBag.brands = listBrands;
             return View(listProduct);
+        }
+
+        public ActionResult Item(int id)
+        {
+            Product item = db.Products.Find(id);
+            List<Rating> danhgia = db.Ratings.Where(s => s.ProductId == id).ToList();
+
+            ViewBag.listDanhGia = danhgia;
+            ViewBag.item = item;
+            return View(item);
         }
     }
 }

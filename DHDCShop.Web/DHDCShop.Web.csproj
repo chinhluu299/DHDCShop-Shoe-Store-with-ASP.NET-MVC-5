@@ -210,6 +210,7 @@
     <Content Include="Public\Assets\vnpay.jpg" />
     <Content Include="Public\collections.css" />
     <Content Include="Public\main.css" />
+    <Content Include="Public\product.css" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -252,6 +253,7 @@
     <Content Include="Public\Assets\fancybox_overlay.webp" />
     <Content Include="Public\Assets\payment.webp" />
     <Content Include="Public\Assets\shipping.webp" />
+    <Content Include="Areas\Admin\Views\Order\Details.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -281,6 +283,7 @@
     <Content Include="Views\Shared\_Cart.cshtml" />
     <Content Include="Views\Collection\Index.cshtml" />
     <Content Include="Views\Blog\Index.cshtml" />
+    <Content Include="Views\Collection\Item.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

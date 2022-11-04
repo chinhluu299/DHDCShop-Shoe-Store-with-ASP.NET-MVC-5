@@ -54,17 +54,29 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DHDCShopDbContext.cs" />
-    <Compile Include="Migrations\202211010737227_InitialDatabase.cs" />
-    <Compile Include="Migrations\202211010737227_InitialDatabase.designer.cs">
-      <DependentUpon>202211010737227_InitialDatabase.cs</DependentUpon>
+    <Compile Include="Migrations\202209300737227_InitialDatabase.cs" />
+    <Compile Include="Migrations\202209300737227_InitialDatabase.designer.cs">
+      <DependentUpon>202209300737227_InitialDatabase.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202211011114131_Add_Product_Quantity.cs" />
-    <Compile Include="Migrations\202211011114131_Add_Product_Quantity.designer.cs">
-      <DependentUpon>202211011114131_Add_Product_Quantity.cs</DependentUpon>
+    <Compile Include="Migrations\202210151114131_Add_Product_Quantity.cs" />
+    <Compile Include="Migrations\202210151114131_Add_Product_Quantity.designer.cs">
+      <DependentUpon>202210151114131_Add_Product_Quantity.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202211020443221_Add_Order_CreateDate.cs" />
-    <Compile Include="Migrations\202211020443221_Add_Order_CreateDate.designer.cs">
-      <DependentUpon>202211020443221_Add_Order_CreateDate.cs</DependentUpon>
+    <Compile Include="Migrations\202210200443221_Add_Order_CreateDate.cs" />
+    <Compile Include="Migrations\202210200443221_Add_Order_CreateDate.designer.cs">
+      <DependentUpon>202210200443221_Add_Order_CreateDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202211030554574_Add_Comment_CreateDate.cs" />
+    <Compile Include="Migrations\202211030554574_Add_Comment_CreateDate.designer.cs">
+      <DependentUpon>202211030554574_Add_Comment_CreateDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202211030634319_Add_Order_AddressReceive.cs" />
+    <Compile Include="Migrations\202211030634319_Add_Order_AddressReceive.designer.cs">
+      <DependentUpon>202211030634319_Add_Order_AddressReceive.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202211040701094_Change_name_blog_DatePost.cs" />
+    <Compile Include="Migrations\202211040701094_Change_name_blog_DatePost.designer.cs">
+      <DependentUpon>202211040701094_Change_name_blog_DatePost.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Admin.cs" />
@@ -89,14 +101,23 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202211010737227_InitialDatabase.resx">
-      <DependentUpon>202211010737227_InitialDatabase.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202209300737227_InitialDatabase.resx">
+      <DependentUpon>202209300737227_InitialDatabase.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202211011114131_Add_Product_Quantity.resx">
-      <DependentUpon>202211011114131_Add_Product_Quantity.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202210151114131_Add_Product_Quantity.resx">
+      <DependentUpon>202210151114131_Add_Product_Quantity.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202211020443221_Add_Order_CreateDate.resx">
-      <DependentUpon>202211020443221_Add_Order_CreateDate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202210200443221_Add_Order_CreateDate.resx">
+      <DependentUpon>202210200443221_Add_Order_CreateDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211030554574_Add_Comment_CreateDate.resx">
+      <DependentUpon>202211030554574_Add_Comment_CreateDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211030634319_Add_Order_AddressReceive.resx">
+      <DependentUpon>202211030634319_Add_Order_AddressReceive.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211040701094_Change_name_blog_DatePost.resx">
+      <DependentUpon>202211040701094_Change_name_blog_DatePost.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
