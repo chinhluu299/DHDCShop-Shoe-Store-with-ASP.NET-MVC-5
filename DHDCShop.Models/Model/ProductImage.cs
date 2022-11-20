@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -19,6 +20,7 @@ namespace DHDCShop.Models.Model
         public string ImagePath { get; set; }
 
         [ForeignKey("ProductId")]
+        [JsonIgnore]
         public virtual Product Product { get; set; }
     }
 }

@@ -1,0 +1,221 @@
+﻿@model DHDCShop.Models.Model.Customer
+@{
+    Layout = null;
+    <link href="~/Public/UserSignIn.css" rel="stylesheet" type="text/css" />
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>SignInUp</title>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:900,900italic,500,400italic,100,700italic,300,700,500italic,100italic,300italic,400' rel='stylesheet' type='text/css'>
+</head>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<body>
+
+
+    <div id="fback"><div class="girisback"></div><div class="kayitback"></div></div>
+
+    <div id="textbox">
+        <div class="toplam">
+
+            <div class="left">
+                <div id="ic">
+                    <h2>Sign Up</h2>
+                    <h6 class="text-success fst-italic">@ViewBag.Complete</h6>
+                    <h6 class="text-danger fst-italic">@ViewBag.ErrorSignUp</h6>
+                    <form id="girisyap" name="signup_form" id="signup_form" method="post" enctype="multipart/form-data" action="@Url.Action("SignUp","User")">
+
+                        <div class="yarim form-group">
+                            <label class="control-label" for="inputNormal">Username</label>
+
+                            @Html.EditorFor(model => model.Username, new
+                            {
+                                htmlAttributes = new
+                                {
+                                    @name = "signup_username",
+                                    @id = "signup_username",
+                                    @class = "bp-suggestions form-control",
+                                    @cols = "50",
+                                    @rows = "10"
+                                }
+                            })
+
+
+                        </div>
+
+                        <div class="yarim sn form-group">
+                            <label class="control-label" for="inputNormal">Full Name</label>
+                            @Html.EditorFor(model => model.FullName, new
+                            {
+                                htmlAttributes = new
+                                {
+                                    @name = "field_1",
+                                    @id = "field_1",
+                                    @class = "bp-suggestions form-control",
+                                    @cols = "50",
+                                    @rows = "10"
+                                }
+                            })
+                        </div>
+                        <div class="message-validate">
+                            @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger yarim" })
+                            @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger yarim sn" })
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="inputNormal">Email</label>
+                            @Html.EditorFor(model => model.Email, new
+                            {
+                                htmlAttributes = new
+                                {
+                                    @name = "signup_email",
+                                    @id = "signup_email",
+                                    @class = "bp-suggestions form-control",
+                                    @cols = "50",
+                                    @rows = "10"
+                                }
+                            })
+
+
+
+                        </div>
+                        <div class="message-validate">
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="inputNormal">Password</label>
+                            @Html.EditorFor(model => model.Password, new
+                            {
+                                htmlAttributes = new
+                                {
+                                    @type = "password",
+                                    @name = "signup_email",
+                                    @id = "signup_email",
+                                    @class = "bp-suggestions form-control",
+                                    @cols = "50",
+                                    @rows = "10"
+                                }
+                            })
+
+
+
+                        </div>
+                        <div class="message-validate">
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="inputNormal">Phone number</label>
+                            @Html.EditorFor(model => model.PhoneNumber, new
+                            {
+                                htmlAttributes = new
+                                {
+                                    @type = "number",
+                                    @name = "signup_email",
+                                    @id = "signup_email",
+                                    @class = "bp-suggestions form-control",
+                                    @cols = "50",
+                                    @rows = "10"
+                                }
+                            })
+
+
+                        </div>
+                        <div class="message-validate">
+                            @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                        </div>
+
+                        <input type="submit" name="signup_submit" id="signup_submit" value="Sign Up" class="girisbtn" />
+
+                    </form>
+                    <button id="moveright" formaction="#">Login</button>
+
+                </div>
+            </div>
+
+            <div class="right">
+                <div id="ic">
+                    <h2>Login</h2>
+                    <p class="text-danger mb-1 fst-italic">@ViewBag.error</p>
+                    <form name="login-form" id="girisyap" method="post" action="@Url.Action("SignIn","User")">
+
+                        <div class="form-group">
+                            <label class="control-label" for="inputNormal">Username</label>
+                            @Html.EditorFor(model => model.Username, new
+                            {
+                                htmlAttributes = new
+                                {
+                                    @type = "text",
+                                    @name = "log",
+                                    @class = "bp-suggestions form-control",
+                                    @cols = "50",
+                                    @rows = "10"
+                                }
+                            })
+
+
+
+                        </div>
+                        <div class="message-validate">
+                            @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <label class="control-label" for="inputNormal">Password</label>
+                            @Html.EditorFor(model => model.Password, new
+                            {
+                                htmlAttributes = new
+                                {
+                                    @type = "password",
+                                    @name = "pwd",
+                                    @class = "bp-suggestions form-control",
+                                    @cols = "50",
+                                    @rows = "10"
+                                }
+                            })
+                        </div>
+                        <div class="message-validate">
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                        </div>
+
+
+
+                        <input type="submit" value="Login" class="girisbtn" tabindex="100" />
+
+                    </form>
+                    <button id="moveleft" formaction="#">Sign Up</button>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+<script>$('.form-control').on('focus blur', function (e) {
+        $(this).parents('.form-group').toggleClass('focused', (e.type === 'focus' || this.value.length > 0));
+    }).trigger('blur');
+
+    $('#moveleft').click(function () {
+        $('#textbox').animate({
+            'marginLeft': "0" //moves left
+        });
+
+        $('.toplam').animate({
+            'marginLeft': "100%" //moves right
+        });
+    });
+
+    $('#moveright').click(function () {
+        $('#textbox').animate({
+            'marginLeft': "50%" //moves right
+        });
+
+        $('.toplam').animate({
+            'marginLeft': "0" //moves right
+        });
+    });</script>
+</html>

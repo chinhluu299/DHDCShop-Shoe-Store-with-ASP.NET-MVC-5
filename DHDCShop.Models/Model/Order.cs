@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -51,7 +52,9 @@ namespace DHDCShop.Models.Model
         [ForeignKey("StatusId")]
         public virtual Status Status { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Rating> Ratings { get; set; }
     }
 }

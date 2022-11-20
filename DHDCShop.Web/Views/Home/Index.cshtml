@@ -46,7 +46,7 @@
         </ul>
     </div>
 </section>
-<script>new Splide('.splide', {type:'loop', autoplay: true}).mount();</script>
+<script>new Splide('.splide', { type: 'loop', autoplay: true }).mount();</script>
 <div class="container">
     <div class="col-12">
         <div class="productlist">
@@ -59,12 +59,13 @@
                         foreach (var item in ViewBag.TopGiay)
                         {
                             <div class="">
-                                <div class="item" style="width: 380px;">
+                                <div class="item" style="width: 320px;">
                                     <div class="class-product">
                                         <div class="left-block">
                                             <div class="product-image-content">
                                                 <a class="product-img-link" href="#"></a>
-                                                <img class="img-product" src="@Url.Content(item.ImagePath ??"~/Source/Default/giay_default.png")" width="380" height="380">
+                                                <img class="img-product" src="@Url.Content(item.ImagePath ??"~/Source/Default/giay_default.png")"
+                                                     width="300" height="300">
                                             </div>
                                         </div>
                                         <div class="right-block">
@@ -112,198 +113,6 @@
                             </div>}
                     }
 
-                    <!--Sản phẩm ở một cột-->
-                    @*<div class="owl-item">
-
-                            <div class="item" style="width: 380px;">
-                                <div class="class-product">
-                                    <div class="left-block">
-                                        <div class="product-image-content">
-                                            <a class="product-img-link" href="#"></a>
-                                            <img class="img-product" src="~/Public/Assets/image3.png">
-                                        </div>
-                                    </div>
-                                    <div class="right-block">
-                                        <div class="product-meta">
-                                            <h5 class="name">
-                                                <a class="product-name" href="#">
-                                                    Aeneanin consequated sagittis lacini
-                                                </a>
-                                            </h5>
-                                            <div class="review-star">
-                                                <i class="fa-solid fa-star icon-star"></i>
-                                                <i class="fa-solid fa-star icon-star"></i>
-                                                <i class="fa-solid fa-star icon-star"></i>
-                                                <i class="fa-solid fa-star icon-star"></i>
-                                                <i class="fa-solid fa-star icon-star"></i>
-                                            </div>
-                                            <div class="content-price">
-                                                <span class="money">$53.60</span>
-                                            </div>
-                                            <div class="function">
-                                                <div class="arrow">
-                                                    <a class="arrow-link icon-function" href="#">
-                                                        <i class="fa-solid fa-arrows-to-circle colorheart"></i>
-                                                    </a>
-                                                </div>
-                                                <div class="wish-list icon-function">
-                                                    <a class="wish-list-link" href="#">
-                                                        <i class="fa-solid fa-heart colorheart"></i>
-                                                    </a>
-                                                </div>
-                                                <form>
-                                                    <a class="btnrounded icon-function" href="#">
-                                                        <i class="fa-solid fa-cart-arrow-down colorheart "></i>
-
-                                                    </a>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="class-product">
-                                    <div class="left-block">
-                                        <div class="product-image-content">
-                                            <a class="product-img-link" href="#"></a>
-                                            <img class="img-product" src="~/Public/Assets/image3.png">
-                                        </div>
-                                    </div>
-                                    <div class="right-block">
-                                        <div class="product-meta">
-                                            <h5 class="name">
-                                                <a class="product-name" href="#">
-                                                    Aeneanin consequated sagittis lacini
-                                                </a>
-                                            </h5>
-                                            <div class="review-star">
-                                                <i class="fa-solid fa-star icon-star"></i>
-                                                <i class="fa-solid fa-star icon-star"></i>
-                                                <i class="fa-solid fa-star icon-star"></i>
-                                                <i class="fa-solid fa-star icon-star"></i>
-                                                <i class="fa-solid fa-star icon-star"></i>
-                                            </div>
-                                            <div class="content-price">
-                                                <span class="money">$53.60</span>
-                                            </div>
-                                            <div class="function">
-                                                <div class="arrow">
-                                                    <a class="arrow-link icon-function" href="#">
-                                                        <i class="fa-solid fa-arrows-to-circle colorheart"></i>
-                                                    </a>
-                                                </div>
-                                                <div class="wish-list icon-function">
-                                                    <a class="wish-list-link" href="#">
-                                                        <i class="fa-solid fa-heart colorheart"></i>
-                                                    </a>
-                                                </div>
-                                                <form>
-                                                    <a class="btnrounded icon-function" href="#">
-                                                        <i class="fa-solid fa-cart-arrow-down colorheart "></i>
-
-                                                    </a>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>*@
-                    <!--Sản phẩm ở một cột-->
-                    <!-- <div class="owl-item">
-
-                        <div class="item" style="width: 380px;">
-                            <div class="class-product">
-                                <div class="left-block">
-                                    <div class="product-image-content">
-                                        <a class="product-img-link" href="#"></a>
-                                        <img class="img-product" src="./Image/image3.png">
-                                    </div>
-                                </div>
-                                <div class="right-block">
-                                    <div class="product-meta">
-                                        <h5 class="name">
-                                            <a class="product-name" href="#">
-                                                Aeneanin consequated sagittis lacini
-                                            </a>
-                                        </h5>
-                                        <div class="review-star">
-                                            <i class="fa-solid fa-star icon-star"></i>
-                                            <i class="fa-solid fa-star icon-star"></i>
-                                            <i class="fa-solid fa-star icon-star"></i>
-                                            <i class="fa-solid fa-star icon-star"></i>
-                                            <i class="fa-solid fa-star icon-star"></i>
-                                        </div>
-                                        <div class="content-price">
-                                            <span class="money">$53.60</span>
-                                        </div>
-                                        <div class="function">
-                                            <div class="arrow">
-                                                <a class="arrow-link icon-function" href="#">
-                                                    <i class="fa-solid fa-arrows-to-circle colorheart"></i>
-                                                </a>
-                                            </div>
-                                            <div class="wish-list icon-function">
-                                                <a class="wish-list-link" href="#">
-                                                    <i class="fa-solid fa-heart colorheart"></i>
-                                                </a>
-                                            </div>
-                                            <form>
-                                                <a class="btnrounded icon-function" href="#">
-                                                    <i class="fa-solid fa-cart-arrow-down colorheart "></i>
-
-                                                </a>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="class-product">
-                                <div class="left-block">
-                                    <div class="product-image-content">
-                                        <a class="product-img-link" href="#"></a>
-                                        <img class="img-product" src="./Image/image3.png">
-                                    </div>
-                                </div>
-                                <div class="right-block">
-                                    <div class="product-meta">
-                                        <h5 class="name">
-                                            <a class="product-name" href="#">
-                                                Aeneanin consequated sagittis lacini
-                                            </a>
-                                        </h5>
-                                        <div class="review-star">
-                                            <i class="fa-solid fa-star icon-star"></i>
-                                            <i class="fa-solid fa-star icon-star"></i>
-                                            <i class="fa-solid fa-star icon-star"></i>
-                                            <i class="fa-solid fa-star icon-star"></i>
-                                            <i class="fa-solid fa-star icon-star"></i>
-                                        </div>
-                                        <div class="content-price">
-                                            <span class="money">$53.60</span>
-                                        </div>
-                                        <div class="function">
-                                            <div class="arrow">
-                                                <a class="arrow-link icon-function" href="#">
-                                                    <i class="fa-solid fa-arrows-to-circle colorheart"></i>
-                                                </a>
-                                            </div>
-                                            <div class="wish-list icon-function">
-                                                <a class="wish-list-link" href="#">
-                                                    <i class="fa-solid fa-heart colorheart"></i>
-                                                </a>
-                                            </div>
-                                            <form>
-                                                <a class="btnrounded icon-function" href="#">
-                                                    <i class="fa-solid fa-cart-arrow-down colorheart "></i>
-
-                                                </a>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>-->
 
                 </div>
             </div>
@@ -465,6 +274,8 @@
         </div>
     </div>
 </div>
+
+
 @*<div id="quick-view-product">
         <div class="quickview-overlay fancybox-overlay fancybox-overlay-fixed"></div>
         <div class="quick-view-product">

@@ -1,8 +1,26 @@
-﻿
+﻿@model IEnumerable<DHDCShop.Models.Model.Blog>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2 class="text-center mt-5">BLOG</h2>
-
+<div class="mt-5 container col-9">
+    <h1 class="text-center fw-bold">NEWS</h1>
+    <div class="body-content">
+        @foreach (var item in Model)
+        {
+            <div class="blog-item">
+                <h3 class="fw-bold text-uppercase">@item.Title</h3>
+                <img src="@Url.Content(item.ImagePath)" class="img-responsive" width="1024" height="609" />
+                <div>
+                    <div>@item.DatePost.ToString("d")</div>
+                    <div>
+                        <a class="btn btn-warning" href="@Url.Action("Detail","Blog", new { id = item.ID })">
+                            READ MORE
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

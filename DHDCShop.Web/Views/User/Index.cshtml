@@ -1,0 +1,378 @@
+﻿@model DHDCShop.Models.Model.Customer
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<body>
+    <div class="container-xl px-4 mt-4">
+        <!-- Account page navigation-->
+        @*<hr class="mt-0 mb-4">*@
+        <nav class="nav nav-borders">
+            <a id="profile" class="nav-link ms-0" href="" target="__blank">Profile</a>
+            <a id="password" class="nav-link" href="" target="__blank">Password</a>
+        </nav>
+        <hr class="mt-0 mb-4">
+        @using (Html.BeginForm("UpdateProfile", "User", FormMethod.Post, new { enctype = "multipart/form-data", @class = "d-none", @id = "display-profile" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="row">
+                <div class="col-xl-4">
+                    <!-- Profile picture card-->
+                    <div class="card mb-4 mb-xl-0">
+                        <div class="card-header">Profile Picture</div>
+                        <div class="card-body text-center">
+                            <!-- Profile picture image-->
+                            <img id="user_img" class="img-account-profile rounded-circle mb-2" src="@Url.Content(Model.AvatarPath ?? "~/Source/Default/avatar_default.png")" alt="avatar">
+                            <!-- Profile picture help block-->
+                            <div class="small font-italic text-muted mb-4"><b>Register </b>@DateTime.Parse(Model.DateOfBirth.ToString()).ToString("d")</div>
+                            <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+                            <!-- Profile picture upload button-->
+
+                            <input class="btn btn-danger d-none" type="file" onchange="show(this)"
+                                   accept=".jpg, .png, .jpeg" title="search image" id="file" name="file" />
+
+                            <label for="file" class="btn btn-primary">Upload new image</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-8">
+                    <!-- Account details card-->
+                    <div class="card mb-4">
+                        <div class="card-header">Account Details</div>
+                        <div class="card-body">
+
+                            <!-- Form Group (username)-->
+                            <div class="mb-3">
+                                <label class=" small mb-1" for="inputUsername">Username (how your name will appear to other users on the site)</label>
+                                @Html.EditorFor(model => model.Username, new
+                                {
+                                    htmlAttributes = new
+                                    {
+                                        @type = "text",
+
+                                        @id = "inputUsername",
+                                        @class = "form-control",
+                                        @placeholder = "Enter your username",
+                                        @readonly = "readonly"
+                                    }
+                                })
+
+                            </div>
+                            <!-- Form Row-->
+                            <div class="row gx-3 mb-3">
+                                <!-- Form Group (first name)-->
+                                <div class="col-md-6">
+                                    <label class="small mb-1" for="inputFullName">Full name</label>
+                                    @Html.EditorFor(model => model.FullName, new
+                                    {
+                                        htmlAttributes = new
+                                        {
+                                            @type = "text",
+
+                                            @id = "inputFullName",
+                                            @class = "form-control",
+                                            @placeholder = "Enter your full name",
+                                        }
+                                    })
+
+                                </div>
+                                <!-- Form Group (last name)-->
+                                <div class="col-md-6">
+                                    <label class="small mb-1" for="inputCountry">Country</label>
+                                    @Html.EditorFor(model => model.Nation, new
+                                    {
+                                        htmlAttributes = new
+                                        {
+                                            @type = "text",
+
+                                            @id = "inputCountry",
+                                            @class = "form-control",
+                                            @placeholder = "Enter your country",
+                                        }
+                                    })
+
+                                </div>
+                            </div>
+                            <!-- Form Row        -->
+                            <div class="row gx-3 mb-3">
+                                <!-- Form Group (organization name)-->
+                                <div class="col-md-6">
+                                    <label class="small mb-1" for="inputGender">Gender</label>
+                                    @Html.EditorFor(model => model.Gender, new
+                                    {
+                                        htmlAttributes = new
+                                        {
+                                            @type = "text",
+                                            @id = "inputGender",
+                                            @class = "form-control",
+                                            @placeholder = "Enter your gender",
+                                        }
+                                    })
+
+                                </div>
+                                <!-- Form Group (location)-->
+                                <div class="col-md-6">
+                                    <label class="small mb-1" for="inputAddress">Address</label>
+                                    @Html.EditorFor(model => model.Address, new
+                                    {
+                                        htmlAttributes = new
+                                        {
+                                            @type = "text",
+                                            @id = "inputAddress",
+                                            @class = "form-control",
+                                            @placeholder = "Enter your address",
+                                        }
+                                    })
+
+                                </div>
+                            </div>
+                            <!-- Form Group (email address)-->
+                            <div class="mb-3">
+                                <label class="small mb-1" for="inputEmailAddress">Email address</label>
+                                @Html.EditorFor(model => model.Email, new
+                                {
+                                    htmlAttributes = new
+                                    {
+                                        @type = "text",
+                                        @id = "inputEmailAddress",
+                                        @class = "form-control",
+                                        @placeholder = "Enter your email",
+                                    }
+                                })
+
+                            </div>
+                            <!-- Form Row-->
+                            <div class="row gx-3 mb-3">
+                                <!-- Form Group (phone number)-->
+                                <div class="col-md-6">
+                                    <label class="small mb-1" for="inputPhone">Phone number</label>
+                                    @Html.EditorFor(model => model.PhoneNumber, new
+                                    {
+                                        htmlAttributes = new
+                                        {
+                                            @type = "text",
+                                            @id = "inputPhone",
+                                            @class = "form-control",
+                                            @placeholder = "Enter your phone number",
+                                        }
+                                    })
+
+                                </div>
+                                <!-- Form Group (birthday)-->
+                                <div class="col-md-6">
+                                    <label class="small mb-1" for="inputBirthday">Birthday</label>
+                                    @Html.EditorFor(model => model.DateOfBirth, new
+                                    {
+                                        htmlAttributes = new
+                                        {
+                                            @type = "text",
+                                            @name = "birthday",
+                                            @id = "inputPhone",
+                                            @class = "form-control",
+                                            @value = Model.DateOfBirth != null ? @DateTime.Parse(Model.DateOfBirth.ToString()).ToString("d") : "",
+                                            @placeholder = "Enter your birthday",
+                                        }
+                                    })
+                                </div>
+                            </div>
+                            <!-- Save changes button-->
+                            @ViewBag.error
+                            <button class="btn btn-primary" type="submit">Save changes</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        @using (Html.BeginForm("ChangePassword", "User", FormMethod.Post, new { enctype = "multipart/form-data", @class = "d-none", @id = "display-password" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="row">
+                <div class="col-xl-4">
+                    <!-- Profile picture card-->
+                    <div class="card mb-4 mb-xl-0">
+                        <div class="card-header">Profile Picture</div>
+                        <div class="card-body text-center">
+                            <!-- Profile picture image-->
+                            <img id="user_img" class="img-account-profile rounded-circle mb-2" src="@Url.Content(Model.AvatarPath ?? "~/Source/Default/avatar_default.png")" alt="avatar">
+                            <!-- Profile picture help block-->
+                            <div class="small font-italic text-muted mb-4"><b>Register </b>@DateTime.Parse(Model.DateOfRegister.ToString()).ToString("d")</div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-8">
+                    <!-- Account details card-->
+                    <div class="card mb-4">
+                        <div class="card-header">Change password</div>
+                        <div class="card-body">
+
+                            <!-- Form Group (username)-->
+                            <!-- Form Group (email address)-->
+                            <div class="mb-3">
+                                <label class="small mb-1" for="inputEmailAddress">Current password</label>
+                                <input type="password" placeholder="Enter your current password" class="form-control" id="currentPassword" name="currentPassword" />
+                               
+                            </div>
+                            <!-- Form Row-->
+                            <div class="mb-3">
+                                <label class="small mb-1" for="inputEmailAddress">New password</label>
+                                <input type="password" placeholder="Enter your new password" class="form-control" id="newPassword" name="newPassword" />
+                            </div>
+                            <div class="mb-3">
+                                <label class="small mb-1" for="inputEmailAddress">Confirm password</label>
+                                <input type="password" placeholder="Re-enter your new password" class="form-control" id="reNewPassword" name="reNewPassword" />
+
+                            </div>
+                            <!-- Save changes button-->
+                            @if (ViewBag.success != null)
+                            {
+                                <h6 class="text-success font-italic fw-normal">@ViewBag.status</h6>
+                            }
+                            else
+                            {
+                                <h6 class="text-danger font-italic fw-normal">@ViewBag.status</h6>
+                            }
+
+                            <button class="btn btn-primary" type="submit">Save changes</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+
+    <style type="text/css">
+        body {
+            color: #69707a;
+        }
+
+        .img-account-profile {
+            height: 10rem;
+        }
+
+        .rounded-circle {
+            border-radius: 50% !important;
+        }
+
+        .card {
+            box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+        }
+
+            .card .card-header {
+                font-weight: 500;
+            }
+
+        .card-header:first-child {
+            border-radius: 0.35rem 0.35rem 0 0;
+        }
+
+        .card-header {
+            padding: 1rem 1.35rem;
+            margin-bottom: 0;
+            background-color: rgba(33, 40, 50, 0.03);
+            border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+        }
+
+        .form-control, .dataTable-input {
+            display: block;
+            width: 100%;
+            padding: 0.875rem 1.125rem;
+            font-size: 0.875rem;
+            font-weight: 400;
+            line-height: 1;
+            color: #69707a;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #c5ccd6;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border-radius: 0.35rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        .nav-borders .nav-link.active {
+            color: #0061f2;
+            border-bottom-color: #0061f2;
+            transition: 0.5s;
+        }
+
+        .nav-borders .nav-link {
+            color: #69707a;
+            border-bottom-width: 0.125rem;
+            border-bottom-style: solid;
+            border-bottom-color: transparent;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            padding-left: 0;
+            padding-right: 0;
+            margin-left: 1rem;
+            margin-right: 1rem;
+        }
+    </style>
+
+    <script type="text/javascript">
+        const profile = document.getElementById("profile");
+        const changePass = document.getElementById("password");
+        const display_profile = document.getElementById("display-profile");
+        const display_password = document.getElementById("display-password");
+
+        var status = @Html.Raw(Json.Encode(ViewBag.type));
+
+        window.onload = function () {
+            if (status == "profile") {
+                profile.classList.add("active");
+                changePass.classList.remove("active");
+                display_profile.classList.remove("d-none");
+
+            } else {
+                profile.classList.remove("active");
+                changePass.classList.add("active");
+                display_password.classList.remove("d-none");
+            }
+        }
+
+
+        profile.onclick = function (e) {
+            e.preventDefault();
+            if (changePass.classList.contains("active")) {
+                changePass.classList.remove("active");
+                display_password.classList.add("d-none");
+            }
+            if (!profile.classList.contains("active")) {
+                profile.classList.add("active");
+                display_profile.classList.remove("d-none");
+            }
+        }
+
+        changePass.onclick = function (e) {
+            e.preventDefault();
+            if (profile.classList.contains("active")) {
+                profile.classList.remove("active");
+                display_profile.classList.add("d-none");
+            }
+            if (!changePass.classList.contains("active")) {
+                changePass.classList.add("active");
+                display_password.classList.remove("d-none");
+            }
+        }
+
+        function show(input) {
+            if (input.files && input.files[0]) {
+                var filerdr = new FileReader();
+                filerdr.onload = function (e) {
+                    $('#user_img').attr('src', e.target.result);
+
+                }
+                filerdr.readAsDataURL(input.files[0])
+            }
+        }
+
+
+    </script>
+</body>

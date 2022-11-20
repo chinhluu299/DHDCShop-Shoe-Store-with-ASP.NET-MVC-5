@@ -1,0 +1,63 @@
+﻿@model IEnumerable<DHDCShop.Models.Model.Blog>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container d-flex justify-content-between">
+    <h2>Blogs</h2>
+    <a href="@Url.Action("Create", "Blog")" class="btn btn-warning" style="width:70px;">Create</a>
+</div>
+
+<div class="container mt-4">
+    @Html.AntiForgeryToken()
+    <table class="table">
+        <tr>
+            <th>
+                Blog name
+            </th>
+            <th>
+                Create date
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @item.DatePost.ToString("MM/dd/yyyy")
+                </td>
+                <td>
+                    <a class="btn btn-success text-white bg-opacity-75" href="@Url.Action("Edit", "Blog", new { id = item.ID })">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+                    <button class="btn btn-danger text-white bg-opacity-75" onclick="DelAjax(`@item.ID`)">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+<script>
+    function DelAjax(mablog) {
+        var token = $('input[name="__RequestVerificationToken"]').val();
+        console.log(token);
+        if (confirm("Are you sure delete this blog?")) {
+            $.post("@Url.Action("delete", "blog")", {
+                __RequestVerificationToken: token,
+                id: mablog
+            }, function (data, status, xhr) {
+                window.location.href = "/Admin/Blog";
+            })
+
+        }
+
+    }
+</script>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -23,6 +24,7 @@ namespace DHDCShop.Models.Model
         public int Quantity { get; set; }
 
         [ForeignKey("ProductId")]
+        [JsonIgnore]
         public virtual Product Product { get; set; }
     }
 }

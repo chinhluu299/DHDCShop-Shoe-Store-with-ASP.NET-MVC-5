@@ -1,0 +1,305 @@
+﻿@using Newtonsoft.Json;
+
+<div id="quick-view-product">
+    <div class="quickview-overlay fancybox-overlay fancybox-overlay-fixed"></div>
+    <div class="quick-view-product">
+        <div class="block-quickview primary_block row">
+            <div class="product-left-column col-xs-12 col-sm-4 col-md-4">
+                <div class="clearfix image-block">
+                    <span class="view_full_size">
+                        <a class="img-product" id="product-img" title="Aeneanin consequated sagittis lacini" href="#">
+                            <img id="product-featured-image-quickview" class="img-responsive product-featured-image-quickview" src="" alt="">
+                        </a>
+                    </span>
+                    <div class="loading-imgquickview" style="display:none;"></div>
+                </div>
+                <div class="box">
+                    <div class="product-img-list">
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="product-center-column product-info col-xs-12 col-sm-4 col-md-5">
+                <h3 class="qwp-name">Aeneanin consequated sagittis lacini</h3>
+                <div class="product-description rte">
+                    Note:the size is Asian size, run smaller than US size,please check the size chart before you place order.We recommend one size larger to buy The Classic jersey is the...
+                </div>
+                <h5 class="brand">
+                    <span>Brand:</span> Apollotheme
+                </h5>
+                <div class="availability">
+                    <p class="available instock">In Stock</p>
+                </div>
+
+                <div class="socialsharing_product no-print mt-4">
+                    <ul class="social-sharing list-unstyled">
+                        <li>
+                            <a class="btn social-sharing btn-facebook" href="#">
+                                <i class="fa fa--facebook"></i> Facebook
+                            </a>
+                        </li>
+                        <li>
+                            <a class="btn social-sharing btn-twitter" href="#">
+                                <i class="fa fa--facebook"></i> Tweet
+
+                            </a>
+                        </li>
+                        <li>
+                            <a class="btn social-sharing btn-google-plus" href="#">
+                                <i class="fa fa--facebook"></i> Google+
+
+                            </a>
+                        </li>
+                        <li>
+                            <a class="btn social-sharing btn-pinterest" href="#">
+                                <i class="fa fa--facebook"></i> Pinterest
+
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="product-right-column product-item col-xs-12 col-sm-4 col-md-3" id="product-3635844932">
+                <div>
+                    <div id="form-product">
+
+                        <span class="prices">
+                            <span class="price h2">
+                                <span class="money money-per-one">$41.93</span>
+                            </span>
+                        </span>
+                        <span class="price-product-detail">
+                            <span class="old-price product-price compare-price"></span>
+                        </span>
+                        <div class="clearfix"></div>
+                        <div class="">
+                            <label for="size-option" class="quantity-selector">Size</label>
+                            <select id="size-option" class="form-select form-select-sm" style="width: 70px;" aria-label="Default select example">
+                            </select>
+                        </div>
+                        <div class="mt-3">
+                            <label class="me-4">Quantity: </label>
+                            <i class="quantity-in-stock">0</i>
+                        </div>
+                        <div class="quantity_wanted_p mt-3">
+
+                            <div class="js-qty">
+                                <button type="button" id="collection-detail-minus" class="js-qty__adjust js-qty__adjust--minus">-</button>
+                                <input type="text" class="js-qty__num" value="1" id="collection-quantity-detail">
+                                <button type="button" id="collection-detail-plus" class="js-qty__adjust js-qty__adjust--plus">+</button>
+                            </div>
+                        </div>
+                        <div class="total-price">
+                            <label>Subtotal :</label>
+                            <span>
+                                <span class="money money-total">$41.93 </span>
+                            </span>
+                        </div>
+                        <a href="#" id="add-to-cart" class="btn add_to_cart_detail">
+                            <span>Add to cart </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <a title="Close" class="quickview-close fancybox-close"></a>
+    </div>
+
+</div>
+<script>
+    var formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+
+        // These options are needed to round to whole numbers if that's what you want.
+        //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+        //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+    });
+
+    const quickView = document.getElementById("quick-view-product");
+    const quickViewClose = document.getElementsByClassName("quickview-close")[0];
+    const quickViewMinus = document.getElementById("collection-detail-minus");
+    const quickViewPlus = document.getElementById("collection-detail-plus");
+
+    //detail
+    const quickView_shoeName = document.getElementsByClassName("qwp-name")[0];
+    const quickView_description = document.getElementsByClassName("product-description")[0];
+    const quickView_brand = document.getElementsByClassName("brand")[0];
+    const quickView_availability = document.getElementsByClassName("availability")[0];
+    const quickView_moneyOne = document.getElementsByClassName("money-per-one")[0];
+    const quickView_quantity = document.getElementById("collection-quantity-detail");
+    const quickView_moneyTotal = document.getElementsByClassName("money-total")[0];
+    const quickView_imgList = document.getElementsByClassName("product-img-list")[0];
+    const quickView_imgMain = document.getElementById("product-featured-image-quickview");
+    const quickView_quantityInStock = document.getElementsByClassName("quantity-in-stock")[0];
+    const icons = document.getElementsByClassName("btn-quick-view");
+    const form = document.getElementById("form-product");
+    const addCart = document.getElementById("add-to-cart");
+    const sizes = document.getElementById("size-option");
+
+    const openqv = document.getElementsByClassName("open-quickview");
+
+    //resize
+    window.onresize = function () {
+
+        if (window.innerWidth < 1140) {
+            if (quickView.classList.contains('d-block')) {
+                quickView.classList.remove('d-block');
+            }
+            for (let i = 0; i < icons.length; i++) {
+                if (!icons[i].classList.contains("d-none"))
+                    icons[i].classList.add("d-none");
+            }
+
+        } else {
+            for (let i = 0; i < icons.length; i++) {
+
+                    icons[i].classList.remove("d-none");
+            }
+
+        }
+    }
+
+    window.onload = function () {
+
+        if (window.innerWidth < 1140) {
+            if (quickView.classList.contains('d-block')) {
+                quickView.classList.remove('d-block');
+            }
+            for (let i = 0; i < icons.length; i++) {
+                if (!icons[i].classList.contains("d-none"))
+                    icons[i].classList.add("d-none");
+            }
+
+        } else {
+            for (let i = 0; i < icons.length; i++) {
+
+                icons[i].classList.remove("d-none");
+            }
+
+        }
+    }
+
+    //logic
+    /**/
+    var moneyPerOne;
+    var itemString;
+
+    var listItem = @Html.Raw(JsonConvert.SerializeObject(ViewBag.listItem))
+        /**/
+    quickViewClose.onclick = function () {
+        if (quickView.classList.contains('d-block')) {
+            quickView.classList.remove('d-block');
+        }
+    }
+
+
+   
+    Array.from(openqv).forEach((value, index) => {
+        value.onclick = function (e) {
+          
+            var item = listItem[index];
+          
+
+            
+            quickView_imgList.innerHTML = '';
+            quickView_imgMain.src = '';
+            quickView_shoeName.textContent = item.Name;
+            quickView_description.textContent = item.Description;
+            quickView_brand.textContent = item.Brand;
+            quickView_moneyOne.textContent = formatter.format(item.Price);
+            moneyPerOne = item.Price;
+            quickView_quantity.value = 1;
+            quickView_moneyTotal.textContent = formatter.format(item.Price * quickView_quantity.value);
+
+            if (item.Quantity > 0) {
+                quickView_availability.innerHTML = `<p class="available instock">In Stock</p>`
+            } else {
+                quickView_availability.innerHTML = `<p class="available text-danger">Out Stock</p>`
+            }
+
+
+            var images = item.ProductImages;
+            console.log(images);
+            for (let i = 0; i <= 2; i++) {
+                if (images.length <= i)
+                    break;
+                else {
+                    
+                    if (i == 0) {
+                        let url = images[i].ImagePath.substring(2);
+                        quickView_imgList.innerHTML = ` <div class="product-img-item">
+                            <img src="../${url}">
+                        </div>`
+                        quickView_imgMain.src = `../${url}`;
+                    } else {
+                        let url = images[i].ImagePath.substring(2);
+                        quickView_imgList.innerHTML += ` <div class="product-img-item">
+                            <img src="../${url}">
+                        </div>`
+                    }
+                }
+            }
+
+            sizes.innerHTML = "";
+            item.ProductSizes.forEach((value, index) => {
+                if (value.Quantity != 0) {
+
+                    sizes.innerHTML += `<option value=${value.Quantity}>${value.Quantity}</option>`
+                } else {
+                    sizes.innerHTML += `<option value=${value.Quantity} disabled>${value.Quantity}</option>`
+                }
+
+            });
+            var indexSelect = sizes.selectedIndex;
+            if (indexSelect > -1) {
+                quickView_quantityInStock.textContent = item.ProductSizes[indexSelect].Quantity;
+            }
+            sizes.onchange = (e) => {
+                indexSelect = sizes.selectedIndex;
+                quickView_quantityInStock.textContent = item.ProductSizes[indexSelect].Quantity;
+                itemString = `/purchasing/AddItemToCart?maGiay=${item.ProductId}&size=${sizes.value}&soLuong=`;
+                addCart.href = `/purchasing/AddItemToCart?maGiay=${item.ProductId}&size=${sizes.value}&soLuong=${quickView_quantity.value}`;
+            }
+
+            document.querySelectorAll('.product-img-item').forEach(e => {
+                e.addEventListener('click', () => {
+
+                    let img = e.querySelector('img').getAttribute('src')
+                    document.querySelector('#product-img > img').setAttribute('src', img)
+                })
+            })
+            quickView.classList.add('d-block');
+
+
+            itemString = `/purchasing/AddItemToCart?maGiay=${item.magiay}&size=${sizes.value}&soLuong=`;
+            addCart.href = `/purchasing/AddItemToCart?maGiay=${item.magiay}&size=${sizes.value}&soLuong=${quickView_quantity.value}`;
+
+            quickViewMinus.onclick = function () {
+                if (quickView_quantity.value > 0) {
+                    quickView_quantity.value -= 1;
+                    quickView_moneyTotal.textContent = formatter.format(moneyPerOne * quickView_quantity.value);
+                    addCart.href = itemString + `${quickView_quantity.value}`;
+                }
+
+            }
+            quickViewPlus.onclick = function () {
+                quickView_quantity.value = Number(quickView_quantity.value) + 1;
+                quickView_moneyTotal.textContent = formatter.format(moneyPerOne * quickView_quantity.value);
+                addCart.href = itemString + `${quickView_quantity.value}`;
+
+            }
+            quickView_quantity.onkeyup = function () {
+                quickView_moneyTotal.textContent = formatter.format(moneyPerOne * quickView_quantity.value);
+                addCart.href = itemString + `${quickView_quantity.value}`;
+            };
+
+
+        }
+        
+    })
+   
+       
+</script>
