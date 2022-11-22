@@ -36,7 +36,7 @@ function reloadCart() {
                 if (cartItemQuantity[index].value > 0) {
                     cartItemQuantity[index].value -= 1;
                     cartItemTotal[index].textContent = formatter.format(Number(cartItemMoney[index].textContent) * cartItemQuantity[index].value);
-                    $.post(`/purchasing/AddItemToCartItem?maGiay=${cartItemShoeId[index].textContent}&size=${cartItemSize_list[index].textContent}&soLuong=${-1}`);
+                    $.post(`/purchasing/AddItemToCartItem?productId=${cartItemShoeId[index].textContent}&size=${cartItemSize_list[index].textContent}&quantity=${-1}`);
                     cartItemTotalAllValue -= Number(cartItemMoney[index].textContent);
                     cartItemTotalAll.textContent = formatter.format(cartItemTotalAllValue);
                 }
@@ -51,7 +51,7 @@ function reloadCart() {
             value.onclick = function () {
                 cartItemQuantity[index].value = Number(cartItemQuantity[index].value) + 1;
                 cartItemTotal[index].textContent = formatter.format(Number(cartItemMoney[index].textContent) * cartItemQuantity[index].value);
-                $.post(`/purchasing/AddItemToCartItem?maGiay=${cartItemShoeId[index].textContent}&size=${cartItemSize_list[index].textContent}&soLuong=${1}`);
+                $.post(`/purchasing/AddItemToCartItem?productId=${cartItemShoeId[index].textContent}&size=${cartItemSize_list[index].textContent}&quantity=${1}`);
                 cartItemTotalAllValue = Number(cartItemMoney[index].textContent) + Number(cartItemTotalAllValue);
                 cartItemTotalAll.textContent = formatter.format(cartItemTotalAllValue);
 
@@ -78,12 +78,12 @@ function reloadCart() {
             e.preventDefault();
 
             var btn = $(this);
-            var maGiay = btn.data('id');
+            var productId = btn.data('id');
             var size = btn.data('size');
 
             $.ajax({
                 url: `/purchasing/RemoveItemFromCart`,
-                data: { maGiay: maGiay, size: size },
+                data: { productId: productId, size: size },
                 dataType: "json",
                 type: "POST",
                 success: function (response) {
@@ -93,7 +93,9 @@ function reloadCart() {
 
                     var rePrice = response.giatong ? response.giatong : "0.00";
                     console.log(rePrice);
+                   
                     document.getElementsByClassName("cart-total-price-all-item")[0].innerHTML = rePrice;
+                    document.getElementsByClassName("cart-total-price-all-item-getValue")[0].textContent = rePrice;
                     init();
                 }
             })

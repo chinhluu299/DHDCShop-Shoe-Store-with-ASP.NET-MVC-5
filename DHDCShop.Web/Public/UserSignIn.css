@@ -284,7 +284,8 @@ form#girisyap .girisbtn {
     right: 0;
     width: 50%;
     height: 100%;
-    background: #03A9F4 url(http://ertekinn.com/loginsignup/signup.jpg);
+    /*background: #caa871;*/
+    background-image: url(Assets/login1.jpg);
     background-size: cover;
     background-position: 50% 50%;
 }
@@ -294,7 +295,8 @@ form#girisyap .girisbtn {
     left: 0;
     width: 50%;
     height: 100%;
-    background: #03A9F4 url(http://ertekinn.com/loginsignup/login.png);
+   /* background: #caa871;*/
+    background-image: url(Assets/login2.jpg);
     background-size: cover;
     background-position: 50% 50%;
 }

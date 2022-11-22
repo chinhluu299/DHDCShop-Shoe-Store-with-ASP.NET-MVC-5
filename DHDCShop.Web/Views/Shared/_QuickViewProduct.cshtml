@@ -108,6 +108,15 @@
     </div>
 
 </div>
+<div class="announ-add-cart">
+    @Html.Partial("_Announcement", new ViewDataDictionary(ViewData)
+{ { "successMes", "Product added to cart successfully "},{ "failMes", "Product added to cart failed "}  })
+</div>
+<div class="announ-add-wishlist">
+    @Html.Partial("_Announcement", new ViewDataDictionary(ViewData)
+{ { "successMes", "Product added to wishlist successfully "},{ "failMes", "Product added to wishlist failed "}  })
+</div>
+
 <script>
     var formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
@@ -196,14 +205,14 @@
     }
 
 
-   
+
     Array.from(openqv).forEach((value, index) => {
         value.onclick = function (e) {
-          
-            var item = listItem[index];
-          
 
-            
+            var item = listItem[index];
+
+
+
             quickView_imgList.innerHTML = '';
             quickView_imgMain.src = '';
             quickView_shoeName.textContent = item.Name;
@@ -227,7 +236,7 @@
                 if (images.length <= i)
                     break;
                 else {
-                    
+
                     if (i == 0) {
                         let url = images[i].ImagePath.substring(2);
                         quickView_imgList.innerHTML = ` <div class="product-img-item">
@@ -247,9 +256,9 @@
             item.ProductSizes.forEach((value, index) => {
                 if (value.Quantity != 0) {
 
-                    sizes.innerHTML += `<option value=${value.Quantity}>${value.Quantity}</option>`
+                    sizes.innerHTML += `<option value=${value.Size}>${value.Size}</option>`
                 } else {
-                    sizes.innerHTML += `<option value=${value.Quantity} disabled>${value.Quantity}</option>`
+                    sizes.innerHTML += `<option value=${value.Size} disabled>${value.Size}</option>`
                 }
 
             });
@@ -260,8 +269,8 @@
             sizes.onchange = (e) => {
                 indexSelect = sizes.selectedIndex;
                 quickView_quantityInStock.textContent = item.ProductSizes[indexSelect].Quantity;
-                itemString = `/purchasing/AddItemToCart?maGiay=${item.ProductId}&size=${sizes.value}&soLuong=`;
-                addCart.href = `/purchasing/AddItemToCart?maGiay=${item.ProductId}&size=${sizes.value}&soLuong=${quickView_quantity.value}`;
+                itemString = `/purchasing/AddNewItemToCart?productId=${item.ProductId}&size=${sizes.value}&quantity=`;
+                addCart.href = `/purchasing/AddNewItemToCart?productId=${item.ProductId}&size=${sizes.value}&quantity=${quickView_quantity.value}`;
             }
 
             document.querySelectorAll('.product-img-item').forEach(e => {
@@ -274,8 +283,8 @@
             quickView.classList.add('d-block');
 
 
-            itemString = `/purchasing/AddItemToCart?maGiay=${item.magiay}&size=${sizes.value}&soLuong=`;
-            addCart.href = `/purchasing/AddItemToCart?maGiay=${item.magiay}&size=${sizes.value}&soLuong=${quickView_quantity.value}`;
+            itemString = `/purchasing/AddNewItemToCart?productId=${item.ProductId}&size=${sizes.value}&quantity=`;
+            addCart.href = `/purchasing/AddNewItemToCart?productId=${item.ProductId}&size=${sizes.value}&quantity=${quickView_quantity.value}`;
 
             quickViewMinus.onclick = function () {
                 if (quickView_quantity.value > 0) {
@@ -296,10 +305,65 @@
                 addCart.href = itemString + `${quickView_quantity.value}`;
             };
 
+            addCart.onclick = (event) => {
+                $.ajax({
+                    url: `/purchasing/AddNewItemToCart?productId=${item.ProductId}&size=${sizes.value}&quantity=${quickView_quantity.value}`,
+                    type: 'POST',
+                    cache: false,
+                    success: function (result) {
+                        quickView.classList.remove('d-block');
+                        $(".announ-add-cart .announ-success").addClass("active");
+
+                        $(".display-card").html(result)
+                        setTimeout(() => { $(".announ-add-cart .announ-success").removeClass("active"); }, 1500);
+
+                        reloadCart();
+
+                    },
+                    error: function (result) {
+                        $(".announ-add-cart .announ-failed").addClass("active");
+
+                        setTimeout(() => { $(".announ-add-cart .announ-failed").removeClass("active"); }, 1500);
+
+                    }
+                });
+                return false;
+            }
+
+
 
         }
-        
+
+
     })
-   
-       
+    function addwishlist(item) {
+        $.ajax({
+            url: `/user/AddWishList`,
+            data: { magiay: item },
+            type: 'POST',
+            cache: false,
+            success: function (response) {
+                console.log(response.result)
+                if (response.result == "true") {
+                    $(".announ-add-wishlist .announ-success").addClass("active");
+
+                    setTimeout(() => { $(".announ-success").removeClass("active"); }, 1500);
+                }
+                else {
+                    $(".announ-add-wishlist .announ-failed").addClass("active");
+                    setTimeout(() => { $(".announ-add-wishlist .announ-failed").removeClass("active"); }, 1500);
+                }
+
+
+            },
+            error: function (result) {
+                $(".announ-add-wishlist .announ-failed").addClass("active");
+                setTimeout(() => { $(".announ-add-wishlist .announ-failed").removeClass("active"); }, 1500);
+
+            }
+        });
+        return false;
+    }
+
+
 </script>

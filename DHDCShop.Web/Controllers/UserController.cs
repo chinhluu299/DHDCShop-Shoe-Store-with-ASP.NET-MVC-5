@@ -1,5 +1,6 @@
 ﻿using DHDCShop.Models;
 using DHDCShop.Models.Model;
+using DHDCShop.Models.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,7 +11,7 @@ using System.Web.Security;
 
 namespace DHDCShop.Web.Controllers
 {
-    //[Authorize(Roles="user")]
+    [Authorize(Roles="user")]
     public class UserController : Controller
     {
         // GET: User
@@ -31,24 +32,28 @@ namespace DHDCShop.Web.Controllers
         }
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult SignIn(string Username, string Password)
+        public ActionResult SignIn(SignInUpViewModel signIn)
         {
             if (ModelState.IsValid)
             {
-                var data = db.Customers.Where(s => s.Username.Equals(Username) && 
-                s.Password.Equals(Password)).ToList();
-                if (data.Count() > 0)
+                LoginViewModel login = signIn.Login;
+                if (login != null)
                 {
-                    //add session
-                    Session["username"] = data.FirstOrDefault().Username;
-                    Session["password"] = data.FirstOrDefault().Password;
-                    Session["type"] = "user";
-                    FormsAuthentication.SetAuthCookie(data.FirstOrDefault().Username, false);
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    ViewBag.error = "Username or password is incorrect";
+                    var data = db.Customers.Where(s => s.Username.Equals(login.Username) &&
+                     s.Password.Equals(login.Password)).ToList();
+                    if (data.Count() > 0)
+                    {
+                        //add session
+                        Session["username"] = data.FirstOrDefault().Username;
+                        Session["password"] = data.FirstOrDefault().Password;
+                        Session["type"] = "user";
+                        FormsAuthentication.SetAuthCookie(data.FirstOrDefault().Username, false);
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ViewBag.error = "Username or password is incorrect";
+                    }
                 }
             }
             return View("SignInUp");
@@ -56,25 +61,30 @@ namespace DHDCShop.Web.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult SignUp(Customer taiKhoan)
+        public ActionResult SignUp(SignInUpViewModel signUp)
         {
             try
             {
-                Customer tk = new Customer();
-                tk.FullName = taiKhoan.FullName;
-                tk.Username = taiKhoan.Username;
-                tk.Password = taiKhoan.Password;
-                tk.Email = taiKhoan.Email;
-                tk.PhoneNumber = taiKhoan.PhoneNumber;
-                tk.DateOfRegister = DateTime.Now.Date;
-                tk.TotalSpent = 0;
+                RegisterViewModel register = signUp.Register;
+                if (register != null)
+                {
+                    Customer tk = new Customer();
+                    tk.FullName = register.FullName;
+                    tk.Username = register.Username;
+                    tk.Password = register.Password;
+                    tk.Email = register.Email;
+                    tk.PhoneNumber = register.PhoneNumber;
+                    tk.DateOfRegister = DateTime.Now;
+                    tk.DateOfBirth = DateTime.Now;
+                    tk.TotalSpent = 0;
 
-                db.Customers.Add(tk);
+                    db.Customers.Add(tk);
 
-                db.SaveChanges();
-                ViewBag.Complete = "Sign up completed";
-                return RedirectToAction("SignInUp");
-
+                    db.SaveChanges();
+                    ViewBag.Complete = "Sign up completed";
+                    return RedirectToAction("SignInUp");
+                }
+                return View("SignInUp");
             }
             catch (Exception ex)
             {

@@ -42,16 +42,6 @@
 </script>
 @Html.Partial("_QuickViewProduct")
 
-@*@Html.PagedListPager(Model, page => Url.Action("Index", "Collection",
-    new { page = page}),
-    PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions()
-    {
-       HttpMethod = "POST",
-       UpdateTargetId = "targetElement",
-       OnSuccess = "onAjaxSuccess",
-       OnFailure = "onAjaxFailure"
-    }))*@
-
 
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
 of @Model.PageCount
