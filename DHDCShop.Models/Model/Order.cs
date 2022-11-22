@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -29,6 +30,8 @@ namespace DHDCShop.Models.Model
 
         [DataType(DataType.Date)]
         public DateTime CreateDate { get; set; }
+
+        public string AddressReceive { get; set; }
         
         public string FeedBack { get; set; }
         [Required]
@@ -49,7 +52,9 @@ namespace DHDCShop.Models.Model
         [ForeignKey("StatusId")]
         public virtual Status Status { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Rating> Ratings { get; set; }
     }
 }

@@ -18,6 +18,7 @@ namespace DHDCShop.Models.Model
             Ratings = new HashSet<Rating>();
         }
         [Key]
+        [Required]
         public string Username { get; set; }
         [Required]
         [DataType(DataType.Password)]

@@ -1,0 +1,54 @@
+﻿
+@model PagedList.IPagedList<DHDCShop.Models.Model.Product>
+@using PagedList.Mvc;
+@using Newtonsoft.Json;
+
+<div class="box">
+    <div class="producttt" id="products">
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            var item = Model.ElementAt(i);
+            <div style="width: 250px;" class="m-2 card p-3 product-item">
+                <div class="product-card">
+                    <div class="product-card-img">
+                        <img src="@Url.Content(item.ImagePath)" width="200" height="200" alt="" />
+                        <img src="@Url.Content(item.ImagePath)" width="200" height="200" alt="" />
+                    </div>
+                    <div class="product-card-info">
+                        <div class="product-btn">
+                            <a href="@Url.Action("Item","Collection", new { id= item.ProductId })" class="btn-flat btn-hover btn-shop-now">shop now</a>
+                            <button class="btn-flat btn-hover btn-cart-add btn-quick-view open-quickview" id="@item.ProductId">
+                                <i class='bx bxs-cart-add'></i>
+                            </button>
+                            <button onclick="addwishlist(@item.ProductId)" class="btn-flat btn-hover btn-cart-add">
+                                <i class='bx bxs-heart'></i>
+                            </button>
+                        </div>
+                        <div class="product-card-name">
+                            @item.Name
+                        </div>
+                        <div class="product-card-price">
+                            @*<span><del>@ShopGiayOnline.Models.FormatMoney.format(item.gia.Value)</del></span>*@
+                            <span class="curr-price">@item.Price</span>
+                        </div>
+                    </div>
+                </div>
+            </div>}
+    </div>
+</div>
+<script>
+    @*var listItem = @Html.Raw(JsonConvert.SerializeObject(ViewBag.listItem))
+        console.log(listItem)*@
+</script>
+@Html.Partial("_QuickViewProduct")
+
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+of @Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("_IndexFilter", new
+{
+    page,
+    brand = ViewData["filter-brand"],
+    stars = ViewData["filter-stars"],
+    status = ViewData["filter-status"]
+                                }), new PagedListRenderOptions())

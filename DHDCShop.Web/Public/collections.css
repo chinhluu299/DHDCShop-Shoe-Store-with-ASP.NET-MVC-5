@@ -381,7 +381,7 @@ body {
 #products{
     display: flex;
     justify-content: start;
-    align-content: center;
+    align-content: start;
     flex-wrap: wrap;
 }
 
@@ -513,7 +513,7 @@ body {
     overflow: hidden;
     display: none;
     z-index: 8010;
-    background: url(Assets/fancybox_overlay.webp);
+    background-image: url(Assets/fancybox_overlay.webp);
     transition: 0.3s;
 }
 

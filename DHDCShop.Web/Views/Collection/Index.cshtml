@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     <link href="~/Public/collections.css" rel="stylesheet" type="text/css" />
 }
+@using Newtonsoft.Json;
 
 <style>
     option:disabled {
@@ -23,7 +24,7 @@
 <div id="breadcrumbs">
 </div>
 <div class="bg-main">
-    <div class="container">
+    <div class="container col-10">
 
         <div class="box">
             <div class="row">
@@ -185,39 +186,76 @@
                     </div>
                 </div>
                 <div class="col-lg-9 col-md-8 col-sm-12" id="show-product">
-                    <div class="box">
-                        <div class="producttt" id="products">
-                            @for (int i = 0; i < Model.Count; i++)
-                            {
-                                var item = Model.ElementAt(i);
-                                <div style="width: 280px;" class="m-2 card card-body product-item">
-                                    <div class="product-card">
-                                        <div class="product-card-img">
-                                            <img src="@Url.Content(item.ImagePath)" alt="" />
-                                            <img src="@Url.Content(item.ImagePath)" alt="" />
-                                        </div>
-                                        <div class="product-card-info">
-                                            <div class="product-btn">
-                                                <a href="@Url.Action("Item","Collection", new { id= item.ProductId })" class="btn-flat btn-hover btn-shop-now">shop now</a>
-                                                <button onclick="openView(this)" class="btn-flat btn-hover btn-cart-add btn-quick-view" id="@item.ProductId">
-                                                    <i class='bx bxs-cart-add'></i>
-                                                </button>
-                                                <button onclick="addwishlist(@item.ProductId)" class="btn-flat btn-hover btn-cart-add">
-                                                    <i class='bx bxs-heart'></i>
-                                                </button>
-                                            </div>
-                                            <div class="product-card-name">
-                                                @item.Name
-                                            </div>
-                                            <div class="product-card-price">
-                                                @*<span><del>@ShopGiayOnline.Models.FormatMoney.format(item.gia.Value)</del></span>*@
-                                                <span class="curr-price">@item.Price</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>}
-                        </div>
-                    </div>
+                    @Html.Action("_IndexFilter", "Collection", new { page = 1 })
+                    <script>
+
+                        const list = Array.from($(".brand-filter"));
+                        const rate = Array.from($(".filter-star"));
+                        const status = Array.from($(".filter-status"));
+
+                        var brand_filter = "";
+                        var rate_filter = "";
+                        var status_filter = "";
+
+                        status.forEach((value, index) => {
+                            value.onclick = (event) => {
+                                let item = event.target;
+                                let status = item.value;
+                                if (item.checked) {
+                                    status_filter += status;
+                                } else {
+                                    status_filter = status_filter.replace(status, "");
+                                }
+                                $.ajax({
+                                    url: `/Collection/_IndexFilter`,
+                                    data: { brand: brand_filter, stars: rate_filter, status: status_filter },
+                                    type: "GET",
+                                    success: function (response) {
+                                        $("#show-product").html(response)
+                                    }
+                                })
+                            }
+                        })
+
+                        rate.forEach((value, index) => {
+                            value.onclick = (event) => {
+                                let item = event.target;
+                                let stars = item.value;
+                                if (item.checked) {
+                                    rate_filter += stars;
+                                } else {
+                                    rate_filter = rate_filter.replace(stars, "");
+                                }
+                                $.ajax({
+                                    url: `/Collection/_IndexFilter`,
+                                    data: { brand: brand_filter, stars: rate_filter, status: status_filter },
+                                    type: "GET",
+                                    success: function (response) {
+                                        $("#show-product").html(response)
+                                    }
+                                })
+                            }
+                        })
+                        list.forEach((value, index) => {
+                            value.onclick = (event) => {
+                                let item = event.target;
+                                let brand = $(`#${item.id} + label`).text().split('<')[0].trim().toLowerCase();
+                                if (item.checked) {
+                                    brand_filter += brand;
+                                } else {
+                                    brand_filter = brand_filter.replace(brand, "")
+                                }
+                                $.ajax({
+                                    url: `/Collection/_IndexFilter`,
+                                    data: { brand: brand_filter, stars: rate_filter, status: status_filter },
+                                    type: "GET",
+                                    success: function (response) {
+                                        $("#show-product").html(response)
+                                    }
+                                })
+                            }
+                        })
+                    </script>
                 </div>
             </div>
         </div>

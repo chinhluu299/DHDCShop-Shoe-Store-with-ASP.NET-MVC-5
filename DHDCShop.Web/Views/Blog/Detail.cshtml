@@ -1,0 +1,24 @@
+﻿@model DHDCShop.Models.Model.Blog
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .blog-container * {
+        font-family: "Oswald",sans-serif;
+    }
+</style>
+
+<div class="mt-4 container blog-container card card-body border-0">
+   
+    <div class="m-2">
+        <h3 class="text-uppercase fw-bold">@Model.Title</h3>
+        <p class="opacity-75">Posted at @Model.DatePost.ToString("d")</p>
+        <article class="blog-content ">
+            @Html.Raw(DHDCShop.Common.StringEncodeHelper.Base64Decode(Model.Content))
+        </article>
+        <p class="mt-2 text-center opacity-75">End</p>
+    </div>
+    
+</div>
+

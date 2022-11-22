@@ -145,6 +145,7 @@
         padding-bottom: 0;
         padding-top: 0;
         z-index: 1000;
+        height: 85px;
     }
 </style>
 <body class="display-card-active">
@@ -240,7 +241,7 @@
                                         <i class="fa-solid fa-arrow-right-from-bracket"></i>
                                         <a class="likea text-decoration-none" href="@Url.Action("Logout","User")">Logout</a>
                                     </li>
-}
+                                }
 
                             </ul>
                         </li>
@@ -260,9 +261,9 @@
         </div>
 
     </header>
-    @*<div class="display-card d-none">
+    <div class="display-card d-none">
         @Html.Partial("_Cart")
-    </div>*@
+    </div>
 
     <div class="">
         @RenderBody()
@@ -439,21 +440,35 @@
                         </div>
                     </div>
                 </section>
-                <section id="footernav" class="footer-nav">
-                    <div id="powered" class="powered">
 
-                        <div class="paypal">
-                            <img src="~/Public/Assets/payment.webp" alt="Logo Payment" class="">
-                        </div>
-                    </div>
-                </section>
             </div>
 
         </footer>
     </div>
+    <script type="text/javascript" src="~/Public/Cart.js"></script>
+    <script>
+        var navigation = document.getElementById("navigation-button");
+        var navigation_open = document.getElementById("navigation-open-div");
+        var navigation_open_close = document.getElementById("navigation-open-div-close");
 
+        navigation.onclick = () => {
+            if (navigation_open.classList.contains("d-none")) {
+                navigation_open.classList.add("anim-appear");
+                navigation_open.classList.remove("d-none-anim");
+                navigation_open.classList.remove("d-none");
+            }
+        }
+        navigation_open_close.onclick = () => {
+            if (!navigation_open.classList.contains("d-none")) {
+                navigation_open.classList.add("d-none-anim");
+                setTimeout(function () {
+                    navigation_open.classList.add("d-none");
+                    navigation_open.classList.remove("anim-appear");
+                }, 300);
+            }
+        }
+    </script>
 </body>
 
-<script type="text/javascript" src="~/Public/Cart.js"></script>
 
 </html>

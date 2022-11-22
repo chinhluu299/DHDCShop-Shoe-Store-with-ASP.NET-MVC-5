@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -52,9 +53,10 @@ namespace DHDCShop.Models.Model
         public virtual ICollection<ProductSize> ProductSizes { get; set; }
     
         public virtual ICollection<Comment> Comments { get; set; }
-      
+
+        [JsonIgnore]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
-      
+
         public virtual ICollection<ProductImage> ProductImages { get; set; }
      
         public virtual ICollection<SaleOff> SaleOffs { get; set; }

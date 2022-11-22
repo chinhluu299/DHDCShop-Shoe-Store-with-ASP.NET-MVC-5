@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "WishList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="~/Public/collections.css" rel="stylesheet" type="text/css" />
+
+}
+@model IEnumerable<DHDCShop.Models.Model.Product>
+<style>
+    body {
+        background: #ffffff;
+    }
+</style>
+<div class="box mt-3">
+    <h1 class="text-center d-block fw-bold">WISH LIST</h1>
+    <div class="producttt col-md-9 m-auto" id="products">
+        @for (int i = 0; i < Model.Count(); i++)
+        {
+            var item = Model.ElementAt(i);
+            <div style="width: 280px;" class="m-2 card card-body product-item">
+                <div class="product-card">
+                    <div class="product-card-img">
+                        <img src="@Url.Content(item.ImagePath)" alt="" />
+                        <img src="@Url.Content(item.ImagePath)" alt="" />
+                    </div>
+                    <div class="product-card-info">
+                        <div class="product-btn">
+                            <a href="@Url.Action("Item","Collection", new { id= item.ProductId })" class="btn-flat btn-hover btn-shop-now">shop now</a>
+                            <a href="@Url.Action("RemoveWLItem","User", new { magiay= item.ProductId })" class="btn-flat btn-hover btn-shop-now btn-danger">remove</a>
+                        </div>
+                        <div class="product-card-name">
+                            @item.Name
+                        </div>
+                        <div class="product-card-price">
+                            @*<span><del>@ShopGiayOnline.Models.FormatMoney.format(item.gia.Value)</del></span>*@
+                            <span class="curr-price">@item.Price</span>
+                        </div>
+                    </div>
+                </div>
+            </div>}
+    </div>
+</div>
+

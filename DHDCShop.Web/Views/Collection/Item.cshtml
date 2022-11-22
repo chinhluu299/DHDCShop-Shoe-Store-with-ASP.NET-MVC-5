@@ -1,0 +1,418 @@
+﻿@model  DHDCShop.Models.Model.Product
+@using Newtonsoft.Json;
+
+@{
+    ViewBag.Title = "Item";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="~/Public/product.css" rel="stylesheet" type="text/css" />
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+}
+
+<style>
+    option:disabled {
+        background-color: gainsboro;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0 auto; /* Center website */
+    }
+
+    .heading {
+        font-size: 25px;
+        margin-right: 25px;
+    }
+
+    .fa {
+        font-size: 25px;
+    }
+
+    .checked {
+        color: orange;
+    }
+
+    /* Three column layout */
+    .side {
+        float: left;
+        width: 15%;
+        margin-top: 10px;
+    }
+
+    .middle {
+        margin-top: 10px;
+        float: left;
+        width: 70%;
+    }
+
+    /* Place text to the right */
+    .right {
+        text-align: right;
+    }
+
+    /* Clear floats after the columns */
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    /* The bar container */
+    .bar-container {
+        width: 100%;
+        background-color: #f1f1f1;
+        text-align: center;
+        color: white;
+    }
+
+    /* Individual bars */
+    .bar-5 {
+        width: 60%;
+        height: 18px;
+        background-color: #04AA6D;
+    }
+
+    .bar-4 {
+        width: 30%;
+        height: 18px;
+        background-color: #2196F3;
+    }
+
+    .bar-3 {
+        width: 10%;
+        height: 18px;
+        background-color: #00bcd4;
+    }
+
+    .bar-2 {
+        width: 4%;
+        height: 18px;
+        background-color: #ff9800;
+    }
+
+    .bar-1 {
+        width: 15%;
+        height: 18px;
+        background-color: #f44336;
+    }
+
+    /* Responsive layout - make the columns stack on top of each other instead of next to each other */
+    @@media (max-width: 400px) {
+        .side, .middle {
+            width: 100%;
+        }
+
+        .right {
+            display: none;
+        }
+    }
+
+    .comment {
+        border-radius: 5px;
+        padding-top: 10px;
+    }
+
+        .comment h4, .comment span, .darker h4, .darker span {
+            display: inline;
+        }
+
+        .comment p, .comment span, .darker p, .darker span {
+            color: rgb(184, 183, 183);
+        }
+</style>
+<div id="check-shoe-id" class="d-none">@Model.ProductId</div>
+<div id="breadcrumbs">
+</div>
+<div class="main-content container mb-5" style="padding-top:80px; max-width: 1200px;">
+    <div id="quick-view-product " style="display:block ;">
+
+        <div class="quick-view-product">
+            <div class="block-quickview primary_block row">
+                <div class="product-left-column col-xs-12 col-sm-6 col-md-5">
+                    <div class="d-flex flex-md-row flex-column">
+                        <div class="box">
+                            <div class="product-img-list flex-md-column flex-row">
+                                @foreach (var item in Model.ProductImages)
+                                {
+                                    <div class="product-img-item">
+                                        <img src="@Url.Content(item.ImagePath)">
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="clearfix image-block">
+                            <span class="view_full_size">
+                                <a class="img-product" id="product-img" title="" href="#">
+                                    <img id="product-featured-image-quickview" class="img-responsive product-featured-image-quickview" src="@Url.Content(Model.ImagePath)" alt="">
+                                </a>
+                            </span>
+                            <div class="loading-imgquickview" style="display:none;"></div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="product-center-column product-info col-xs-12 col-sm-4 col-md-5 ms-4">
+                    <h3 class="qwp-name">@Model.Name</h3>
+                    <div class="star">
+                        @{
+                            int dem = 0;
+                            for (int i = 0; i < Model.Rating; i++)
+                            {
+                                <i class="fa-solid fa-star icon-star text-warning"></i>
+                                dem++;
+                            }
+                            while (dem < 5)
+                            {
+                                <i class="fa-solid fa-star icon-star"></i>
+                                dem++;
+                            }
+                        }
+                    </div>
+                    <span class="prices">
+                        <span class="price h4 mt-1">
+                            <span class="money money-per-one">@Model.Price</span>
+                        </span>
+                    </span>
+                    <div class="d-flex">
+                        <div class="brand me-2" style="width:150px;">
+                            <span class="float-start">Brand: </span><b>@Model.Brand</b>
+                        </div>
+                        <br />
+                        <div class="brand me-2" style="width:200px;">
+                            <span class="float-start">Availability: </span>
+
+                            @if (Model.Quantity > 0)
+                            {
+                                <b> In stock</b>
+                            }
+                            else
+                            {
+                                <b> Out of stock</b>
+                            }
+                        </div>
+
+                    </div>
+
+                    <div class="socialsharing_product no-print">
+                        <div class="social-sharing d-flex">
+                            <div>
+                                <a class="btn social-sharing btn-facebook" href="#">
+                                    Facebook
+                                </a>
+                            </div>
+                            <div>
+                                <a class="btn social-sharing btn-twitter" href="#">
+                                    Tweet
+                                </a>
+                            </div>
+                            <div>
+                                <a class="btn social-sharing btn-google-plus" href="#">
+                                    Google+
+                                </a>
+                            </div>
+                            <div>
+                                <a class="btn social-sharing btn-pinterest" href="#">
+                                    Pinterest
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="" id="product-3635844932">
+                        <div>
+                            <form>
+                                <div class="">
+                                    <label for="size-option" class="quantity-selector">Size</label>
+                                    <select id="size-option" class="form-select form-select-sm" style="width: 70px;" aria-label="Default select example">
+                                        @foreach (var item in Model.ProductSizes)
+                                        {
+                                            if (item.Quantity > 0)
+                                            {
+                                                <option>@item.Size</option>
+                                            }
+
+                                            else
+                                            {
+                                                <option disabled>@item.Size</option>
+                                            }
+
+                                        }
+                                    </select>
+                                </div>
+                                <div class="mt-3">
+                                    <label class="me-4">Quantity: </label>
+                                    <i class="quantity-in-stock">0</i>
+                                </div>
+                                <div class="quantity_wanted_p d-flex">
+
+                                    <div class="js-qty d-flex mt-2">
+                                        <button type="button" class="btn border-1 border opacity-75" id="minus" style="border-radius: 0; height: 35px;">-</button>
+                                        <input type="text" min="0" class="js-qty__num" value="0" style="border-radius: 0; height: 35px;width: 100px;" id="quantity-detail" pattern="[0-9]+">
+                                        <button type="button" class="btn border-1 border opacity-75 " id="plus" style="border-radius: 0; height: 35px;">+</button>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="">
+                                    <a href="#" class="btn add_to_cart_detail">
+                                        <span>Add to cart </span>
+                                    </a>
+
+                                    <a href="#" class="btn btn-outline-info add_to_wishlist_detail">
+                                        <span>Add to Wishlist </span>
+                                    </a>
+                                </div>
+
+                            </form>
+                        </div>
+
+                    </div>
+
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div class="product-description card card-body mb-5 mt-5">
+        @Model.Description
+    </div>
+
+    <div class="danh-gia">
+        <span class="heading">User Rating</span>
+        @{
+            int dem1 = 0;
+            for (int i = 0; i < Model.Rating; i++)
+            {
+                <i class="fa-solid fa-star icon-star text-warning"></i>
+                dem1++;
+            }
+            while (dem1 < 5)
+            {
+                <i class="fa-solid fa-star icon-star"></i>
+                dem1++;
+            }
+
+            int oneStar = 0, twoStar = 0, threeStar = 0, fourStar = 0, fiveStar = 0;
+            int soluongdanhgia = Model.Rating;
+
+
+            var listDanhGia = (List<DHDCShop.Models.Model.Rating>)ViewBag.listDanhGia;
+            foreach (var item in listDanhGia)
+            {
+                if (item.NumberOfStar == 1)
+                {
+                    oneStar++;
+                }
+                else if (item.NumberOfStar == 2)
+                {
+                    twoStar++;
+                }
+                else if (item.NumberOfStar == 3)
+                {
+                    threeStar++;
+                }
+                else if (item.NumberOfStar == 4)
+                {
+                    fourStar++;
+                }
+                else if (item.NumberOfStar == 5)
+                {
+                    fiveStar++;
+                }
+            }
+            double percentOne = soluongdanhgia > 0 ? (100.0 * oneStar) / soluongdanhgia : 0;
+            double percentTwo = soluongdanhgia > 0 ? (100.0 * twoStar) / soluongdanhgia : 0;
+            double percentThree = soluongdanhgia > 0 ? (100.0 * threeStar) / soluongdanhgia : 0;
+            double percentFour = soluongdanhgia > 0 ? (100.0 * fourStar) / soluongdanhgia : 0;
+            double percentFive = soluongdanhgia > 0 ? (100.0 * fiveStar) / soluongdanhgia : 0;
+
+        }
+        <p>@Model.Rating average based on @Model.NumOfVote reviews.</p>
+        <hr style="border:3px solid #f1f1f1">
+
+        <div class="row">
+            <div class="side">
+                <div>5 star</div>
+            </div>
+            <div class="middle">
+                <div class="bar-container">
+                    <div class="bar-5" style="width: @percentFive%;"></div>
+                </div>
+            </div>
+            <div class="side right">
+                <div>@fiveStar</div>
+            </div>
+            <div class="side">
+                <div>4 star</div>
+            </div>
+            <div class="middle">
+                <div class="bar-container">
+                    <div class="bar-4" style="width: @percentFour%;"></div>
+                </div>
+            </div>
+            <div class="side right">
+                <div>@fourStar</div>
+            </div>
+            <div class="side">
+                <div>3 star</div>
+            </div>
+            <div class="middle">
+                <div class="bar-container">
+                    <div class="bar-3" style="width: @percentThree%;"></div>
+                </div>
+            </div>
+            <div class="side right">
+                <div>@threeStar</div>
+            </div>
+            <div class="side">
+                <div>2 star</div>
+            </div>
+            <div class="middle">
+                <div class="bar-container">
+                    <div class="bar-2" style="width: @percentTwo%;"></div>
+                </div>
+            </div>
+            <div class="side right">
+                <div>@twoStar</div>
+            </div>
+            <div class="side">
+                <div>1 star</div>
+            </div>
+            <div class="middle">
+                <div class="bar-container">
+                    <div class="bar-1" style="width: @percentOne%;"></div>
+                </div>
+            </div>
+            <div class="side right">
+                <div>@oneStar</div>
+            </div>
+        </div>
+    </div>
+    <div class="binh-luan mt-5">
+        <div class="heading border-top-0 border-start-0 border-end-0 border border-2">User Reviews</div>
+        @foreach (var item in Model.Comments)
+        {
+            <div class="comment shadow-sm rounded-1 mt-3 mb-1 text-justify p-3 " style="background-color: #f0f2f5;">
+                <img src="@Url.Content(item.Customer.AvatarPath ?? "~/Source/Default/avatar_default.png" )" alt="" class="rounded-circle mt-1" width="40" height="40">
+                <h4 class="h5">@item.Customer.FullName</h4>
+                <span>@DateTime.Parse(item.CreatedDate.ToString()).ToString("dd/MM/yyyy")</span>
+                <br>
+                <p class="ms-5 text-black">@item.Comments</p>
+            </div>
+        }
+    </div>
+</div>
+
+
+<script>
+    document.querySelectorAll('.product-img-item').forEach(e => {
+        e.addEventListener('click', () => {
+            let img = e.querySelector('img').getAttribute('src')
+            document.querySelector('#product-img > img').setAttribute('src', img)
+        })
+    })
+
+
+
+</script>

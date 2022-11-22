@@ -1,0 +1,136 @@
+.row {
+    display: -ms-flexbox;
+    /* IE10 */
+    display: flex;
+    -ms-flex-wrap: wrap;
+    /* IE10 */
+    flex-wrap: wrap;
+    margin: 0 -16px;
+}
+
+.col-25 {
+    -ms-flex: 25%;
+    /* IE10 */
+    flex: 25%;
+}
+
+.col-50 {
+    -ms-flex: 50%;
+    /* IE10 */
+    flex: 50%;
+}
+
+.col-75 {
+    -ms-flex: 75%;
+    /* IE10 */
+    flex: 75%;
+}
+
+.col-25,
+.col-50,
+.col-75 {
+    padding: 0 16px;
+}
+
+#breadcrumbs {
+    background-image: url(Assets/background-4.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 300px;
+}
+
+input[type=text], #country {
+    width: 100%;
+    margin-bottom: 12px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+label {
+    margin-bottom: 3px;
+    display: block;
+}
+
+.icon-container {
+    margin-bottom: 20px;
+    padding: 7px 0;
+    font-size: 24px;
+}
+
+.btn {
+    background-color: #04AA6D;
+    color: white;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    width: 100%;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 17px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.btn:hover {
+    background-color: #17a2b8;
+}
+
+span.price {
+    color: grey;
+    float: right;
+}
+
+span.price-plus {
+    padding: 1px 15px;
+}
+
+
+/* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other (and change the direction - make the "cart" column go on top) */
+
+@media (max-width: 800px) {
+    .row {
+        flex-direction: column-reverse;
+    }
+    .col-25 {
+        margin-bottom: 20px;
+    }
+}
+
+.product-shoes-cart {
+    position: relative;
+}
+
+/*.product-shoes-image {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-width: 15%;
+    max-height: 100%;
+    margin: auto;
+}*/
+
+.product-shoes-number {
+    position: absolute;
+    border-radius: 1.5em;
+    background-color: rgba(114, 114, 114, 0.9);
+    color: #fff;
+    font-size: 0.8em;
+    padding: 0.4em;
+    text-align: center;
+    font-weight: 500;
+    line-height: 0.75em;
+    right: -10%;
+    top: -5%;
+    height: 1.75em;
+    min-width: 1.75em;
+}
+
+.product-shoes-name {
+    text-decoration: none;
+    color: #212529;
+}
