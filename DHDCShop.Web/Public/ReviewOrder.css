@@ -1,0 +1,67 @@
+﻿.checked {
+    color: orange;
+}
+
+span.fa.fa-star {
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.plAxjc {
+    resize: none;
+    overflow: auto;
+    min-height: 6.25rem;
+    height: 100%;
+    display: block;
+    box-sizing: border-box;
+    background-color: #fff;
+    border-radius: 0.125rem;
+    border: 1px solid rgba(0,0,0,.14);
+    box-shadow: inset 0 2px 0 0 rgb(0 0 0 / 2%);
+    color: #222;
+    transition: border-color .1s ease;
+    margin: auto auto 0.75rem;
+    width: 100%;
+    padding: 0.9375rem;
+    font-size: .875rem;
+    outline: 0;
+}
+
+.alert {
+    padding: 20px;
+    background-color: #f44336;
+    color: white;
+    position: fixed;
+    right: 12px;
+    top: 40px;
+    width: 500px;
+    animation: anim-appear 0.5s;
+}
+
+@keyframes anim-appear {
+    0% {
+        right: -400px;
+        opacity: 0;
+    }
+
+    100% {
+        right: 12px;
+        opacity: 1;
+    }
+}
+
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+    .closebtn:hover {
+        color: black;
+    }
+

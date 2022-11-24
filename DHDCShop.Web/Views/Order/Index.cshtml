@@ -1,0 +1,387 @@
+﻿@model IEnumerable<DHDCShop.Models.ViewModel.OrderItemViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="~/Public/Order.css" rel="stylesheet" type="text/css"/>
+}
+
+<div id="breadcrumbs">
+</div>
+<div class="container mt-5">
+    <div class="card card-body p-0 border border-top-0 border-start-0 border-end-0 rounded-0">
+        <div class="d-flex justify-content-between text-center">
+            <div class="order-status order-status-all order-status-selected">All</div>
+            <div class="order-status order-status-pending">Pending</div>
+            <div class="order-status order-status-shipping">Shipping</div>
+            <div class="order-status order-status-completed">Delivered</div>
+            <div class="order-status order-status-cancel">Cancel</div>
+        </div>
+    </div>
+    <div class="order-status-all-display">
+        @foreach (var item in Model)
+        {
+            var status = item.Order.Status;
+
+            <div class="card p-4 card-body rounded-0 mt-4">
+                <div class="d-flex justify-content-between mb-3">
+                    <div class="so-hd">#@item.Order.OrderId</div>
+                    <div class="trang-thai">@status.Name</div>
+                </div>
+                <div>
+                    @foreach (var cartItem in item.ListCartItem)
+                    {
+                        <div class="p-2 rounded-0 border border-start-0 border-end-0 d-flex justify-content-between">
+                            <div class="" style="width: 70%;">
+                                <div class="d-flex">
+                                    <img src="@Url.Content(cartItem.Product.ImagePath ?? "~/Source/Default/giay_default.png")" width="100" height="100" class="p-1 me-3" />
+                                    <div>
+                                        <div>@cartItem.Product.Name</div>
+                                        <div style=" color:grey;">
+                                            <span>SIZE: </span>
+                                            <span class="item-cart-size">@cartItem.Size</span>
+                                        </div>
+                                        <div>
+                                            <span>x </span>
+                                            <span>@cartItem.Quantity</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-none shoe-id">@cartItem.Product.ProductId</div>
+                            </div>
+                            <div>
+                                <h6 class="text-danger">@cartItem.Product.Price</h6>
+                                <h6 class="cart-money d-none">@cartItem.Product.Price</h6>
+                            </div>
+                        </div>
+                    }
+                    <div class="text-end mt-3">
+                        <span>Total: </span>
+                        <span class="text-danger" style="font-weight:600; font-size: 1.5em;">@item.Order.TotalMoney</span>
+                    </div>
+                    <div class="d-flex justify-content-between mt-3">
+                        <div class="d-flex">
+                            <span class="me-2">Order date: </span>
+                            <span><i>@DateTime.Parse(item.Order.CreateDate.ToString()).ToString("dd/MM/yyyy")</i></span>
+                        </div>
+                        <div>
+                            @if (status.Name.Equals("pending"))
+                            {
+                                <a href="#" class="btn btn-dark opacity-50" onclick="CancelHandle(this)">Cancel<span class="d-none">@item.Order.OrderId</span></a>
+                            }
+                            else if (status.Name.Equals("completed"))
+                            {
+                                <a href="#" class="btn btn-danger" onclick="return ReorderHandle(this)">Re-order<span class="d-none">@item.Order.OrderId</span></a>
+                                if (item.Order.Ratings.Count == 0)
+                                {
+                                    <a href="@Url.Action("ReviewOrder","Order",new { orderId = item.Order.OrderId})" class="btn btn-warning">Review<span class="d-none">@item.Order.OrderId</span></a>
+                                }
+
+                            }
+                            else if (status.Name.Equals("cancel"))
+                            {
+                                <a href="#" class="btn btn-danger" onclick="return ReorderHandle(this)">Re-order<span class="d-none">@item.Order.OrderId</span></a>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+                @*<div>@item.Order.ngaythanhtoan</div>
+                    <div>@item.Order.trigia</div>*@
+            </div>
+        }
+    </div>
+    <div class="order-status-pending-display d-none">
+        @foreach (var item in Model.Where(s => s.Order.StatusId ==1))
+        {
+            var status = item.Order.Status;
+
+            <div class="card p-4 card-body rounded-0 mt-4">
+                <div class="d-flex justify-content-between mb-3">
+                    <div class="so-hd">#@item.Order.OrderId</div>
+                    <div class="trang-thai">@status.Name</div>
+                </div>
+                <div>
+                    @foreach (var cartItem in item.ListCartItem)
+                    {
+                        <div class="p-2 rounded-0 border border-start-0 border-end-0 d-flex justify-content-between">
+                            <div class="" style="width: 70%;">
+                                <div class="d-flex">
+                                    <img src="@Url.Content(cartItem.Product.ImagePath ?? "~/Source/Default/giay_default.png")" width="100" height="100" class="p-1 me-3" />
+                                    <div>
+                                        <div>@cartItem.Product.Name</div>
+                                        <div style=" color:grey;">
+                                            <span>SIZE: </span>
+                                            <span class="item-cart-size">@cartItem.Size</span>
+                                        </div>
+                                        <div>
+                                            <span>x </span>
+                                            <span>@cartItem.Quantity</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-none shoe-id">@cartItem.Product.ProductId</div>
+                            </div>
+                            <div>
+                                <h6 class="text-danger">@cartItem.Product.Price</h6>
+                                <h6 class="cart-money d-none">@cartItem.Product.Price</h6>
+                            </div>
+                        </div>
+                    }
+                    <div class="text-end mt-3">
+                        <span>Total: </span>
+                        <span class="text-danger" style="font-weight:600; font-size: 1.5em;">@item.Order.TotalMoney</span>
+                    </div>
+                    <div class="d-flex justify-content-between mt-3">
+                        <div class="d-flex">
+                            <span class="me-2">Order date: </span>
+                            <span><i>@DateTime.Parse(item.Order.CreateDate.ToString()).ToString("dd/MM/yyyy")</i></span>
+                        </div>
+                        <div>
+                            @if (status.Name.Equals("pending"))
+                            {
+                                <a href="#" class="btn btn-dark opacity-50" onclick="CancelHandle(this)">Cancel<span class="d-none">@item.Order.OrderId</span></a>
+                            }
+                            else if (status.Name.Equals("completed"))
+                            {
+                                <a href="#" class="btn btn-danger" onclick="return ReorderHandle(this)">Re-order<span class="d-none">@item.Order.OrderId</span></a>
+                                if (item.Order.Ratings.Count == 0)
+                                {
+                                    <a href="@Url.Action("ReviewOrder","Order",new { orderId = item.Order.OrderId})" class="btn btn-warning">Review<span class="d-none">@item.Order.OrderId</span></a>
+                                }
+
+                            }
+                            else if (status.Name.Equals("cancel"))
+                            {
+                                <a href="#" class="btn btn-danger" onclick="return ReorderHandle(this)">Re-order<span class="d-none">@item.Order.OrderId</span></a>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+                @*<div>@item.Order.ngaythanhtoan</div>
+                <div>@item.Order.trigia</div>*@
+            </div>
+        }
+    </div>
+    <div class="order-status-shipping-display d-none">
+        @foreach (var item in Model.Where(s => s.Order.StatusId == 2))
+        {
+            var status = item.Order.Status;
+
+            <div class="card p-4 card-body rounded-0 mt-4">
+                <div class="d-flex justify-content-between mb-3">
+                    <div class="so-hd">#@item.Order.OrderId</div>
+                    <div class="trang-thai">@status.Name</div>
+                </div>
+                <div>
+                    @foreach (var cartItem in item.ListCartItem)
+                    {
+                        <div class="p-2 rounded-0 border border-start-0 border-end-0 d-flex justify-content-between">
+                            <div class="" style="width: 70%;">
+                                <div class="d-flex">
+                                    <img src="@Url.Content(cartItem.Product.ImagePath ?? "~/Source/Default/giay_default.png")" width="100" height="100" class="p-1 me-3" />
+                                    <div>
+                                        <div>@cartItem.Product.Name</div>
+                                        <div style=" color:grey;">
+                                            <span>SIZE: </span>
+                                            <span class="item-cart-size">@cartItem.Size</span>
+                                        </div>
+                                        <div>
+                                            <span>x </span>
+                                            <span>@cartItem.Quantity</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-none shoe-id">@cartItem.Product.ProductId</div>
+                            </div>
+                            <div>
+                                <h6 class="text-danger">@cartItem.Product.Price</h6>
+                                <h6 class="cart-money d-none">@cartItem.Product.Price</h6>
+                            </div>
+                        </div>
+                    }
+                    <div class="text-end mt-3">
+                        <span>Total: </span>
+                        <span class="text-danger" style="font-weight:600; font-size: 1.5em;">@item.Order.TotalMoney</span>
+                    </div>
+                    <div class="d-flex justify-content-between mt-3">
+                        <div class="d-flex">
+                            <span class="me-2">Order date: </span>
+                            <span><i>@DateTime.Parse(item.Order.CreateDate.ToString()).ToString("dd/MM/yyyy")</i></span>
+                        </div>
+                        <div>
+                            @if (status.Name.Equals("pending"))
+                            {
+                                <a href="#" class="btn btn-dark opacity-50" onclick="CancelHandle(this)">Cancel<span class="d-none">@item.Order.OrderId</span></a>
+                            }
+                            else if (status.Name.Equals("completed"))
+                            {
+                                <a href="#" class="btn btn-danger" onclick="return ReorderHandle(this)">Re-order<span class="d-none">@item.Order.OrderId</span></a>
+                                if (item.Order.Ratings.Count == 0)
+                                {
+                                    <a href="@Url.Action("ReviewOrder","Order",new { orderId = item.Order.OrderId})" class="btn btn-warning">Review<span class="d-none">@item.Order.OrderId</span></a>
+                                }
+
+                            }
+                            else if (status.Name.Equals("cancel"))
+                            {
+                                <a href="#" class="btn btn-danger" onclick="return ReorderHandle(this)">Re-order<span class="d-none">@item.Order.OrderId</span></a>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+                @*<div>@item.Order.ngaythanhtoan</div>
+                <div>@item.Order.trigia</div>*@
+            </div>
+        }
+    </div>
+    <div class="order-status-completed-display d-none">
+        @foreach (var item in Model.Where(s => s.Order.StatusId == 3))
+        {
+            var status = item.Order.Status;
+
+            <div class="card p-4 card-body rounded-0 mt-4">
+                <div class="d-flex justify-content-between mb-3">
+                    <div class="so-hd">#@item.Order.OrderId</div>
+                    <div class="trang-thai">@status.Name</div>
+                </div>
+                <div>
+                    @foreach (var cartItem in item.ListCartItem)
+                    {
+                        <div class="p-2 rounded-0 border border-start-0 border-end-0 d-flex justify-content-between">
+                            <div class="" style="width: 70%;">
+                                <div class="d-flex">
+                                    <img src="@Url.Content(cartItem.Product.ImagePath ?? "~/Source/Default/giay_default.png")" width="100" height="100" class="p-1 me-3" />
+                                    <div>
+                                        <div>@cartItem.Product.Name</div>
+                                        <div style=" color:grey;">
+                                            <span>SIZE: </span>
+                                            <span class="item-cart-size">@cartItem.Size</span>
+                                        </div>
+                                        <div>
+                                            <span>x </span>
+                                            <span>@cartItem.Quantity</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-none shoe-id">@cartItem.Product.ProductId</div>
+                            </div>
+                            <div>
+                                <h6 class="text-danger">@cartItem.Product.Price</h6>
+                                <h6 class="cart-money d-none">@cartItem.Product.Price</h6>
+                            </div>
+                        </div>
+                    }
+                    <div class="text-end mt-3">
+                        <span>Total: </span>
+                        <span class="text-danger" style="font-weight:600; font-size: 1.5em;">@item.Order.TotalMoney</span>
+                    </div>
+                    <div class="d-flex justify-content-between mt-3">
+                        <div class="d-flex">
+                            <span class="me-2">Order date: </span>
+                            <span><i>@DateTime.Parse(item.Order.CreateDate.ToString()).ToString("dd/MM/yyyy")</i></span>
+                        </div>
+                        <div>
+                            @if (status.Name.Equals("pending"))
+                            {
+                                <a href="#" class="btn btn-dark opacity-50" onclick="CancelHandle(this)">Cancel<span class="d-none">@item.Order.OrderId</span></a>
+                            }
+                            else if (status.Name.Equals("completed"))
+                            {
+                                <a href="#" class="btn btn-danger" onclick="return ReorderHandle(this)">Re-order<span class="d-none">@item.Order.OrderId</span></a>
+                                if (item.Order.Ratings.Count == 0)
+                                {
+                                    <a href="@Url.Action("ReviewOrder","Order",new { orderId = item.Order.OrderId})" class="btn btn-warning">Review<span class="d-none">@item.Order.OrderId</span></a>
+                                }
+
+                            }
+                            else if (status.Name.Equals("cancel"))
+                            {
+                                <a href="#" class="btn btn-danger" onclick="return ReorderHandle(this)">Re-order<span class="d-none">@item.Order.OrderId</span></a>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+                @*<div>@item.Order.ngaythanhtoan</div>
+                <div>@item.Order.trigia</div>*@
+            </div>
+        }
+    </div>
+    <div class="order-status-cancel-display d-none">
+        @foreach (var item in Model.Where(s => s.Order.StatusId==4))
+        {
+            var status = item.Order.Status;
+
+            <div class="card p-4 card-body rounded-0 mt-4">
+                <div class="d-flex justify-content-between mb-3">
+                    <div class="so-hd">#@item.Order.OrderId</div>
+                    <div class="trang-thai">@status.Name</div>
+                </div>
+                <div>
+                    @foreach (var cartItem in item.ListCartItem)
+                    {
+                        <div class="p-2 rounded-0 border border-start-0 border-end-0 d-flex justify-content-between">
+                            <div class="" style="width: 70%;">
+                                <div class="d-flex">
+                                    <img src="@Url.Content(cartItem.Product.ImagePath ?? "~/Source/Default/giay_default.png")" width="100" height="100" class="p-1 me-3" />
+                                    <div>
+                                        <div>@cartItem.Product.Name</div>
+                                        <div style=" color:grey;">
+                                            <span>SIZE: </span>
+                                            <span class="item-cart-size">@cartItem.Size</span>
+                                        </div>
+                                        <div>
+                                            <span>x </span>
+                                            <span>@cartItem.Quantity</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-none shoe-id">@cartItem.Product.ProductId</div>
+                            </div>
+                            <div>
+                                <h6 class="text-danger">@cartItem.Product.Price</h6>
+                                <h6 class="cart-money d-none">@cartItem.Product.Price</h6>
+                            </div>
+                        </div>
+                    }
+                    <div class="text-end mt-3">
+                        <span>Total: </span>
+                        <span class="text-danger" style="font-weight:600; font-size: 1.5em;">@item.Order.TotalMoney</span>
+                    </div>
+                    <div class="d-flex justify-content-between mt-3">
+                        <div class="d-flex">
+                            <span class="me-2">Order date: </span>
+                            <span><i>@DateTime.Parse(item.Order.CreateDate.ToString()).ToString("dd/MM/yyyy")</i></span>
+                        </div>
+                        <div>
+                            @if (status.Name.Equals("pending"))
+                            {
+                                <a href="#" class="btn btn-dark opacity-50" onclick="CancelHandle(this)">Cancel<span class="d-none">@item.Order.OrderId</span></a>
+                            }
+                            else if (status.Name.Equals("completed"))
+                            {
+                                <a href="#" class="btn btn-danger" onclick="return ReorderHandle(this)">Re-order<span class="d-none">@item.Order.OrderId</span></a>
+                                if (item.Order.Ratings.Count == 0)
+                                {
+                                    <a href="@Url.Action("ReviewOrder","Order",new { orderId = item.Order.OrderId})" class="btn btn-warning">Review<span class="d-none">@item.Order.OrderId</span></a>
+                                }
+
+                            }
+                            else if (status.Name.Equals("cancel"))
+                            {
+                                <a href="#" class="btn btn-danger" onclick="return ReorderHandle(this)">Re-order<span class="d-none">@item.Order.OrderId</span></a>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+                @*<div>@item.Order.ngaythanhtoan</div>
+                <div>@item.Order.trigia</div>*@
+            </div>
+        }
+    </div>
+</div>
+<script src="~/Public/Order.js"></script>

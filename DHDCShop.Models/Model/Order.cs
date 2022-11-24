@@ -47,6 +47,7 @@ namespace DHDCShop.Models.Model
         public string ZipCode { get; set; }
 
         [ForeignKey("CustomerId")]
+        [JsonIgnore]
         public virtual Customer Customer { get; set; }
 
         [ForeignKey("StatusId")]

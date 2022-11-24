@@ -19,7 +19,7 @@ namespace DHDCShop.Web.Controllers
         // GET: User
         public ActionResult Index()
         {
-            string username = Session["username"].ToString();
+            string username = User.Identity.Name;
             Customer dangNhap = db.Customers.Find(username);
             ViewBag.Type = "profile";
             return View(dangNhap);
@@ -190,67 +190,53 @@ namespace DHDCShop.Web.Controllers
 
         public ActionResult WishList()
         {
-            if (Session["username"] != null)
+            if (User.Identity.IsAuthenticated)
             {
-                if (Session["type"].Equals("user"))
+                string username = User.Identity.Name;
+                Customer user = db.Customers.Find(username);
+                List<WishList> wishList = user.WishLists.ToList();
+                List<Product> giay = new List<Product>();
+                foreach (var item in wishList)
                 {
-                    string username = Session["username"].ToString();
-                    Customer user = db.Customers.Find(username);
-                    List<WishList> wishList = user.WishLists.ToList();
-                    List<Product> giay = new List<Product>();
-                    foreach (var item in wishList)
-                    {
-                        giay.Add(db.Products.Find(item.ProductId));
-                    }
-                    return View(giay);
+                    giay.Add(db.Products.Find(item.ProductId));
                 }
-
+                return View(giay);
             }
             return RedirectToAction("SignInUp");
         }
         [HttpPost]
         public JsonResult AddWishList(int magiay)
         {
-            if (Session["username"] != null)
+            if (User.Identity.IsAuthenticated)
             {
-                if (Session["type"].Equals("user"))
+                string username = User.Identity.Name;
+                WishList kiemtra = db.WishLists.Where(s => s.CustomerUsername == username && s.ProductId == magiay).FirstOrDefault();
+                if (kiemtra == null)
                 {
-                    string username = Session["username"].ToString();
-                    WishList kiemtra = db.WishLists.Where(s => s.CustomerUsername == username && s.ProductId == magiay).FirstOrDefault();
-                    if (kiemtra == null)
-                    {
-                        WishList taoMoi = new WishList();
-                        taoMoi.CustomerUsername = username;
-                        taoMoi.ProductId = magiay;
+                    WishList taoMoi = new WishList();
+                    taoMoi.CustomerUsername = username;
+                    taoMoi.ProductId = magiay;
 
-                        db.WishLists.Add(taoMoi);
-                        db.SaveChanges();
-                    }
-                    return Json(new { result = "true" });
-
+                    db.WishLists.Add(taoMoi);
+                    db.SaveChanges();
                 }
-
+                return Json(new { result = "true" });
             }
             return Json(new { result = "false" });
         }
 
         public ActionResult RemoveWLItem(int magiay)
         {
-            if (Session["username"] != null)
-            {
-                if (Session["type"].Equals("user"))
+            if (User.Identity.IsAuthenticated)
+            {   
+                string username = User.Identity.Name;
+                WishList kiemtra = db.WishLists.Where(s => s.CustomerUsername == username && s.ProductId == magiay).FirstOrDefault();
+                if (kiemtra != null)
                 {
-                    string username = Session["username"].ToString();
-                    WishList kiemtra = db.WishLists.Where(s => s.CustomerUsername == username && s.ProductId == magiay).FirstOrDefault();
-                    if (kiemtra != null)
-                    {
-                        db.WishLists.Remove(kiemtra);
-                        db.SaveChanges();
-                    }
-                    return RedirectToAction("Wishlist");
-
+                    db.WishLists.Remove(kiemtra);
+                    db.SaveChanges();
                 }
-
+                return RedirectToAction("Wishlist");
             }
             return null;
         }

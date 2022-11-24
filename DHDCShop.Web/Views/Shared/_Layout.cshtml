@@ -215,7 +215,7 @@
 
                                 <li class="header_navbar-menu-item-user-like login">
                                     <i class="fa-solid fa-user"></i>
-                                    @if (Session["username"] != null && Session["type"].Equals("user"))
+                                    @if (User.Identity.IsAuthenticated && User.IsInRole("user"))
                                     {
                                         <a class="likea text-decoration-none" href="@Url.Action("Index","User")">Profile</a> }
                                     else
@@ -229,8 +229,9 @@
                                     <i class="fa-solid fa-basket-shopping"></i>
                                     <a class="likea text-decoration-none" href="@Url.Action("Index","Purchasing")">Checkout</a>
                                 </li>
-                                @if (Session["username"] != null && Session["type"].Equals("user"))
+                                @if (User.Identity.IsAuthenticated && User.IsInRole("user"))
                                 {
+                                    
                                     <li class="header_navbar-menu-item-user-like order-history">
                                         <i class="fa-solid fa-truck"></i>
                                         <a class="likea text-decoration-none" href="@Url.Action("Index","Order")">Order History</a>

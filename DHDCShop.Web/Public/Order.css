@@ -1,0 +1,41 @@
+﻿.order-status {
+    width: 20%;
+    cursor: pointer;
+    padding: 12px;
+    font-weight: 600;
+}
+
+    .order-status:hover:not(.order-status-selected) {
+        opacity: 0.25;
+        background-color: #F0E68C;
+        transition: 0.2s;
+    }
+
+.order-status-selected {
+    background-color: #F0E68C;
+}
+
+.so-hd {
+    color: red;
+    font-size: 1.1em;
+}
+
+.trang-thai {
+    color: #BDB76B;
+    text-transform: uppercase;
+    font-size: 1.1em;
+    font-weight: 600;
+}
+
+#breadcrumbs {
+    background-image: url(../../Public/Assets/shipping.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    margin: auto;
+    height: 400px;
+}
+
+.card-body {
+    background-color: #F6F7F9;
+}
