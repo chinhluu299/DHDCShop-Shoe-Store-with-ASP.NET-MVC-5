@@ -270,7 +270,7 @@
                     </div>
 
                 </div>
-                
+
             </div>
         </div>
     </div>
@@ -404,6 +404,14 @@
     </div>
 </div>
 
+<div class="announ-add-cart">
+    @Html.Partial("_Announcement", new ViewDataDictionary(ViewData)
+{ { "successMes", "Product added to cart successfully "},{ "failMes", "Product added to cart failed "}  })
+</div>
+<div class="announ-add-wishlist">
+    @Html.Partial("_Announcement", new ViewDataDictionary(ViewData)
+{ { "successMes", "Product added to wishlist successfully "},{ "failMes", "Product added to wishlist failed "}  })
+</div>
 
 <script>
     document.querySelectorAll('.product-img-item').forEach(e => {
@@ -412,7 +420,75 @@
             document.querySelector('#product-img > img').setAttribute('src', img)
         })
     })
+    const quickView = document.getElementById("quick-view-product");
+    const quickViewMinus = document.getElementById("minus");
+    const quickViewPlus = document.getElementById("plus");
+    const quickView_quantity = document.getElementById("quantity-detail");
+    const shoeID = document.getElementById("check-shoe-id");
+    const addToCart = document.getElementsByClassName("add_to_cart_detail")[0];
+    const listSize = document.getElementById("size-option");
+    const size = document.getElementsByClassName("quantity-in-stock")[0];
 
 
+    var magiay = shoeID.textContent;
+
+
+
+    quickViewMinus.onclick = function () {
+        if (quickView_quantity.value > 0) {
+            quickView_quantity.value -= 1;
+            addToCart.href = `/purchasing/AddNewItemToCart?productId=${magiay}&size=${listSize.value}&quantity=${quickView_quantity.value}`;
+
+        }
+
+    }
+
+    quickViewPlus.onclick = function () {
+        if (quickView_quantity.value < Number(size.textContent))
+             quickView_quantity.value = Number(quickView_quantity.value) + 1;
+        addToCart.href = `/purchasing/AddNewItemToCart?productId=${magiay}&size=${listSize.value}&quantity=${quickView_quantity.value}`;
+
+    }
+
+  
+    quickView_quantity.onkeyup = function () {
+
+    };
+    var json = @Html.Raw(JsonConvert.SerializeObject(Model));
+    console.log(json);
+
+    if (listSize.selectedIndex != -1) {
+        size.textContent = json.ProductSizes[listSize.selectedIndex].Quantity;
+    }
+
+    listSize.onchange = (e) => {
+        size.textContent = json.ProductSizes[listSize.selectedIndex].Quantity;
+        quickView_quantity.value = 0;
+    }
+
+    addToCart.onclick = (event) => {
+        $.ajax({
+            url: `/purchasing/AddNewItemToCart?productId=${magiay}&size=${listSize.value}&quantity=${quickView_quantity.value}`,
+            type: 'POST',
+            cache: false,
+            success: function (result) {
+                
+                $(".announ-add-cart .announ-success").addClass("active");
+
+                $(".display-card").html(result)
+                setTimeout(() => { $(".announ-add-cart .announ-success").removeClass("active"); }, 1500);
+
+                reloadCart();
+
+            },
+            error: function (result) {
+                $(".announ-add-cart .announ-failed").addClass("active");
+
+                setTimeout(() => { $(".announ-add-cart .announ-failed").removeClass("active"); }, 1500);
+
+            }
+        });
+        return false;
+    }
 
 </script>

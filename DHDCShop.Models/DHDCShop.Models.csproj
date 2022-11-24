@@ -100,6 +100,7 @@
     <Compile Include="ViewModel\CartItemViewModel.cs" />
     <Compile Include="ViewModel\ChangePasswordViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
+    <Compile Include="ViewModel\OrderItemViewModel.cs" />
     <Compile Include="ViewModel\PaymentViewModel.cs" />
     <Compile Include="ViewModel\RegisterViewModel.cs" />
     <Compile Include="ViewModel\SignInUpViewModel.cs" />

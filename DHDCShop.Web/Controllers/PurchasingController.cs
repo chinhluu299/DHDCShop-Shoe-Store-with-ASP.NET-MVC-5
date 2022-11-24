@@ -187,7 +187,7 @@ namespace DHDCShop.Web.Controllers
                         orderDetail.Size = item.Size;
                         orderDetail.Quantity = item.Quantity;
                         orderDetail.Price = item.Product.Price * item.Quantity;
-
+                        newOrder.TotalMoney += orderDetail.Price;
 
                         db.OrderDetails.Add(orderDetail);
                         db.SaveChanges();

@@ -10,7 +10,7 @@
 
 <div id="breadcrumbs">
 </div>
-@if (Session["username"] != null && Session["type"].ToString().Equals("user"))
+@if (User.Identity.IsAuthenticated)
 {
     var listItem = (List<CartItemViewModel>)Session["cart"];
     if (listItem == null || listItem.Count == 0)

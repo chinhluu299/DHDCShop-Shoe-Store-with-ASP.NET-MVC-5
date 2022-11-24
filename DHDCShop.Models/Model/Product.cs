@@ -61,6 +61,7 @@ namespace DHDCShop.Models.Model
      
         public virtual ICollection<SaleOff> SaleOffs { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<WishList> WishLists { get; set; }
 
         public virtual ICollection<Rating> Ratings { get; set; }
