@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace DHDCShop.Web.Areas.Admin.Controllers
 {
+    [Authorize(Roles ="admin")]
     public class BlogController : Controller
     {
         private DHDCShopDbContext db = new DHDCShopDbContext();
@@ -19,7 +20,7 @@ namespace DHDCShop.Web.Areas.Admin.Controllers
         public ActionResult Index()
         {
           
-                return View(db.Blogs.ToList());
+           return View(db.Blogs.ToList());
          
 
         }

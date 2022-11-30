@@ -229,6 +229,8 @@
     <Content Include="Public\main.css" />
     <Content Include="Public\Order.css" />
     <Content Include="Public\Order.js" />
+    <Content Include="Public\Plugin\CKEditor.css" />
+    <Content Include="Public\Plugin\CKEditor.js" />
     <Content Include="Public\product.css" />
     <Content Include="Public\ReviewOrder.css" />
     <Content Include="Public\ReviewOrder.js" />
