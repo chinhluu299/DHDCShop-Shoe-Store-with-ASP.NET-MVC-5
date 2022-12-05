@@ -127,6 +127,7 @@ namespace DHDCShop.Web.Controllers
                     }
                     taikhoan.AvatarPath = path;
                     file.SaveAs(path2);
+                    
 
                 }
 

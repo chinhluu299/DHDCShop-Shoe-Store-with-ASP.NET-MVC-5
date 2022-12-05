@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DHDCShop.Models.Mapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -23,6 +24,7 @@ namespace DHDCShop.Web
             //config.Formatters.JsonFormatter
             //            .SerializerSettings
             //            .ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            AutoMapper.Mapper.Initialize(cfg => cfg.AddProfile<AutoMapperProfile>());
         }
     }
 }

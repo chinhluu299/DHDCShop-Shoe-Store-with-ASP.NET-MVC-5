@@ -13,141 +13,22 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <link href="~/Public/_Layout.css" rel="stylesheet" />
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+   
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.2.1/classic/ckeditor.js"></script>
+    <link href="~/Public/Plugin/ckeditor.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
+    <script src="~/signalr/hubs"></script>
 
 </head>
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-        font-family: 'Poppins', sans-serif;
-    }
 
-    #navigation-button {
-        cursor: pointer;
-        font-size: 2em;
-    }
-
-    @@keyframes slide {
-        from {
-            left: -100%;
-        }
-
-        to {
-            left: 0;
-        }
-    }
-
-    @@keyframes slide_reverse {
-        from {
-            left: 0;
-        }
-
-        to {
-            left: -100%;
-        }
-    }
-
-    #navigation-open-div {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: black;
-        opacity: 0.9;
-        z-index: 100;
-    }
-
-    .anim-appear {
-        animation: slide 0.3s ease-in-out;
-    }
-
-    .d-none-anim {
-        animation: slide_reverse 0.3s ease-in-out;
-    }
-
-    #navigation-open-div-close {
-        color: white;
-        font-size: 3em;
-        margin-left: 22px;
-        cursor: pointer;
-    }
-
-    .navigation-open-div-item {
-        text-align: center;
-    }
-
-    .cart-trash {
-        border-radius: 2.5px;
-        font-size: 1.2em;
-        opacity: 0.75;
-        transition: 0.3s;
-        cursor: pointer;
-    }
-
-        .cart-trash:hover {
-            opacity: 1;
-        }
-
-    .display-card {
-        width: 100vw;
-        height: 100vh;
-        position: fixed;
-        z-index: 1000;
-        display: flex;
-        top: 0;
-        left: 0;
-        -webkit-backdrop-filter: blur(10px);
-        backdrop-filter: blur(10px);
-        align-content: center;
-        align-items: center;
-        align-self: center;
-        justify-content: center;
-        transition: 0.5s;
-    }
-
-    .display-card-content {
-        max-width: 1120px;
-    }
-
-    .cart-item-exit {
-        color: orangered;
-        font-size: 1.6em;
-        transition: 0.3s;
-        cursor: pointer;
-    }
-
-        .cart-item-exit:hover {
-            opacity: 0.75;
-        }
-
-    .btn-style {
-        padding: 8px;
-        margin: 6px;
-        margin-left: 0px;
-        border: 3px solid black;
-        cursor: pointer;
-        transition: 0.5s;
-        color: black;
-        text-decoration: none;
-        font-size: 0.9em;
-    }
-
-        .btn-style:hover {
-            border: 3px solid transparent;
-            background: red;
-            color: white;
-            text-decoration: none;
-        }
-
-    .navbar.navbar-expand-sm {
-        position: fixed;
-        padding-bottom: 0;
-        padding-top: 0;
-        z-index: 1000;
-        height: 85px;
-    }
-</style>
 <body class="display-card-active">
     <header class="header">
         <div class="grid">
@@ -265,186 +146,12 @@
     <div class="display-card d-none">
         @Html.Partial("_Cart")
     </div>
-
+   
+        @Html.Partial("_ChatBox")
+    
     <div class="">
         @RenderBody()
         <hr />
-        <footer>
-            <div class="footer-container">
-                <section id="footercenter" class="footer-center footer-center-update">
-                    <div class="container">
-                        <div class="footer-center-wrap">
-                            <div class="row">
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <div class="row">
-                                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 col-sp-12">
-                                            <div class="footer-block">
-                                                <h4 class="title-block-footer">Happy hours</h4>
-                                                <div class="block-content block-content-footer ">
-                                                    <p class="day">Monday - Friday</p>
-                                                    <p class="open">8a.m - 10 p.m</p>
-                                                    <p class="day">Saturday & Sunday</p>
-                                                    <p class="open">10a.m - 8 p.m</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 col-sp-12">
-                                            <div class="footer-block">
-                                                <h4 class="title-block-footer">Your Account</h4>
-                                                <div class="block-content">
-                                                    <ul class="toogle-footer">
-                                                        <li class="item">
-                                                            <a href="#" title="Running Shoes">Running Shoes</a>
-                                                        </li>
-                                                        <li class="item">
-                                                            <a href="#" title="Running Shoes">Football Shoes</a>
-                                                        </li>
-                                                        <li class="item">
-                                                            <a href="#" title="Running Shoes">Basketball Shoes</a>
-                                                        </li>
-                                                        <li class="item">
-                                                            <a href="#" title="Running Shoes">Volleyball Shoes</a>
-                                                        </li>
-                                                        <li class="item">
-                                                            <a href="#" title="Running Shoes">Trainee Shoes</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 col-sp-12">
-                                            <div class="footer-block">
-                                                <h4 class="title-block-footer">Information</h4>
-                                                <div class="block-content">
-                                                    <ul class="toogle-footer">
-                                                        <li class="item">
-                                                            <a href="#" title="Running Shoes">Returns</a>
-                                                        </li>
-                                                        <li class="item">
-                                                            <a href="#" title="Running Shoes">F.A.Q</a>
-                                                        </li>
-                                                        <li class="item">
-                                                            <a href="#" title="Running Shoes">Shipping Policy</a>
-                                                        </li>
-                                                        <li class="item">
-                                                            <a href="#" title="Running Shoes">Search Teams</a>
-                                                        </li>
-                                                        <li class="item">
-                                                            <a href="#" title="Running Shoes">Contact Us</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 col-sp-12">
-                                            <div class="footer-block">
-                                                <h4 class="title-block-footer">Quick links</h4>
-                                                <div class="block-content">
-                                                    <ul class="toogle-footer">
-                                                        <li class="item">
-                                                            <a href="#" title="Running Shoes">My order</a>
-                                                        </li>
-                                                        <li class="item">
-                                                            <a href="#" title="Running Shoes">My credit slips</a>
-                                                        </li>
-                                                        <li class="item">
-                                                            <a href="#" title="Running Shoes">Beauty</a>
-                                                        </li>
-                                                        <li class="item">
-                                                            <a href="#" title="Running Shoes">My addresses</a>
-                                                        </li>
-                                                        <li class="item">
-                                                            <a href="#" title="Running Shoes">My personal info</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 col-sp-12">
-                                            <div class="footer-block">
-                                                <h4 class="title-block-footer">Footer links</h4>
-                                                <div class="block-content">
-                                                    <ul class="toogle-footer">
-                                                        <li class="item">
-                                                            <a href="#" title="Running Shoes">Search</a>
-                                                        </li>
-                                                        <li class="item">
-                                                            <a href="#" title="Running Shoes">About Us</a>
-                                                        </li>
-                                                        <li class="item">
-                                                            <a href="#" title="Running Shoes">Typo</a>
-                                                        </li>
-                                                        <li class="item">
-                                                            <a href="#" title="Running Shoes">Blog</a>
-                                                        </li>
-                                                        <li class="item">
-                                                            <a href="#" title="Running Shoes">Wishlist</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 col-sp-12">
-                                            <div class="footer-block">
-                                                <h4 class="title-block-footer">Services</h4>
-                                                <div class="block-content">
-                                                    <ul class="toogle-footer">
-                                                        <li class="item">
-                                                            <a href="#" title="Running Shoes">Search</a>
-                                                        </li>
-                                                        <li class="item">
-                                                            <a href="#" title="Running Shoes">About Us</a>
-                                                        </li>
-                                                        <li class="item">
-                                                            <a href="#" title="Running Shoes">Typo</a>
-                                                        </li>
-                                                        <li class="item">
-                                                            <a href="#" title="Running Shoes">Blog</a>
-                                                        </li>
-                                                        <li class="item">
-                                                            <a href="#" title="Running Shoes">Wishlist</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <div id="social_block" class="social-block">
-                                                <div class="social-block-content">
-                                                    <div class="block_content">
-                                                        <ul class="list-unstyled ">
-                                                            <li class="facebook">
-                                                                <a target="_blank" class="fa-brands fa-facebook text-decoration-none" href="#" title="App shoes store on Facebook"></a>
-                                                            </li>
-                                                            <li class="twitter">
-                                                                <a target="_blank" class="fa-brands fa-twitter text-decoration-none" href="#" title="App shoes store on Twitter"></a>
-                                                            </li>
-                                                            <li class="gg-plus">
-                                                                <a target="_blank" class="fa-brands fa-google-plus-g text-decoration-none" href="#" title="App shoes store on Google-plus"></a>
-                                                            </li>
-                                                            <li class="rss">
-                                                                <a target="_blank" class="fa-solid fa-rss text-decoration-none" href="#" title="App shoes store on Rss"></a>
-                                                            </li>
-                                                            <li class="youtube">
-                                                                <a target="_blank" class="fa-brands fa-youtube text-decoration-none" href="#" title="App shoes store on Youtube"></a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-            </div>
-
-        </footer>
     </div>
     <script type="text/javascript" src="~/Public/Cart.js"></script>
     <script>
@@ -470,6 +177,4 @@
         }
     </script>
 </body>
-
-
 </html>
