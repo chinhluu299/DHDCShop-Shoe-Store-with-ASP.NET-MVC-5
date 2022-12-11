@@ -18,6 +18,7 @@ namespace DHDCShop.Models
         public DHDCShopDbContext()
             : base("name=DHDCShopDbContext")
         {
+      
         }
 
         public DbSet<Admin> Admins { get; set; }
@@ -34,6 +35,7 @@ namespace DHDCShop.Models
         public DbSet<Status> Statuses { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Blog> Blogs { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
 
         // Add a DbSet for each entity type that you want to include in your model. For more information 

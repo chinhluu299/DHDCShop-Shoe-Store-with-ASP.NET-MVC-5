@@ -46,11 +46,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.1.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.1\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.1\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Owin, Version=4.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -158,6 +167,7 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\BlogController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ChatController.cs" />
     <Compile Include="Areas\Admin\Controllers\CustomerController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
@@ -172,10 +182,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Models\UserRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Admin\Assets\ChatAdmin.js" />
     <Content Include="Areas\Admin\Assets\Layout.css" />
     <Content Include="Areas\Admin\Assets\ListProduct.css" />
     <Content Include="Areas\Admin\Assets\Login.css" />
@@ -208,6 +220,7 @@
     <Content Include="Areas\Admin\Views\Home\Login.cshtml" />
     <Content Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
+    <Content Include="Public\Assets\admin.png" />
     <Content Include="Public\Assets\background-1.jpg" />
     <Content Include="Public\Assets\background-2.jpg" />
     <Content Include="Public\Assets\background-3.jpg" />
@@ -229,10 +242,14 @@
     <Content Include="Public\main.css" />
     <Content Include="Public\Order.css" />
     <Content Include="Public\Order.js" />
+    <Content Include="Public\Plugin\CKEditor.css" />
+    <Content Include="Public\Plugin\CKEditor.js" />
     <Content Include="Public\product.css" />
     <Content Include="Public\ReviewOrder.css" />
     <Content Include="Public\ReviewOrder.js" />
     <Content Include="Public\UserSignIn.css" />
+    <Content Include="Public\_Chatbox.js" />
+    <Content Include="Public\_Layout.css" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -280,12 +297,15 @@
     <Content Include="Areas\Admin\Views\Blog\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Blog\Edit.cshtml" />
     <Content Include="libman.json" />
+    <Content Include="Areas\Admin\Views\Chat\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.1.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.1.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -323,6 +343,7 @@
     <Content Include="Views\Order\Index.cshtml" />
     <Content Include="Views\Order\ReviewOrder.cshtml" />
     <Content Include="Views\Order\Cart.cshtml" />
+    <Content Include="Views\Shared\_ChatBox.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

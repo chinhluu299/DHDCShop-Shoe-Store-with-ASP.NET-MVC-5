@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using static System.Net.WebRequestMethods;
 
 namespace DHDCShop.Web.Controllers
 {
@@ -78,6 +79,8 @@ namespace DHDCShop.Web.Controllers
                     tk.DateOfBirth = DateTime.Now;
                     tk.TotalSpent = 0;
 
+                    //add avatar default               
+                    tk.AvatarPath = "~/Source/Default/avatar_default.png";
                     db.Customers.Add(tk);
 
                     db.SaveChanges();
@@ -111,22 +114,26 @@ namespace DHDCShop.Web.Controllers
 
                 if (file != null)
                 {
-                    var fileName = Path.GetFileName(file.FileName);
+                
                     var ext = Path.GetExtension(file.FileName);
-                    string name = Path.GetFileNameWithoutExtension(fileName); //getting file name without extension  
+                   //getting file name without extension  
                     string myfile = "avatar_" + tendangnhap + ext; //appending the name with id  
                                                                    // store the file inside ~/project folder(Img)  
                     var path = "~/Source/" + myfile;
                     var path2 = Path.Combine(Server.MapPath("~/Source"), myfile);
 
                     var path_del = Server.MapPath(taikhoan.AvatarPath);
-                    FileInfo file2 = new FileInfo(path_del);
-                    if (file2.Exists)//check file exsit or not  
+                    if (taikhoan.AvatarPath.Contains("avatar_default.png"))
                     {
-                        file2.Delete();
+                        FileInfo file2 = new FileInfo(path_del);
+                        if (file2.Exists)//check file exsit or not  
+                        {
+                            file2.Delete();
+                        }
                     }
                     taikhoan.AvatarPath = path;
                     file.SaveAs(path2);
+                    
 
                 }
 

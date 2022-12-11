@@ -14,6 +14,7 @@ namespace DHDCShop.Web
         {
             CreateAdminAccount();
             CreateStatusType();
+            app.MapSignalR();
         }
 
         private void CreateStatusType()

@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.1.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -57,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DHDCShopDbContext.cs" />
+    <Compile Include="Mapper\AutoMapperProfile.cs" />
     <Compile Include="Migrations\202209300737227_InitialDatabase.cs" />
     <Compile Include="Migrations\202209300737227_InitialDatabase.designer.cs">
       <DependentUpon>202209300737227_InitialDatabase.cs</DependentUpon>
@@ -81,11 +85,20 @@
     <Compile Include="Migrations\202211040701094_Change_name_blog_DatePost.designer.cs">
       <DependentUpon>202211040701094_Change_name_blog_DatePost.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202211241842576_update-nation.cs" />
+    <Compile Include="Migrations\202211241842576_update-nation.designer.cs">
+      <DependentUpon>202211241842576_update-nation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202212011530368_ADD_MESSAGE.cs" />
+    <Compile Include="Migrations\202212011530368_ADD_MESSAGE.designer.cs">
+      <DependentUpon>202212011530368_ADD_MESSAGE.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Admin.cs" />
     <Compile Include="Model\Blog.cs" />
     <Compile Include="Model\Comment.cs" />
     <Compile Include="Model\Customer.cs" />
+    <Compile Include="Model\Message.cs" />
     <Compile Include="Model\Order.cs" />
     <Compile Include="Model\OrderDetail.cs" />
     <Compile Include="Model\Product.cs" />
@@ -99,11 +112,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\CartItemViewModel.cs" />
     <Compile Include="ViewModel\ChangePasswordViewModel.cs" />
+    <Compile Include="ViewModel\ChatViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
+    <Compile Include="ViewModel\MessageViewModel.cs" />
+    <Compile Include="ViewModel\NationStatisticViewModel.cs" />
     <Compile Include="ViewModel\OrderItemViewModel.cs" />
     <Compile Include="ViewModel\PaymentViewModel.cs" />
     <Compile Include="ViewModel\RegisterViewModel.cs" />
     <Compile Include="ViewModel\SignInUpViewModel.cs" />
+    <Compile Include="ViewModel\DashboardViewModel.cs" />
+    <Compile Include="ViewModel\TopSaleViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -128,7 +146,14 @@
     <EmbeddedResource Include="Migrations\202211040701094_Change_name_blog_DatePost.resx">
       <DependentUpon>202211040701094_Change_name_blog_DatePost.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211241842576_update-nation.resx">
+      <DependentUpon>202211241842576_update-nation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212011530368_ADD_MESSAGE.resx">
+      <DependentUpon>202212011530368_ADD_MESSAGE.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

@@ -21,12 +21,12 @@ namespace DHDCShop.Models.Model
         public int Year { get; set; }
         [Required]
         [DefaultValue(0)]
-        public int NumberOfOrder { get; set; }
-        [Required]
-        [DefaultValue(0)]
         public int NumberOfNewRegister { get; set; }
         [Required]
         [DefaultValue(0)]
         public decimal NumberOfSales{ get; set; }
+        [Required]
+        [DefaultValue(0)]
+        public decimal AverageMoney { get; set; }
     }
 }
