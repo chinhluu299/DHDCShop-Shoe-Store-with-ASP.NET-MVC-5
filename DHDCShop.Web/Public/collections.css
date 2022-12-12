@@ -301,7 +301,8 @@ body {
 
 .btn-flat {
     display: inline-block;
-    border: 2px solid var(--btn-border-color);
+    border: 1px solid var(--btn-border-color);
+    border-radius :2px;
     background-color: #17a2b8;
     color: var(--btn-color);
     padding: 15px 35px;
