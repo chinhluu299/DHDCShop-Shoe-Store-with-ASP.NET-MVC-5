@@ -298,6 +298,7 @@
     <Content Include="Areas\Admin\Views\Blog\Edit.cshtml" />
     <Content Include="libman.json" />
     <Content Include="Areas\Admin\Views\Chat\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_LoadingPage.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
