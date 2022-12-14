@@ -213,6 +213,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\jquery.toast.min.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\splide.min.css" />
     <Content Include="favicon.ico" />
@@ -302,6 +303,7 @@
     <Content Include="Areas\Admin\Views\Blog\Edit.cshtml" />
     <Content Include="libman.json" />
     <Content Include="Areas\Admin\Views\Chat\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_LoadingPage.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -310,6 +312,7 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.signalR-2.2.1.js" />
     <Content Include="Scripts\jquery.signalR-2.2.1.min.js" />
+    <Content Include="Scripts\jquery.toast.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />

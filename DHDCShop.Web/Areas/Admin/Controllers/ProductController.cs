@@ -103,7 +103,7 @@ namespace DHDCShop.Web.Areas.Admin.Controllers
                         {
                             var fileName = Path.GetFileName(file.FileName);
                             var ext = Path.GetExtension(file.FileName);
-                            string name = Path.GetFileNameWithoutExtension(fileName); //getting file name without extension  
+                         
                             string myfile = "shoe_" + id + ext; //appending the name with id  
                                                                 // store the file inside ~/project folder(Img)  
                             var path = "~/Source/" + myfile;
