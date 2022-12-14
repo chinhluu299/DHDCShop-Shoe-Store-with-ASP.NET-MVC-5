@@ -1,5 +1,8 @@
 ﻿@using Newtonsoft.Json;
 
+<link href="~/Content/jquery.toast.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.toast.min.js"></script>
+
 <div id="quick-view-product">
     <div class="quickview-overlay fancybox-overlay fancybox-overlay-fixed"></div>
     <div class="quick-view-product">
@@ -108,14 +111,14 @@
     </div>
 
 </div>
-<div class="announ-add-cart">
+@*<div class="announ-add-cart">
     @Html.Partial("_Announcement", new ViewDataDictionary(ViewData)
 { { "successMes", "Product added to cart successfully "},{ "failMes", "Product added to cart failed "}  })
 </div>
 <div class="announ-add-wishlist">
     @Html.Partial("_Announcement", new ViewDataDictionary(ViewData)
 { { "successMes", "Product added to wishlist successfully "},{ "failMes", "Product added to wishlist failed "}  })
-</div>
+</div>*@
 
 <script>
     var formatter = new Intl.NumberFormat('en-US', {
@@ -312,28 +315,31 @@
                     cache: false,
                     success: function (result) {
                         quickView.classList.remove('d-block');
-                        $(".announ-add-cart .announ-success").addClass("active");
-
                         $(".display-card").html(result)
-                        setTimeout(() => { $(".announ-add-cart .announ-success").removeClass("active"); }, 1500);
+
+                        $.toast({
+                            heading: 'Success',
+                            text: 'Product added to cart successfully',
+                            showHideTransition: 'slide',
+                            icon: 'success'
+                        })
 
                         reloadCart();
 
                     },
                     error: function (result) {
-                        $(".announ-add-cart .announ-failed").addClass("active");
-
-                        setTimeout(() => { $(".announ-add-cart .announ-failed").removeClass("active"); }, 1500);
-
+                        $.toast({
+                            heading: 'Error',
+                            text: 'Product added to card failed',
+                            showHideTransition: 'fade',
+                            icon: 'error'
+                        })
                     }
                 });
                 return false;
             }
 
-
-
         }
-
 
     })
     function addwishlist(item) {
@@ -343,22 +349,32 @@
             type: 'POST',
             cache: false,
             success: function (response) {
-                console.log(response.result)
                 if (response.result == "true") {
-                    $(".announ-add-wishlist .announ-success").addClass("active");
+                    $.toast({
+                        heading: 'Success',
+                        text: 'Product added to your wishlist successfully',
+                        showHideTransition: 'slide',
+                        icon: 'success'
+                    })
 
-                    setTimeout(() => { $(".announ-success").removeClass("active"); }, 1500);
+
                 }
                 else {
-                    $(".announ-add-wishlist .announ-failed").addClass("active");
-                    setTimeout(() => { $(".announ-add-wishlist .announ-failed").removeClass("active"); }, 1500);
+                    $.toast({
+                        heading: 'Warning',
+                        text: 'You have to login',
+                        showHideTransition: 'slide',
+                        icon: 'warning'
+                    })
                 }
-
-
             },
             error: function (result) {
-                $(".announ-add-wishlist .announ-failed").addClass("active");
-                setTimeout(() => { $(".announ-add-wishlist .announ-failed").removeClass("active"); }, 1500);
+                $.toast({
+                    heading: 'Error',
+                    text: 'Product added to your wishlist failed',
+                    showHideTransition: 'slide',
+                    icon: 'success'
+                })
 
             }
         });

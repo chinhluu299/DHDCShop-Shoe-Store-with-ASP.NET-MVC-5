@@ -5,7 +5,8 @@
     ViewBag.Title = "Item";
     Layout = "~/Views/Shared/_Layout.cshtml";
     <link href="~/Public/product.css" rel="stylesheet" type="text/css" />
-
+    <link href="~/Content/jquery.toast.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.toast.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 }
 
@@ -115,13 +116,13 @@
         padding-top: 10px;
     }
 
-        .comment h4, .comment span, .darker h4, .darker span {
-            display: inline;
-        }
+    .comment h4, .comment span, .darker h4, .darker span {
+        display: inline;
+    }
 
-        .comment p, .comment span, .darker p, .darker span {
-            color: rgb(184, 183, 183);
-        }
+    .comment p, .comment span, .darker p, .darker span {
+        color: rgb(184, 183, 183);
+    }
 </style>
 <div id="check-shoe-id" class="d-none">@Model.ProductId</div>
 <div id="breadcrumbs">
@@ -404,14 +405,14 @@
     </div>
 </div>
 
-<div class="announ-add-cart">
-    @Html.Partial("_Announcement", new ViewDataDictionary(ViewData)
-{ { "successMes", "Product added to cart successfully "},{ "failMes", "Product added to cart failed "}  })
-</div>
-<div class="announ-add-wishlist">
-    @Html.Partial("_Announcement", new ViewDataDictionary(ViewData)
-{ { "successMes", "Product added to wishlist successfully "},{ "failMes", "Product added to wishlist failed "}  })
-</div>
+@*<div class="announ-add-cart">
+        @Html.Partial("_Announcement", new ViewDataDictionary(ViewData)
+    { { "successMes", "Product added to cart successfully "},{ "failMes", "Product added to cart failed "}  })
+    </div>
+    <div class="announ-add-wishlist">
+        @Html.Partial("_Announcement", new ViewDataDictionary(ViewData)
+    { { "successMes", "Product added to wishlist successfully "},{ "failMes", "Product added to wishlist failed "}  })
+    </div>*@
 
 <script>
     document.querySelectorAll('.product-img-item').forEach(e => {
@@ -426,6 +427,7 @@
     const quickView_quantity = document.getElementById("quantity-detail");
     const shoeID = document.getElementById("check-shoe-id");
     const addToCart = document.getElementsByClassName("add_to_cart_detail")[0];
+    const addToWishlist = document.getElementsByClassName("add_to_wishlist_detail")[0];
     const listSize = document.getElementById("size-option");
     const size = document.getElementsByClassName("quantity-in-stock")[0];
 
@@ -450,7 +452,7 @@
 
     }
 
-  
+
     quickView_quantity.onkeyup = function () {
 
     };
@@ -472,20 +474,66 @@
             type: 'POST',
             cache: false,
             success: function (result) {
-                
-                $(".announ-add-cart .announ-success").addClass("active");
-
                 $(".display-card").html(result)
-                setTimeout(() => { $(".announ-add-cart .announ-success").removeClass("active"); }, 1500);
+
+                $.toast({
+                    heading: 'Success',
+                    text: 'Product added to cart successfully',
+                    showHideTransition: 'slide',
+                    icon: 'success'
+                })
 
                 reloadCart();
 
             },
             error: function (result) {
-                $(".announ-add-cart .announ-failed").addClass("active");
+                $.toast({
+                    heading: 'Error',
+                    text: 'Product added to card failed',
+                    showHideTransition: 'fade',
+                    icon: 'error'
+                })
 
-                setTimeout(() => { $(".announ-add-cart .announ-failed").removeClass("active"); }, 1500);
+            }
+        });
+        return false;
+    }
 
+    addToWishlist.onclick = (event) => {
+        $.ajax({
+            url: `/user/AddWishList`,
+            data: { magiay: magiay },
+            type: 'POST',
+            cache: false,
+            success: function (response) {
+                if (response.result == "true") {
+                    $.toast({
+                        heading: 'Success',
+                        text: 'Product added to your wishlist successfully',
+                        showHideTransition: 'slide',
+                        icon: 'success'
+                    })
+
+                 
+                }
+                else {
+                    $.toast({
+                        heading: 'Warning',
+                        text: 'You have to login',
+                        showHideTransition: 'slide',
+                        icon: 'warning'
+                    })
+                }
+
+            },
+            error: function (response) {
+               
+                $.toast({
+                    heading: 'Error',
+                    text: 'Product added to your wishlist failed',
+                    showHideTransition: 'slide',
+                    icon: 'success'
+                })
             }
         });
         return false;
