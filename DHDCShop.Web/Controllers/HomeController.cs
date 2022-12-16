@@ -12,9 +12,17 @@ namespace DHDCShop.Web.Controllers
         DHDCShopDbContext db = new DHDCShopDbContext();
         public ActionResult Index()
         {
-            var top_giay = db.Products.OrderByDescending(s => s.Rating).Take(6).ToList();
-            ViewBag.TopGiay = top_giay;
-            return View();
+            try
+            {
+                var top_giay = db.Products.OrderByDescending(s => s.Rating).Take(6).ToList();
+                ViewBag.TopGiay = top_giay;
+                return View();
+            }
+            catch(Exception ex)
+            {
+                ViewBag.Exception = ex.Message;
+                return View("Error");
+            }
         }
 
         public ActionResult About()
@@ -29,6 +37,11 @@ namespace DHDCShop.Web.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public ActionResult Error()
+        {
+            return View("Error");
         }
     }
 }

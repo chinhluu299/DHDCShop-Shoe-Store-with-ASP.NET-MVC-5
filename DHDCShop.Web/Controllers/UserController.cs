@@ -20,10 +20,18 @@ namespace DHDCShop.Web.Controllers
         // GET: User
         public ActionResult Index()
         {
-            string username = User.Identity.Name;
-            Customer dangNhap = db.Customers.Find(username);
-            ViewBag.Type = "profile";
-            return View(dangNhap);
+            try
+            {
+                string username = User.Identity.Name;
+                Customer dangNhap = db.Customers.Find(username);
+                ViewBag.Type = "profile";
+                return View(dangNhap);
+            }
+            catch(Exception ex)
+            {
+                ViewBag.Exception = ex.Message;
+                return View("Error");
+            }
            
         }
         [AllowAnonymous]
