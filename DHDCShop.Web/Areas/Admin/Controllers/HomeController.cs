@@ -37,7 +37,7 @@ namespace DHDCShop.Web.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var username = login.Username;
-                var password = login.Password; 
+                var password = login.Password;
                 var data = db.Admins.Where(s => s.Username.Equals(username) && s.Password.Equals(password)).ToList();
                 if (data.Count() > 0)
                 {
@@ -55,6 +55,12 @@ namespace DHDCShop.Web.Areas.Admin.Controllers
             }
             return View();
         }
+        [AllowAnonymous]
+        public ActionResult Error()
+        {
+            return View();
+        }
+
         public ActionResult Logout()
         {
             Session.Clear();//remove session

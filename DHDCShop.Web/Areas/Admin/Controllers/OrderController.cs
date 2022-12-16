@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace DHDCShop.Web.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class OrderController : Controller
     {
         // GET: Admin/Order
@@ -19,9 +20,17 @@ namespace DHDCShop.Web.Areas.Admin.Controllers
         // GET: Admin/Order
         public ActionResult Index()
         {
-             var orders = db.Orders.ToList();
-             return View(orders);
-        }
+            try
+            {
+                var orders = db.Orders.ToList();
+                return View(orders);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Exception = ex.Message;
+                return View("Error");
+            }
+        } 
 
         public PartialViewResult _OrderTable(int? page, string filter)
         {
@@ -39,10 +48,18 @@ namespace DHDCShop.Web.Areas.Admin.Controllers
         // GET: Admin/Order/Details/5
         public ActionResult Details(int? id)
         {
+            try
+            {
+                if (db.Orders.Find(id) != null)
+                    return View(db.Orders.Find(id));
+                else return RedirectToAction("Index");
+            }catch(Exception ex)
+            {
+                ViewBag.Exception = ex.Message;
+                return View("Error");
+            }
           
-            Order order = db.Orders.Find(id);
-            return View(order);
-       
+         
         }
 
         // GET: Admin/Order/Create
@@ -123,13 +140,21 @@ namespace DHDCShop.Web.Areas.Admin.Controllers
 
         public ActionResult DeleteConfirmed(int id)
         {
-            var listOrderDetail = db.OrderDetails.Where(x => x.OrderId == id).ToList();
-            db.OrderDetails.RemoveRange(listOrderDetail);
+            try
+            {
+                var listOrderDetail = db.OrderDetails.Where(x => x.OrderId == id).ToList();
+                db.OrderDetails.RemoveRange(listOrderDetail);
 
-            Order order = db.Orders.Find(id);
-            db.Orders.Remove(order);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+                Order order = db.Orders.Find(id);
+                db.Orders.Remove(order);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Exception = ex.Message;
+                return View("Error");
+            }
         }
 
         protected override void Dispose(bool disposing)
@@ -143,19 +168,36 @@ namespace DHDCShop.Web.Areas.Admin.Controllers
 
         public ActionResult Approve(int id)
         {
+            try
+            {
                 Order order = db.Orders.Find(id);
                 order.StatusId = 2; // shipping
                 db.SaveChanges();
                 return View(order);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Exception = ex.Message;
+                return View("Error");
+            }
+          
        
         }
         public ActionResult Confirm(int id)
         {
-           
+            try
+            {
                 Order order = db.Orders.Find(id);
                 order.StatusId = 3; // Completed
                 db.SaveChanges();
                 return View(order);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Exception = ex.Message;
+                return View("Error");
+            }
+           
           
         }
     }

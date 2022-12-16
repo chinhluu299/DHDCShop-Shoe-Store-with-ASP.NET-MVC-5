@@ -23,7 +23,6 @@ namespace DHDCShop.Web.Controllers
                 List<Order> orderList = db.Orders.Where(x => x.CustomerId == username).ToList();
                 List<OrderItemViewModel> orderListViewModel = new List<OrderItemViewModel>();
 
-
                 foreach (var order in orderList)
                 {
                     List<CartItemViewModel> cartItems = new List<CartItemViewModel>();
@@ -44,7 +43,9 @@ namespace DHDCShop.Web.Controllers
                 return View(orderListViewModel.OrderByDescending(s => s.Order.CreateDate));
             }
             else
+            {
                 return RedirectToAction("SignInUp", "User");
+            }
         }
 
         [HttpPost]
@@ -177,6 +178,7 @@ namespace DHDCShop.Web.Controllers
                 }
                 catch (Exception e)
                 {
+                    throw new Exception(e.Message);
                 }
             }
         }

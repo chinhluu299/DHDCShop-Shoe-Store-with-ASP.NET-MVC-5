@@ -16,7 +16,7 @@
 <div id="breadcrumbs">
 </div>
 
-@if (Session["username"] != null && Session["type"].ToString().Equals("user"))
+@if (User.Identity.IsAuthenticated && User.IsInRole("user"))
 {
     var listItem = (List<CartItemViewModel>)Session["cart"];
     if (listItem == null || listItem.Count == 0)
@@ -53,14 +53,14 @@
                                                 </div>
                                             </div>
                                             <div class="display-pay-online">
-                                                <form action="">
+                                                <!--<form action="">
 
-                                                    <div class="icon-container">
+                                                    <div class="icon-container">-->
                                                         @*<i class="fa-brands fa-cc-visa" style="color:navy;"></i>
                                                             <i class="fa-brands fa-cc-amex" style="color:blue;"></i>
                                                             <i class="fa-brands fa-cc-mastercard" style="color:red;"></i>
                                                             <i class="fa-brands fa-cc-discover" style="color:orange;"></i>*@
-                                                    </div>
+                                                    <!--</div>
                                                     <label for="cname">Name on Card</label>
                                                     <input type="text" id="cname" name="cardname" placeholder="Nguyen Ngoc Duc">
                                                     <label for="ccnum">Credit card number</label>
@@ -79,6 +79,12 @@
                                                         </div>
                                                     </div>
                                                     <input type="submit" value="Payment" class="btn btn-outline-info">
+                                                </form>-->
+                                                <form action="@Url.Action("PaymentOnline","Purchasing")" method="post">
+                                                    <div class="d-flex">
+                                                        <i class="fa-duotone fa-credit-card-front"></i>
+                                                        <input type="submit" value="Click here to payment" class="btn btn-outline-info mt-1" />
+                                                    </div>
                                                 </form>
                                             </div>
                                             <div class="display-pay-later  d-none mt-2">
