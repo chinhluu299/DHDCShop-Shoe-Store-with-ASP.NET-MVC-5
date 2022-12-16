@@ -305,6 +305,7 @@
     <Content Include="Areas\Admin\Views\Chat\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_LoadingPage.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\Error.cshtml" />
+    <Content Include="Public\Assets\contact-background.webp" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
