@@ -1,4 +1,5 @@
-﻿using DHDCShop.Models;
+﻿using DHDCShop.Common.Util;
+using DHDCShop.Models;
 using DHDCShop.Models.Model;
 using DHDCShop.Models.ViewModel;
 using System;
@@ -48,8 +49,9 @@ namespace DHDCShop.Web.Controllers
                 LoginViewModel login = signIn.Login;
                 if (login != null)
                 {
+                    string password = CryptoLib.EncryptMD5(login.Password);
                     var data = db.Customers.Where(s => s.Username.Equals(login.Username) &&
-                     s.Password.Equals(login.Password)).ToList();
+                     s.Password.Equals(password)).ToList();
                     if (data.Count() > 0)
                     {
                         //add session
@@ -80,7 +82,7 @@ namespace DHDCShop.Web.Controllers
                     Customer tk = new Customer();
                     tk.FullName = register.FullName;
                     tk.Username = register.Username;
-                    tk.Password = register.Password;
+                    tk.Password = CryptoLib.EncryptMD5(register.Password);
                     tk.Email = register.Email;
                     tk.PhoneNumber = register.PhoneNumber;
                     tk.DateOfRegister = DateTime.Now;
