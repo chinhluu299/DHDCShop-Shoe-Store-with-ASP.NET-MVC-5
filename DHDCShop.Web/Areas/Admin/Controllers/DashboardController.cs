@@ -27,9 +27,14 @@ namespace DHDCShop.Web.Areas.Admin.Controllers
                 //tong doanh thu
                 var listOrder = db.Orders.Where(s => s.CreateDate.Year == year && s.CreateDate.Month == month).ToList();
                 decimal totalMoney = 0;
+                decimal totalMoneyHasPaid = 0;
                 foreach (var item in listOrder)
                 {
                     totalMoney += item.TotalMoney;
+                    if (item.IsPaid)
+                    {
+                        totalMoneyHasPaid += item.TotalMoney;
+                    }
                 }
                 int sumOrder = listOrder.Count;
                 decimal average = sumOrder > 0 ? totalMoney / sumOrder : 0;
@@ -41,7 +46,7 @@ namespace DHDCShop.Web.Areas.Admin.Controllers
                     statistic.AverageMoney = average;
                     statistic.Year = year;
                     statistic.Month = month;
-                    statistic.TotalRevenue = totalMoney;
+                    statistic.TotalRevenue = totalMoneyHasPaid;
                     statistic.NumberOfSales = sumOrder;
                     statistic.NumberOfNewRegister = newRegister;
                     db.Statistics.Add(statistic);
@@ -54,7 +59,7 @@ namespace DHDCShop.Web.Areas.Admin.Controllers
                     statistic.AverageMoney = average;
                     statistic.Year = year;
                     statistic.Month = month;
-                    statistic.TotalRevenue = totalMoney;
+                    statistic.TotalRevenue = totalMoneyHasPaid;
                     statistic.NumberOfSales = sumOrder;
                     statistic.NumberOfNewRegister = newRegister;
 
@@ -68,15 +73,14 @@ namespace DHDCShop.Web.Areas.Admin.Controllers
 
 
                 var statistics = db.Statistics.Where(s => s.Year == year).OrderBy(s => s.Month).ToList();
-                dashboardVM.ListNationStatistic = db.Orders.Where(s => s.CreateDate.Year == year && s.CreateDate.Month == month)
+                dashboardVM.ListNationStatistic = db.Orders.Where(s => s.CreateDate.Year == year && s.CreateDate.Month == month && s.StatusId == 3)
                                                     .Join(db.Customers, p => p.CustomerId, q => q.Username, (p, q) => new { quoctich = q.Nation, doanhthu = p.TotalMoney })
                                                     .GroupBy(s => s.quoctich)
-                                                    .Select(s => new NationStatisticViewModel { Nation = s.FirstOrDefault().quoctich, Revenue = s.Sum(k => k.doanhthu) })
+                                                    .Select(s => new NationStatisticViewModel { Nation =  s.FirstOrDefault().quoctich, Revenue = s.Sum(k => k.doanhthu) })
+                                                    .OrderByDescending(x => x.Revenue)
                                                     .ToList();
 
-
-
-                dashboardVM.ListTopSales = db.Orders.Where(s => s.CreateDate.Year == year && s.CreateDate.Month == month)
+                dashboardVM.ListTopSales = db.Orders.Where(s => s.CreateDate.Year == year && s.CreateDate.Month == month && s.StatusId == 3)
                                             .Join(db.OrderDetails, p => p.OrderId, q => q.OrderId, (q, p) => new { productId = p.ProductId, quantity = p.Quantity })
                                             .Join(db.Products, p => p.productId, q => q.ProductId, (q, p) => new { productId = p.ProductId, name = p.Name, quantity = q.quantity, imagePath = p.ImagePath })
                                             .GroupBy(s => s.productId)
@@ -84,8 +88,9 @@ namespace DHDCShop.Web.Areas.Admin.Controllers
                                             .OrderByDescending(s => s.Quantity)
                                             .Take(10)
                                             .ToList();
-                var listNameNation = dashboardVM.ListNationStatistic.OrderByDescending(x => x.Revenue).Select(x => x.Nation).ToList();
-                var listDataNation = dashboardVM.ListNationStatistic.OrderByDescending(x => x.Revenue).Select(x => x.Revenue).ToList();
+
+                var listNameNation = dashboardVM.ListNationStatistic.Select(x => x.Nation).ToList();
+                var listDataNation = dashboardVM.ListNationStatistic.Select(x => x.Revenue).ToList();
 
 
                 for (int i = 1; i <= 12; i++)
@@ -96,7 +101,7 @@ namespace DHDCShop.Web.Areas.Admin.Controllers
                         if (item.Month == i)
                         {
                             k = 1;
-                            dashboardVM.AverageEachMonth.Add(item.AverageMoney);
+                            dashboardVM.AverageEachMonth.Add(item.TotalRevenue);
                             break;
                         }
                     }

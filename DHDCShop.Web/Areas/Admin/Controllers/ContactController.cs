@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace DHDCShop.Web.Areas.Admin.Controllers
 {
-    //[Authorize(Roles ="admin")]
+    [Authorize(Roles ="admin")]
     public class ContactController : Controller
     {
         DHDCShopDbContext db = new DHDCShopDbContext();

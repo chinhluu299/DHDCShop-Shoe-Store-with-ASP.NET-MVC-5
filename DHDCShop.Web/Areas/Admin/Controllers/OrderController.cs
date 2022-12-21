@@ -189,6 +189,10 @@ namespace DHDCShop.Web.Areas.Admin.Controllers
             {
                 Order order = db.Orders.Find(id);
                 order.StatusId = 3; // Completed
+                var customerId = order.CustomerId;
+                var customer = db.Customers.Find(customerId);
+                if(customer != null)
+                    customer.TotalSpent += order.TotalMoney;
                 db.SaveChanges();
                 return View(order);
             }
