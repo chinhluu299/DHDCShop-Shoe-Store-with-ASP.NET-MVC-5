@@ -1,4 +1,5 @@
 ﻿using DHDCShop.Models;
+using DHDCShop.Models.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,11 +32,46 @@ namespace DHDCShop.Web.Controllers
 
             return View();
         }
-
+        [HttpGet]
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
 
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Contact(Contact contact)
+        {
+            if (ModelState.IsValid)
+            {
+                if(contact.Name == null)
+                {
+                    ModelState.AddModelError("","Name is required");
+                    return View(contact);
+                }
+                if (contact.Email == null)
+                {
+                    ModelState.AddModelError("", "Email is required");
+                    return View(contact);
+                }
+                if (contact.Message == null)
+                {
+                    ModelState.AddModelError("", "Please type your messages");
+                    return View(contact);
+                }
+
+                Contact newContact = new Contact()
+                {
+                    Name = contact.Name,
+                    Email = contact.Email,
+                    Message = contact.Message,
+                    Time = DateTime.Now,
+                    Status = 0,
+                };
+                db.Contacts.Add(newContact);
+                db.SaveChanges();
+            }
             return View();
         }
 

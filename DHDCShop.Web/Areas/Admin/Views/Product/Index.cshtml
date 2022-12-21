@@ -13,6 +13,22 @@
             display: none;
         }
     }
+    #buttons {
+        margin: 6px;
+        text-align: right;
+    }
+
+    .paginate.paginate_controls input {
+        margin-left: 4px;
+        opacity: 0.75;
+    }
+    div.paginate input[type='button'].active{
+        background-color: burlywood;
+    }
+    div.paginate input[type='button']{
+        color: black;
+    }
+
 </style>
 
 <div class="d-flex justify-content-between mb-4 ">
@@ -40,7 +56,7 @@
                 <th>
                     Price
                 </th>
-
+                <th></th>
             </tr>
         </thead>
 
@@ -101,11 +117,11 @@
 <script src="~/Areas/Admin/Assets/table_libary/paginate.js"></script>
 <script>
 let options = {
-        numberPerPage: 10,
-        constNumberPerPage: 10,
+        numberPerPage: 8,
+        constNumberPerPage: 6,
         numberOfPages: 0,
         goBar: false,
-        pageCounter: true,
+        pageCounter: false,
         hasPagination: true,
     };
     let filterOptions = {

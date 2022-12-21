@@ -1,4 +1,5 @@
-﻿@{
+﻿@model DHDCShop.Models.Model.Contact
+@{
     ViewBag.Title = "Contact";
         Layout = "~/Views/Shared/_Layout.cshtml";
 
@@ -22,26 +23,27 @@
     font-family: "Poppins", sans-serif;
 }
 
-body {
-    min-height: 100vh;
-    width: 100%;
-    background:url('https://images5.alphacoders.com/112/1123013.jpg');
+.validation-summary-errors{
+    color: red;
 }
-
 .container {
-    width: 85%;
-    background: #fff;
     border-radius: 6px;
     padding: 20px 60px 30px 40px;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-    margin-top:200px;
+    background-image: url('../../Public/Assets/contact-background.webp');
+    background-position: right;
+    background-size: cover;
+    margin-top: 30px;
 }
+
 
 .container .content {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
+
+
 
 .container .content .left-side {
     width: 25%;
@@ -52,6 +54,7 @@ body {
     justify-content: center;
     margin-top: 15px;
     position: relative;
+    background-color: rgba(255, 255, 255, 0.85);
 }
 
 .content .left-side::before {
@@ -84,7 +87,7 @@ body {
 .content .left-side .details .text-one,
 .content .left-side .details .text-two {
     font-size: 14px;
-    color: #afafb6;
+    color: #000;
 }
 
 .container .content .right-side {
@@ -130,7 +133,7 @@ body {
     margin-top: 12px;
 }
 
-.right-side .button input[type="button"] {
+.right-side .button input[type="submit"] {
     color: #fff;
     font-size: 18px;
     outline: none;
@@ -145,52 +148,80 @@ body {
 .button input[type="button"]:hover {
     background: #5029bc;
 }
+input{
+    cursor: pointer;
+}
+@@media only screen and (max-width: 768px) {
+    .container .content {
+        display: block;
+    }
+
+    .container .content .left-side {
+        width: 100%;
+        margin-bottom: 24px;
+        background-color: inherit;
+    }
+    .container .content .left-side::before {
+        width: 0;
+    }
+}
     </style>
    </head>
 <body>
-  <div class="container">
-    <div class="content">
-      <div class="left-side">
-        <div class="address details">
-          <i class="fas fa-map-marker-alt"></i>
-          <div class="topic">Address</div>
-          <div class="text-one">Phuong Linh Trung</div>
-          <div class="text-two">Thanh Pho Ho Chi Minh</div>
+    <div class="background">
+        <div class="container">
+            <div class="content">
+                <div class="left-side">
+                    <div class="address details">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div class="topic">Address</div>
+                        <div class="text-one">Phuong Linh Trung</div>
+                        <div class="text-two">Thanh Pho Ho Chi Minh</div>
+                    </div>
+                    <div class="phone details">
+                        <i class="fas fa-phone-alt"></i>
+                        <div class="topic">Phone</div>
+                        <div class="text-one">+0815092285</div>
+                        <div class="text-two">+0124789526</div>
+                    </div>
+                    <div class="email details">
+                        <i class="fas fa-envelope"></i>
+                        <div class="topic">Email</div>
+                        <div class="text-one">20521133@gmail.uit.edu.vn</div>
+                        <div class="text-one">20521200@gmail.uit.edu.vn</div>
+                        <div class="text-one">20521197@gmail.uit.edu.vn</div>
+                        <div class="text-one">20521359@gmail.uit.edu.vn</div>
+                    </div>
+                </div>
+                <div class="right-side">
+                    <div class="topic-text">Send us a message</div>
+                    <p>If you have any work from me or any types of quries related to my tutorial, you can send me message from here. It's my pleasure to help you.</p>
+                    @using (Html.BeginForm("Contact", "Home", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="input-box">
+                            @Html.TextBoxFor(x => x.Name, new { @placeholder = "Enter your name" })
+                        
+
+                        </div>
+                        <div class="input-box">
+                            @Html.TextBoxFor(x => x.Email, new { @placeholder = "Enter your email" })
+                            @Html.ValidationMessageFor(x => x.Email,"", new { @class="text-danger" })
+                        </div>
+                        <div class="input-box message-box">
+                            @Html.TextAreaFor(x => x.Message, new { @placeholder = "Enter your message", @row = 10 })
+                          
+                        </div>
+                        @Html.ValidationSummary()
+                        <div class="button">
+                            <input type="submit" value="Send Now">
+                        </div>
+                    }
+
+                </div>
+            </div>
         </div>
-        <div class="phone details">
-          <i class="fas fa-phone-alt"></i>
-          <div class="topic">Phone</div>
-          <div class="text-one">+0815092285</div>
-          <div class="text-two">+0124789526</div>
-        </div>
-        <div class="email details">
-          <i class="fas fa-envelope"></i>
-          <div class="topic">Email</div>
-          <div class="text-one">20521133@gmail.uit.edu.vn</div>
-          <div class="text-one">20521200@gmail.uit.edu.vn</div>
-          <div class="text-one">20521197@gmail.uit.edu.vn</div>
-          <div class="text-one">20521359@gmail.uit.edu.vn</div>
-        </div>
-      </div>
-      <div class="right-side">
-        <div class="topic-text">Send us a message</div>
-        <p>If you have any work from me or any types of quries related to my tutorial, you can send me message from here. It's my pleasure to help you.</p>
-      <form action="#">
-        <div class="input-box">
-          <input type="text" placeholder="Enter your name">
-        </div>
-        <div class="input-box">
-          <input type="text" placeholder="Enter your email">
-        </div>
-        <div class="input-box message-box">
-           <input type="text" placeholder="Enter your Message">
-        </div>
-        <div class="button">
-          <input type="button" value="Send Now" >
-        </div>
-      </form>
     </div>
-    </div>
-  </div>
+  
 </body>
 </html>

@@ -4,40 +4,16 @@
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
     <link href="~/Areas/Admin/Assets/ListProduct.css" rel="stylesheet" />
+    <link href="~/Areas/Admin/Assets/table_libary/paginate.css" rel="stylesheet" />
 
 }
 <style>
-    .option {
-        border-radius: 0px;
-        margin-left: 6px;
-        opacity: 0.5;
+    div.paginate input[type='button'].active {
+        background-color: burlywood;
     }
 
-    .pagedlist {
-        margin-top: 6px;
-        height: 40px;
-        background: red;
-        text-align: left;
-    }
-
-    .pagination-container {
-        margin-left: auto;
-    }
-
-    .pagination li {
-        padding: 6px 12px;
-        border: solid 1px black;
-        margin: 2px;
-        text-decoration: none;
-    }
-
-    .pagination a {
-        text-decoration: none;
+    div.paginate input[type='button'] {
         color: black;
-    }
-
-    .pagination li.active {
-        background-color: antiquewhite;
     }
 </style>
 

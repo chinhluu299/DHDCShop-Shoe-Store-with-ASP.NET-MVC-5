@@ -45,7 +45,7 @@ namespace DHDCShop.Models.Model
         [DataType(DataType.Currency)]
         public decimal Price { get; set; }
         [DefaultValue(0)]
-        public int Rating { get; set; }
+        public decimal Rating { get; set; }
         [DefaultValue(0)]
         public int NumOfVote { get; set; }
 

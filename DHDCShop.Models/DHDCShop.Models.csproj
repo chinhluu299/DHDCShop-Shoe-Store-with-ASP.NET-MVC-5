@@ -93,10 +93,23 @@
     <Compile Include="Migrations\202212011530368_ADD_MESSAGE.designer.cs">
       <DependentUpon>202212011530368_ADD_MESSAGE.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202212171852544_Add-Contact.cs" />
+    <Compile Include="Migrations\202212171852544_Add-Contact.designer.cs">
+      <DependentUpon>202212171852544_Add-Contact.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202212180638422_Time.cs" />
+    <Compile Include="Migrations\202212180638422_Time.designer.cs">
+      <DependentUpon>202212180638422_Time.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202212201407338_decimal_rating.cs" />
+    <Compile Include="Migrations\202212201407338_decimal_rating.designer.cs">
+      <DependentUpon>202212201407338_decimal_rating.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Admin.cs" />
     <Compile Include="Model\Blog.cs" />
     <Compile Include="Model\Comment.cs" />
+    <Compile Include="Model\Contact.cs" />
     <Compile Include="Model\Customer.cs" />
     <Compile Include="Model\Message.cs" />
     <Compile Include="Model\Order.cs" />
@@ -151,6 +164,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202212011530368_ADD_MESSAGE.resx">
       <DependentUpon>202212011530368_ADD_MESSAGE.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212171852544_Add-Contact.resx">
+      <DependentUpon>202212171852544_Add-Contact.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212180638422_Time.resx">
+      <DependentUpon>202212180638422_Time.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212201407338_decimal_rating.resx">
+      <DependentUpon>202212201407338_decimal_rating.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

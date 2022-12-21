@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringEncodeHelper.cs" />
+    <Compile Include="Util\CryptoLib.cs" />
     <Compile Include="Util\UploadImage.cs" />
     <Compile Include="Util\VnPayLibrary.cs" />
   </ItemGroup>

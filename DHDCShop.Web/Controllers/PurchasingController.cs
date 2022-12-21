@@ -156,13 +156,14 @@ namespace DHDCShop.Web.Controllers
                 giatong = giatong
             });
         }
+
         private decimal GetTotalMoneyFromCart()
         {
             List<CartItemViewModel> listItemPay = (List<CartItemViewModel>)Session["cart"];
             decimal totalMoney = 0;
             foreach (var item in listItemPay)
             {
-                totalMoney = item.Product.Price * item.Quantity;
+                totalMoney += item.Product.Price * item.Quantity;
             }
             return totalMoney;
         }
@@ -241,11 +242,12 @@ namespace DHDCShop.Web.Controllers
                 string hashSecret = ConfigurationManager.AppSettings["HashSecret"];
 
                 VnPayLibrary pay = new VnPayLibrary();
+                string amount = Convert.ToInt64(GetTotalMoneyFromCart() * 100 * 23600) + "";
 
                 pay.AddRequestData("vnp_Version", "2.1.0"); //Phiên bản api mà merchant kết nối. Phiên bản hiện tại là 2.1.0
                 pay.AddRequestData("vnp_Command", "pay"); //Mã API sử dụng, mã cho giao dịch thanh toán là 'pay'
                 pay.AddRequestData("vnp_TmnCode", tmnCode); //Mã website của merchant trên hệ thống của VNPAY (khi đăng ký tài khoản sẽ có trong mail VNPAY gửi về)
-                pay.AddRequestData("vnp_Amount", GetTotalMoneyFromCart()*100+""); //số tiền cần thanh toán, công thức: số tiền * 100 - ví dụ 10.000 (mười nghìn đồng) --> 1000000
+                pay.AddRequestData("vnp_Amount", amount); //số tiền cần thanh toán, công thức: số tiền * 100 - ví dụ 10.000 (mười nghìn đồng) --> 1000000
                 pay.AddRequestData("vnp_BankCode", ""); //Mã Ngân hàng thanh toán (tham khảo: https://sandbox.vnpayment.vn/apis/danh-sach-ngan-hang/), có thể để trống, người dùng có thể chọn trên cổng thanh toán VNPAY
                 pay.AddRequestData("vnp_CreateDate", DateTime.Now.ToString("yyyyMMddHHmmss")); //ngày thanh toán theo định dạng yyyyMMddHHmmss
                 pay.AddRequestData("vnp_CurrCode", "VND"); //Đơn vị tiền tệ sử dụng thanh toán. Hiện tại chỉ hỗ trợ VND
@@ -263,6 +265,7 @@ namespace DHDCShop.Web.Controllers
             return View("Error");
         }
 
+        [HttpGet]
         public ActionResult PaymentConfirm()
         {
             string status = "failed";
@@ -309,11 +312,11 @@ namespace DHDCShop.Web.Controllers
                             newOrder.EmailRev = payment.Email;
                             newOrder.NameOfReceiver = payment.Fullname;
                             newOrder.AddressReceive = payment.Apartment + " - " + payment.Address + " - " + payment.City + " - " + payment.Country;
-                            newOrder.StatusId = 2;
+                            newOrder.StatusId = 1;
                             newOrder.IsPaid = true;
                             newOrder.ZipCode = payment.ZipCode;
                             newOrder.CustomerId = User.Identity.Name;
-                            newOrder.TotalMoney = vnp_Amount;
+                            newOrder.TotalMoney = 0;
                             newOrder.CreateDate = DateTime.Now;
                             db.Orders.Add(newOrder);
                             db.SaveChanges();
@@ -325,7 +328,8 @@ namespace DHDCShop.Web.Controllers
                                 orderDetail.ProductId = item.Product.ProductId;
                                 orderDetail.Size = item.Size;
                                 orderDetail.Quantity = item.Quantity;
-                                orderDetail.Price = item.Product.Price * item.Quantity;                             
+                                orderDetail.Price = item.Product.Price * item.Quantity;
+                                newOrder.TotalMoney += orderDetail.Price;
 
                                 db.OrderDetails.Add(orderDetail);
                                 db.SaveChanges();
@@ -353,7 +357,7 @@ namespace DHDCShop.Web.Controllers
                    
                 }
             }
-            return View("PaymentResult", new {status = status });
+            return RedirectToAction("PaymentResult", new {status = status });
         }
 
         public ActionResult PaymentResult(string status)

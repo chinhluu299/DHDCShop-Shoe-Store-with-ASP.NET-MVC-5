@@ -36,6 +36,7 @@ namespace DHDCShop.Models
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
 
 
         // Add a DbSet for each entity type that you want to include in your model. For more information 
