@@ -550,6 +550,8 @@ body {
     display: block;
     cursor: pointer;
     text-align: center;
+    border: grey solid 1px;
+    margin-bottom: 6px;
 }
 
 .product-left-column .image-block .view_full_size a {
@@ -565,7 +567,7 @@ a {
     display: block;
     width: 400px;
     height: 360px;
-    border: black 1px solid;
+   
 }
 
 #quick-view-product .loading-imgquickview {
@@ -886,7 +888,7 @@ a {
     width: 90px;
     cursor: pointer;
     margin: 0 10px;
-    border: 1px solid var(--third-bg-color);
+  /*  border: 1px solid var(--third-bg-color);*/
 }
 
 .product-img-item img {

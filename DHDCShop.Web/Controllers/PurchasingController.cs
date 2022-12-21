@@ -207,8 +207,14 @@ namespace DHDCShop.Web.Controllers
 
 
                         ProductSize bangSize = db.ProductSizes.Where(s => s.ProductId == orderDetail.ProductId && s.Size == orderDetail.Size).FirstOrDefault();
+                        Product product = db.Products.Find(orderDetail.ProductId);
+                        if (product != null)
+                        {
+                            bangSize.Quantity -= orderDetail.Quantity;
+                            product.Quantity -= orderDetail.Quantity;
+                        }
+                          
 
-                        bangSize.Quantity -= orderDetail.Quantity;
                         db.SaveChanges();
                     }
 
@@ -336,10 +342,18 @@ namespace DHDCShop.Web.Controllers
 
 
                                 ProductSize bangSize = db.ProductSizes.Where(s => s.ProductId == orderDetail.ProductId && s.Size == orderDetail.Size).FirstOrDefault();
-
-                                bangSize.Quantity -= orderDetail.Quantity;
+                                Product product = db.Products.Find(orderDetail.ProductId);
+                                if (product != null)
+                                {
+                                    bangSize.Quantity -= orderDetail.Quantity;
+                                    product.Quantity -= orderDetail.Quantity;
+                                }
                                 db.SaveChanges();
                             }
+                            var customer = db.Customers.Find(User.Identity.Name);
+                            if (customer != null)
+                                customer.TotalSpent += newOrder.TotalMoney;
+                            db.SaveChanges();
 
                             Session["cart"] = null;
                         }
