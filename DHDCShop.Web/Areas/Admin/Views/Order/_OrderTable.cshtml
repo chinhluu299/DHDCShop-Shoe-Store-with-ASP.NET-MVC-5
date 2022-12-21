@@ -1,7 +1,21 @@
 ﻿
-@model PagedList.IPagedList<DHDCShop.Models.Model.Order>
+@model IEnumerable<DHDCShop.Models.Model.Order>
 @using PagedList.Mvc;
-
+<style>
+    #buttons{
+        margin: 6px;
+        text-align: right;
+    }
+    .paginate.paginate_controls input {
+        margin-left: 4px;
+        opacity: 0.75;
+    }
+    .active{
+        background-color: burlywood;
+        color:white;
+        opacity: 1;
+    }
+</style>
 <div class="card" id="my-body">
     <table id="example" class="table table-borderless sortable" style="width:100%">
 
@@ -24,7 +38,7 @@
                 </th>
 
                 <th>
-                    Total
+                    
                 </th>
             </tr>
         </thead>
@@ -98,11 +112,11 @@
 
     </table>
 
-    @Html.PagedListPager(Model, page => Url.Action("_OrderTable", "Order", new
+    @*@Html.PagedListPager(Model, page => Url.Action("_OrderTable", "Order", new
 {
     page,
     filter = (string)ViewBag.Filter
-}))
+}))*@
 </div>
 
 
@@ -114,14 +128,12 @@
 <script>
 
     function ResetTableSort() {
-        var option = 0;
         let options = {
-            //    numberPerPage: 10,
-            //    constNumberPerPage: 10,
-            //    numberOfPages: 0,
-            //    goBar: false,
-            //    pageCounter: true,
-            //    hasPagination: false,
+                numberPerPage: 8,
+                constNumberPerPage: 4,
+                goBar: false,
+                pageCounter: false,
+                hasPagination: true,
         };
         let filterOptions = {
             el: '#searchBox'
@@ -248,21 +260,21 @@
         })
     }
 
-    $(document).ready(function () {
+    //$(document).ready(function () {
 
-        $(document).on("click", ".pagination a[href]", function () {
-            $.ajax({
-                url: $(this).attr("href"),
-                type: 'GET',
-                cache: false,
-                success: function (result) {
-                    $('#my-body').html(result);
-                }
+    //    $(document).on("click", ".pagination a[href]", function () {
+    //        $.ajax({
+    //            url: $(this).attr("href"),
+    //            type: 'GET',
+    //            cache: false,
+    //            success: function (result) {
+    //                $('#my-body').html(result);
+    //            }
 
-            });
-            return false;
-        });
+    //        });
+    //        return false;
+    //    });
 
-    });
+    //});
 
 </script>

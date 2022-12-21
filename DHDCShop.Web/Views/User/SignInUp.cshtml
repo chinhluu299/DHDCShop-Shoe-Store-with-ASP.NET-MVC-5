@@ -18,7 +18,11 @@
 
 </head>
 <body>
-
+    <style>
+        .validation-summary-errors{
+            color: red;
+        }
+    </style>
     <div id="fback"><div class="girisback"></div><div class="kayitback"></div></div>
 
     <div id="textbox">
@@ -33,7 +37,6 @@
 
                         <div class="yarim form-group">
                             <label class="control-label" for="inputNormal">Username</label>
-
                             @Html.EditorFor(model => model.Register.Username, new
                             {
                                 htmlAttributes = new
@@ -128,6 +131,7 @@
                         <div class="message-validate">
                             @Html.ValidationMessageFor(model => model.Register.PhoneNumber, "", new { @class = "text-danger" })
                         </div>
+                        @Html.ValidationSummary()
 
                         <input type="submit" name="signup_submit" id="signup_submit" value="Sign Up" class="girisbtn" />
 

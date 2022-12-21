@@ -10,8 +10,7 @@ namespace DHDCShop.Web.Models
 {
     public class UserRole : RoleProvider
     {
-        DHDCShopDbContext db = new DHDCShopDbContext();
-
+        
         public override string Name => base.Name;
 
         public override string Description => base.Description;
@@ -56,7 +55,7 @@ namespace DHDCShop.Web.Models
         public override string[] GetRolesForUser(string username)
         {
             string[] roles = new string[1];
-            if(db.Admins.Find(username) != null)
+            if(new DHDCShopDbContext().Admins.Find(username) != null)
             {
                 roles[0] = "admin";
             }

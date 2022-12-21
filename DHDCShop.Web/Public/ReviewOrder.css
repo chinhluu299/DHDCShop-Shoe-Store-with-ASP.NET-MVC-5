@@ -36,6 +36,7 @@ span.fa.fa-star {
     top: 40px;
     width: 500px;
     animation: anim-appear 0.5s;
+    z-index: 100000;
 }
 
 @keyframes anim-appear {

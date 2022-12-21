@@ -156,6 +156,7 @@ namespace DHDCShop.Web.Controllers
                 giatong = giatong
             });
         }
+
         private decimal GetTotalMoneyFromCart()
         {
             List<CartItemViewModel> listItemPay = (List<CartItemViewModel>)Session["cart"];
@@ -315,7 +316,7 @@ namespace DHDCShop.Web.Controllers
                             newOrder.IsPaid = true;
                             newOrder.ZipCode = payment.ZipCode;
                             newOrder.CustomerId = User.Identity.Name;
-                            newOrder.TotalMoney = vnp_Amount;
+                            newOrder.TotalMoney = 0;
                             newOrder.CreateDate = DateTime.Now;
                             db.Orders.Add(newOrder);
                             db.SaveChanges();
@@ -327,7 +328,8 @@ namespace DHDCShop.Web.Controllers
                                 orderDetail.ProductId = item.Product.ProductId;
                                 orderDetail.Size = item.Size;
                                 orderDetail.Quantity = item.Quantity;
-                                orderDetail.Price = item.Product.Price * item.Quantity;                             
+                                orderDetail.Price = item.Product.Price * item.Quantity;
+                                newOrder.TotalMoney += orderDetail.Price;
 
                                 db.OrderDetails.Add(orderDetail);
                                 db.SaveChanges();

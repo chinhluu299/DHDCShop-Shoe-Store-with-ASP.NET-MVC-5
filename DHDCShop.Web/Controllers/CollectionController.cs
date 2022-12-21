@@ -38,7 +38,7 @@ namespace DHDCShop.Web.Controllers
             stars = (stars != null) ? stars : "";
             if (!stars.Equals(""))
             {
-                links = links.Where(s => stars.Contains(s.Rating.ToString())).OrderBy(s => s.ProductId).ToList();
+                links = links.Where(s => stars.Contains(((int)s.Rating).ToString())).OrderBy(s => s.ProductId).ToList();
             }
 
             //step 3

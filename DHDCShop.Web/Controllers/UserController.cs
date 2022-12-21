@@ -26,6 +26,7 @@ namespace DHDCShop.Web.Controllers
                 string username = User.Identity.Name;
                 Customer dangNhap = db.Customers.Find(username);
                 ViewBag.Type = "profile";
+                ViewBag.Country = dangNhap.Nation;
                 return View(dangNhap);
             }
             catch(Exception ex)
@@ -79,6 +80,26 @@ namespace DHDCShop.Web.Controllers
                 RegisterViewModel register = signUp.Register;
                 if (register != null)
                 {
+                    var checkEmail = db.Customers.Where(x => x.Email == register.Email).FirstOrDefault();
+                    if (checkEmail != null)
+                    {
+                        ModelState.AddModelError("", "The email has been exist");
+                        return View("SignInUp", signUp);
+                    }
+                    var checkPhone = db.Customers.Where(x => x.PhoneNumber == register.PhoneNumber).FirstOrDefault();
+                    if(checkPhone != null)
+                    {
+                        ModelState.AddModelError("", "The phone number has been exist");
+                        return View("SignInUp", signUp);
+
+                    }
+                    var checkUsername = db.Customers.Where(x => x.Username == register.Username).FirstOrDefault();
+                    if (checkUsername != null)
+                    {
+                        ModelState.AddModelError("", "The username has been exist");
+                        return View("SignInUp", signUp);
+                    }
+
                     Customer tk = new Customer();
                     tk.FullName = register.FullName;
                     tk.Username = register.Username;
@@ -107,7 +128,7 @@ namespace DHDCShop.Web.Controllers
 
         }
         [HttpPost]
-        public ActionResult UpdateProfile(HttpPostedFileBase file, Customer update)
+        public ActionResult UpdateProfile(HttpPostedFileBase file, Customer update, string country)
         {
             try
             {
@@ -117,7 +138,8 @@ namespace DHDCShop.Web.Controllers
                 taikhoan.FullName = update.FullName;
                 taikhoan.Gender = update.Gender;
                 taikhoan.Email = update.Email;
-                taikhoan.Nation = update.Nation;
+                if(country != null)
+                    taikhoan.Nation = country;
                 taikhoan.PhoneNumber = update.PhoneNumber;
                 taikhoan.DateOfBirth = update.DateOfBirth;
                 taikhoan.Address = update.Address;

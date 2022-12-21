@@ -34,15 +34,15 @@ namespace DHDCShop.Web.Areas.Admin.Controllers
 
         public PartialViewResult _OrderTable(int? page, string filter)
         {
-            if (page == null) page = 1;
-            int pageSize = 10;
-            int pageNumber = (page ?? 1);
+            //if (page == null) page = 1;
+            ////int pageSize = 5;
+            //int pageNumber = (page ?? 1);
             filter = (filter == null || filter == "") ? "" : filter;
             var links = db.Orders.Where(s => s.Status.Name.ToLower().Contains(filter)).ToList();
             // 5. Trả về các Link được phân trang theo kích thước và số trang.
             ViewBag.Filter = filter;
 
-            return PartialView("_OrderTable", links.ToPagedList(pageNumber, pageSize));
+            return PartialView(links);
         }
 
         // GET: Admin/Order/Details/5
