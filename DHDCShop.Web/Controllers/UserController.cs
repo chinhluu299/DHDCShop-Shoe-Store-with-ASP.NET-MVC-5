@@ -146,27 +146,9 @@ namespace DHDCShop.Web.Controllers
 
                 if (file != null)
                 {
-                
-                    var ext = Path.GetExtension(file.FileName);
-                   //getting file name without extension  
-                    string myfile = "avatar_" + tendangnhap + ext; //appending the name with id  
-                                                                   // store the file inside ~/project folder(Img)  
-                    var path = "~/Source/" + myfile;
-                    var path2 = Path.Combine(Server.MapPath("~/Source"), myfile);
 
-                    var path_del = Server.MapPath(taikhoan.AvatarPath);
-                    if (taikhoan.AvatarPath.Contains("avatar_default.png"))
-                    {
-                        FileInfo file2 = new FileInfo(path_del);
-                        if (file2.Exists)//check file exsit or not  
-                        {
-                            file2.Delete();
-                        }
-                    }
-                    taikhoan.AvatarPath = path;
-                    file.SaveAs(path2);
-                    
-
+                    UploadImage.DeleteImage(taikhoan.AvatarPath);
+                    taikhoan.AvatarPath = UploadImage.UploadOneImage(file, "~/Source/", "avatar_" + tendangnhap);                    
                 }
 
                 db.SaveChanges();
