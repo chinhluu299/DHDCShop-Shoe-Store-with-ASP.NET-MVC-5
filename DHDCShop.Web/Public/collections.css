@@ -301,13 +301,14 @@ body {
 
 .btn-flat {
     display: inline-block;
-    border: 2px solid var(--btn-border-color);
+    border: 1px solid var(--btn-border-color);
+    border-radius :2px;
     background-color: #17a2b8;
     color: var(--btn-color);
     padding: 15px 35px;
-    font-size: 15px;
+    font-size: 16px;
     outline: 0;
-    font-weight: 600;
+    font-weight: 500;
     text-transform: uppercase;
 }
 
@@ -474,7 +475,7 @@ body {
 
 .btn-shop-now,
 .btn-cart-add {
-    font-size: 15px;
+    font-size: 14px;
     padding: 5px 10px;
     line-height: 17px;
 }
