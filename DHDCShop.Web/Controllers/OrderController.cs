@@ -23,7 +23,6 @@ namespace DHDCShop.Web.Controllers
                 List<Order> orderList = db.Orders.Where(x => x.CustomerId == username).ToList();
                 List<OrderItemViewModel> orderListViewModel = new List<OrderItemViewModel>();
 
-
                 foreach (var order in orderList)
                 {
                     List<CartItemViewModel> cartItems = new List<CartItemViewModel>();
@@ -44,7 +43,9 @@ namespace DHDCShop.Web.Controllers
                 return View(orderListViewModel.OrderByDescending(s => s.Order.CreateDate));
             }
             else
+            {
                 return RedirectToAction("SignInUp", "User");
+            }
         }
 
         [HttpPost]
@@ -155,28 +156,36 @@ namespace DHDCShop.Web.Controllers
                 try
                 {
                     var username = User.Identity.Name;
-                    Comment cmt = new Comment();
+                    Product product = db.Products.Find(productId);
+                    if (product != null)
+                    {
 
-                    cmt.ProductId = productId;
-                    cmt.CustomerUsername = username;
-                    cmt.CreatedDate = DateTime.Now;
-                    cmt.Comments = comment;
+                        Comment cmt = new Comment();
+                        cmt.ProductId = productId;
+                        cmt.CustomerUsername = username;
+                        cmt.CreatedDate = DateTime.Now;
+                        cmt.Comments = comment;
+                        db.Comments.Add(cmt);
 
-                    db.Comments.Add(cmt);
+                        Rating rate = new Rating();
+                        rate.ProductId = productId;
+                        rate.CustomerUsername = username;
+                        rate.NumberOfStar = numberOfStar;
+                        rate.OrderId = orderId;
+                        db.Ratings.Add(rate);
 
-                    Rating rate = new Rating();
-                    rate.ProductId = productId;
-                    rate.CustomerUsername = username;
-                    rate.NumberOfStar = numberOfStar;
-                    rate.OrderId = orderId;
+                        product.Rating = (product.Rating * product.NumOfVote + numberOfStar) / (product.NumOfVote + 1);
+                        product.NumOfVote += 1;
 
-                    db.Ratings.Add(rate);
+                    }
+
 
                     db.SaveChanges();
 
                 }
                 catch (Exception e)
                 {
+                    throw new Exception(e.Message);
                 }
             }
         }

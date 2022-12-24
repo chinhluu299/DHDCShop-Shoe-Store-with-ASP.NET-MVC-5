@@ -1,4 +1,5 @@
-﻿using DHDCShop.Models;
+﻿using DHDCShop.Common.Util;
+using DHDCShop.Models;
 using DHDCShop.Models.Model;
 using DHDCShop.Models.ViewModel;
 using System;
@@ -20,10 +21,19 @@ namespace DHDCShop.Web.Controllers
         // GET: User
         public ActionResult Index()
         {
-            string username = User.Identity.Name;
-            Customer dangNhap = db.Customers.Find(username);
-            ViewBag.Type = "profile";
-            return View(dangNhap);
+            try
+            {
+                string username = User.Identity.Name;
+                Customer dangNhap = db.Customers.Find(username);
+                ViewBag.Type = "profile";
+                ViewBag.Country = dangNhap.Nation;
+                return View(dangNhap);
+            }
+            catch(Exception ex)
+            {
+                ViewBag.Exception = ex.Message;
+                return View("Error");
+            }
            
         }
         [AllowAnonymous]
@@ -40,8 +50,9 @@ namespace DHDCShop.Web.Controllers
                 LoginViewModel login = signIn.Login;
                 if (login != null)
                 {
+                    string password = CryptoLib.EncryptMD5(login.Password);
                     var data = db.Customers.Where(s => s.Username.Equals(login.Username) &&
-                     s.Password.Equals(login.Password)).ToList();
+                     s.Password.Equals(password)).ToList();
                     if (data.Count() > 0)
                     {
                         //add session
@@ -69,10 +80,30 @@ namespace DHDCShop.Web.Controllers
                 RegisterViewModel register = signUp.Register;
                 if (register != null)
                 {
+                    var checkEmail = db.Customers.Where(x => x.Email == register.Email).FirstOrDefault();
+                    if (checkEmail != null)
+                    {
+                        ModelState.AddModelError("", "The email has been exist");
+                        return View("SignInUp", signUp);
+                    }
+                    var checkPhone = db.Customers.Where(x => x.PhoneNumber == register.PhoneNumber).FirstOrDefault();
+                    if(checkPhone != null)
+                    {
+                        ModelState.AddModelError("", "The phone number has been exist");
+                        return View("SignInUp", signUp);
+
+                    }
+                    var checkUsername = db.Customers.Where(x => x.Username == register.Username).FirstOrDefault();
+                    if (checkUsername != null)
+                    {
+                        ModelState.AddModelError("", "The username has been exist");
+                        return View("SignInUp", signUp);
+                    }
+
                     Customer tk = new Customer();
                     tk.FullName = register.FullName;
                     tk.Username = register.Username;
-                    tk.Password = register.Password;
+                    tk.Password = CryptoLib.EncryptMD5(register.Password);
                     tk.Email = register.Email;
                     tk.PhoneNumber = register.PhoneNumber;
                     tk.DateOfRegister = DateTime.Now;
@@ -97,7 +128,7 @@ namespace DHDCShop.Web.Controllers
 
         }
         [HttpPost]
-        public ActionResult UpdateProfile(HttpPostedFileBase file, Customer update)
+        public ActionResult UpdateProfile(HttpPostedFileBase file, Customer update, string country)
         {
             try
             {
@@ -107,34 +138,17 @@ namespace DHDCShop.Web.Controllers
                 taikhoan.FullName = update.FullName;
                 taikhoan.Gender = update.Gender;
                 taikhoan.Email = update.Email;
-                taikhoan.Nation = update.Nation;
+                if(country != null)
+                    taikhoan.Nation = country;
                 taikhoan.PhoneNumber = update.PhoneNumber;
                 taikhoan.DateOfBirth = update.DateOfBirth;
                 taikhoan.Address = update.Address;
 
                 if (file != null)
                 {
-                
-                    var ext = Path.GetExtension(file.FileName);
-                   //getting file name without extension  
-                    string myfile = "avatar_" + tendangnhap + ext; //appending the name with id  
-                                                                   // store the file inside ~/project folder(Img)  
-                    var path = "~/Source/" + myfile;
-                    var path2 = Path.Combine(Server.MapPath("~/Source"), myfile);
 
-                    var path_del = Server.MapPath(taikhoan.AvatarPath);
-                    if (taikhoan.AvatarPath.Contains("avatar_default.png"))
-                    {
-                        FileInfo file2 = new FileInfo(path_del);
-                        if (file2.Exists)//check file exsit or not  
-                        {
-                            file2.Delete();
-                        }
-                    }
-                    taikhoan.AvatarPath = path;
-                    file.SaveAs(path2);
-                    
-
+                    UploadImage.DeleteImage(taikhoan.AvatarPath);
+                    taikhoan.AvatarPath = UploadImage.UploadOneImage(file, "~/Source/", "avatar_" + tendangnhap);                    
                 }
 
                 db.SaveChanges();

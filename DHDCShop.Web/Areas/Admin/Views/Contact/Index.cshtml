@@ -1,0 +1,95 @@
+﻿@model IEnumerable<DHDCShop.Models.Model.Contact>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .active{
+        color: white;
+        background-color: #659DBD;
+    }
+</style>
+@{ 
+    bool haveSeen = (bool)ViewBag.HaveSeen;
+}
+<h2>Contact</h2>
+
+<nav class="nav nav-borders">
+    @if (!haveSeen)
+    {
+        <a class="nav-link ms-0 active " href="@Url.Action("Index","Contact",new {option=0})" >Not seen</a>
+        <a class="nav-link" href="@Url.Action("Index","Contact",new {option=1})" >Seen</a>
+    }
+    else
+    {
+        <a class="nav-link ms-0  "  href="@Url.Action("Index","Contact",new {option=0})" >Not seen</a>
+        <a class="nav-link active" href="@Url.Action("Index","Contact",new {option=1})" >Seen</a>
+    }
+
+</nav>
+<hr class="mt-0 mb-4">
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>From</th>
+                <th>Email</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!haveSeen)
+            {
+                foreach (var item in Model)
+                {
+
+                    <tr>
+                        <td width="15%">@item.Time.ToString("f")</td>
+                        <td width="15%">@item.Name</td>
+                        <td width="15%">@item.Email</td>
+                        <td>
+                            <a class="bg-opacity-10 text-decoration-none" data-bs-toggle="collapse" href="#id@(item.ID)" role="button" aria-expanded="false">
+                                <i class="fa-solid fa-caret-down"></i> Show message
+                            </a>
+
+                            <div class="collapse mt-1" id="id@(item.ID)">
+                                <div class="card card-body">
+                                    @item.Message
+                                </div>
+                                <a href="@Url.Action("ContactChangeStatus","Contact",new {contactID = item.ID})" class="btn btn-success mt-2"><i class="fa-solid fa-check me-1"></i>Seen</a>
+                            </div>
+                        </td>
+                    </tr>
+
+                }
+            }
+            else
+            {
+                foreach (var item in Model)
+                {
+
+                    <tr>
+                        <td width="15%">@item.Time.ToString("f")</td>
+                        <td width="15%">@item.Name</td>
+                        <td width="15%">@item.Email</td>
+                        <td>
+                            <a class="bg-opacity-10 text-decoration-none" data-bs-toggle="collapse" href="#id@(item.ID)" role="button" aria-expanded="false">
+                                <i class="fa-solid fa-caret-down"></i> Show message
+                            </a>
+
+                            <div class="collapse mt-1" id="id@(item.ID)">
+                                <div class="card card-body">
+                                    @item.Message
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                }
+            }
+
+        </tbody>
+    </table>
+</div>

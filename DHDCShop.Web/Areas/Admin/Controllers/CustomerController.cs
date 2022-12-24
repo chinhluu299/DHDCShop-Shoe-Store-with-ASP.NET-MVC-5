@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace DHDCShop.Web.Areas.Admin.Controllers
 {
+    [Authorize(Roles ="admin")]
     public class CustomerController : Controller
     {
         // GET: Admin/Customer
@@ -18,30 +19,33 @@ namespace DHDCShop.Web.Areas.Admin.Controllers
         // GET: Admin/Customer
         public ActionResult Index()
         {
-            if (Session["username"] != null)
+            try
             {
                 return View(db.Customers.ToList());
             }
-            else
+            catch (Exception ex)
             {
-                return RedirectToAction("Login", "Home");
-            }
+                ViewBag.Exception = ex.Message;
+                return View("Error");
 
+            }
         }
 
         // GET: Admin/Customer/Details/5
         public ActionResult Details(string id)
         {
-            if (Session["username"] != null)
+            try
             {
                 if (db.Customers.Find(id) != null)
                     return View(db.Customers.Find(id));
                 else return RedirectToAction("Index");
             }
-            else
+            catch(Exception ex)
             {
-                return RedirectToAction("Login", "Home");
+                ViewBag.Exception = ex.Message;
+                return View("Error");
             }
+
         }
 
         // GET: Admin/Customer/Create

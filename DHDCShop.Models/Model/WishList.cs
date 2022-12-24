@@ -24,6 +24,7 @@ namespace DHDCShop.Models.Model
         [JsonIgnore]
         public virtual Customer Customer { get; set; }
         [ForeignKey("ProductId")]
+        [JsonIgnore]
         public virtual Product Product { get; set; }
     }
 }

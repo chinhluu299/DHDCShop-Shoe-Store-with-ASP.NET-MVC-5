@@ -136,6 +136,13 @@ function ReviewHandle(id) {
         console.log(magiay + "\n" + sosao + "\n" + binhluan);
         if ($.post(`/Order/AddReview?productId=${magiay}&numberOfStar=${sosao}&comment=${binhluan}&orderId=${id}`)) {
             document.getElementsByClassName("alert")[1].style.display = 'block';
+            document.getElementsByClassName("btn-confirm")[0].disabled = true;
+
+            setTimeout(function () {
+                console.log(document.getElementsByClassName("btn-back")[0]);
+
+                document.getElementsByClassName("btn-back")[0].click()
+            }, 3000);
             };
         }
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -39,12 +40,14 @@ namespace DHDCShop.Models.Model
         public string AvatarPath { get; set; }
         public decimal TotalSpent { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<Comment> Comments { get; set; }
       
         public virtual ICollection<Order> Orders { get; set; }
 
         public virtual ICollection<WishList> WishLists { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<Rating> Ratings { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DHDCShop.Common;
+using DHDCShop.Common.Util;
 using DHDCShop.Models;
 using DHDCShop.Models.Model;
 using System;
@@ -63,8 +64,6 @@ namespace DHDCShop.Web.Areas.Admin.Controllers
                     count_size = 1;
                 }
 
-
-
                 if (upd.Name == null)
                 {
                     ViewBag.Error = "Please input name of shoe";
@@ -101,35 +100,19 @@ namespace DHDCShop.Web.Areas.Admin.Controllers
                         var file = files[0];
                         if (file != null)
                         {
-                            var fileName = Path.GetFileName(file.FileName);
-                            var ext = Path.GetExtension(file.FileName);
-                            string name = Path.GetFileNameWithoutExtension(fileName); //getting file name without extension  
-                            string myfile = "shoe_" + id + ext; //appending the name with id  
-                                                                // store the file inside ~/project folder(Img)  
-                            var path = "~/Source/" + myfile;
-                            var path2 = Path.Combine(Server.MapPath("~/Source"), myfile);
-                            product.ImagePath = path;
-                            file.SaveAs(path2);
+                            product.ImagePath = UploadImage.UploadOneImage(file, "~/Source/", "shoe_"+id);
 
                             foreach (var image in files)
                             {
-                                var f_name = Path.GetFileName(image.FileName);
-                                var f_ext = Path.GetExtension(image.FileName);
-                                string f_nameWe = Path.GetFileNameWithoutExtension(f_name);
-                                string f_myfile = "shoe_image_" + id + f_nameWe + f_ext;
-
-                                var f_path = "~/Source/Product/" + f_myfile;
-                                var f_path2 = Path.Combine(Server.MapPath("~/Source/Product"), f_myfile);
+                             
                                 ProductImage pro_image = new ProductImage();
-                                pro_image.ImagePath = f_path;
-                                image.SaveAs(f_path2);
+                                pro_image.ImagePath = UploadImage.UploadOneImage(image, "~/Source/Product/", 
+                                                    "shoe_image_" + id+DateTime.Now.ToString("yyyyMMddHHmmssffff")); 
                                 getProduct.ProductImages.Add(pro_image);
 
                             }
                         }
                     }
-
-
 
                     getProduct.Quantity = 0;
 
@@ -231,50 +214,26 @@ namespace DHDCShop.Web.Areas.Admin.Controllers
                             var file = files[0];
                             if (file != null)
                             {
-                                var fileName = Path.GetFileName(file.FileName);
-                                var ext = Path.GetExtension(file.FileName);
-                                string name = Path.GetFileNameWithoutExtension(fileName); //getting file name without extension  
-                                string myfile = "shoe_" + id + ext; //appending the name with id  
-                                                                    // store the file inside ~/project folder(Img)  
-                                var path = "~/Source/" + myfile;
-                                var path2 = Path.Combine(Server.MapPath("~/Source"), myfile);
+                                //change image first
+                                UploadImage.DeleteImage(item.ImagePath);
+                                item.ImagePath = UploadImage.UploadOneImage(file, "~/Source/", "shoe_" + id);
 
-
-                                var path_del = Server.MapPath(item.ImagePath);
-                                FileInfo file2 = new FileInfo(path_del);
-                                if (file2.Exists)//check file exsit or not  
-                                {
-                                    file2.Delete();
-                                }
-                                item.ImagePath = path;
-                                file.SaveAs(path2);
-
-                                //save in iamges
+                                //delete all images
                                 var data_image = item.ProductImages;
                                 foreach (var image in data_image)
                                 {
-                                    var del = Server.MapPath(image.ImagePath);
-                                    FileInfo imageDel = new FileInfo(del);
-                                    if (imageDel.Exists)
-                                    {
-                                        imageDel.Delete();
-                                    }
+                                    UploadImage.DeleteImage(image.ImagePath);
                                 }
                                 item.ProductImages.Clear();
                                 db.ProductImages.RemoveRange(db.ProductImages.Where(s => s.ProductId == item.ProductId));
 
                                 foreach (var image in files)
                                 {
-                                    var f_name = Path.GetFileName(image.FileName);
-                                    var f_ext = Path.GetExtension(image.FileName);
-                                    string f_nameWe = Path.GetFileNameWithoutExtension(f_name);
-                                    string f_myfile = "shoe_image_" + id + f_nameWe + f_ext;
-
-                                    var f_path = "~/Source/Product/" + f_myfile;
-                                    var f_path2 = Path.Combine(Server.MapPath("~/Source/Product"), f_myfile);
+                                    
                                     ProductImage pro_image = new ProductImage();
-                                    pro_image.ImagePath = f_path;
-                                    image.SaveAs(f_path2);
+                                    pro_image.ImagePath = UploadImage.UploadOneImage(image, "~/Source/Product/",
+                                                    "shoe_image_" + id + DateTime.Now.ToString("yyyyMMddHHmmssffff"));
+
                                     item.ProductImages.Add(pro_image);
 
                                 }
@@ -316,11 +275,6 @@ namespace DHDCShop.Web.Areas.Admin.Controllers
             }
         }
 
-        // GET: Admin/Product/Delete/5
-        //public ActionResult Delete(int id)
-        //{
-        //    return View(db.Products.Find(id));
-        //}
 
         // POST: Admin/Product/Delete/5
         [HttpPost]
@@ -331,21 +285,11 @@ namespace DHDCShop.Web.Areas.Admin.Controllers
                 // TODO: Add delete logic here
                 Product product = db.Products.Find(id);
 
-                var path = Server.MapPath(product.ImagePath);
-                FileInfo file = new FileInfo(path);
-                if (file.Exists)//check file exsit or not  
-                {
-                    file.Delete();
-                }
+                UploadImage.DeleteImage(product.ImagePath);
 
                 foreach (var item in product.ProductImages.ToList())
                 {
-                    var path_item = Server.MapPath(item.ImagePath);
-                    FileInfo file_item = new FileInfo(path_item);
-                    if (file_item.Exists)
-                    {
-                        file_item.Delete();
-                    }
+                    UploadImage.DeleteImage(item.ImagePath);
                     db.ProductImages.Remove(item);
                 }
 

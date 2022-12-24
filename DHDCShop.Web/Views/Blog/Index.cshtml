@@ -9,11 +9,11 @@
     <div class="body-content">
         @foreach (var item in Model)
         {
-            <div class="blog-item">
-                <h3 class="fw-bold text-uppercase">@item.Title</h3>
-                <img src="@Url.Content(item.ImagePath)" class="img-responsive" width="1024" height="609" />
+            <div class="blog-item mb-5">
+                <h3 class="fw-bold text-uppercase me-0">@item.Title</h3>
+                <img src="@Url.Content(item.ImagePath)" class="img-responsive mt-0" width="1024" height="609" />
                 <div>
-                    <div>@item.DatePost.ToString("d")</div>
+                    <div class="mt-1 mb-1 opacity-75">@item.DatePost.ToString("d")</div>
                     <div>
                         <a class="btn btn-warning" href="@Url.Action("Detail","Blog", new { id = item.ID })">
                             READ MORE

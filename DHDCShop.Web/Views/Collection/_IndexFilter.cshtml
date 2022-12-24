@@ -11,8 +11,8 @@
             <div style="width: 250px;" class="m-2 card p-3 product-item">
                 <div class="product-card">
                     <div class="product-card-img">
-                        <img src="@Url.Content(item.ImagePath)" width="200" height="200" alt="" />
-                        <img src="@Url.Content(item.ImagePath)" width="200" height="200" alt="" />
+                        <img src="@Url.Content(item.ImagePath)" style="width: 200px; height:auto;" alt="" />
+                        <img src="@Url.Content(item.ImagePath)" style="width: 200px; height:auto;" alt="" />
                     </div>
                     <div class="product-card-info">
                         <div class="product-btn">
@@ -29,7 +29,7 @@
                         </div>
                         <div class="product-card-price">
                             @*<span><del>@ShopGiayOnline.Models.FormatMoney.format(item.gia.Value)</del></span>*@
-                            <span class="curr-price">@item.Price</span>
+                            <span class="curr-price">$@item.Price</span>
                         </div>
                     </div>
                 </div>

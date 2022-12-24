@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -21,8 +22,10 @@ namespace DHDCShop.Models.Model
         public string Comments { get; set; }
 
         [ForeignKey("ProductId")]
+        [JsonIgnore]
         public virtual Product Product { get; set; }
         [ForeignKey("CustomerUsername")]
+        [JsonIgnore]
         public virtual Customer Customer { get; set; }
     }
 }
