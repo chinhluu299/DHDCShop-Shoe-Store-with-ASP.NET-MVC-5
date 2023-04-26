@@ -26,5 +26,5 @@
 **Step 3**: Select project default is DHDCShop.Models and run "update-database" <br/>
 **Step 4**: Run the project <br/>
 
-#### To use online payment feature, use have to follow example credit cards in this links: https://sandbox.vnpayment.vn/apis/vnpay-demo/
+#### To use online payment feature, you have to follow example credit cards in this links: https://sandbox.vnpayment.vn/apis/vnpay-demo/
 
