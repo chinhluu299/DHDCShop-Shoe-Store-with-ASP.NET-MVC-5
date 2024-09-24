@@ -22,8 +22,6 @@
     - Chat management 
     - Contact management 
 ## How to use it? 
-## How to Run the ASP.NET MVC Project
-
 ### Steps to Follow:
 
 1. **Clone or download the project**:
