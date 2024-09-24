@@ -22,10 +22,42 @@
     - Chat management 
     - Contact management 
 ## How to use it? 
-**Step 1**: Clone this repository or download project. <br/>
-**Step 2**: Open Visual Studio > Go to Tools > Nuget package manager > package manager console <br/>
-**Step 3**: Select project default is DHDCShop.Models and run "update-database" <br/>
-**Step 4**: Run the project <br/>
+## How to Run the ASP.NET MVC Project
+
+### Steps to Follow:
+
+1. **Clone or download the project**:
+   - Clone the repository with the following command:
+     ```bash
+     git clone <repository-url>
+     ```
+   - Or download the project from the repository and extract it.
+
+2. **Install dependencies**:
+   - Open the terminal or command prompt in the root folder of the project.
+   - Run the following command to restore the necessary packages:
+     ```bash
+     dotnet restore
+     ```
+
+3. **Update the database**:
+   - Run the following command to apply migrations and update the database:
+     ```bash
+     dotnet ef database update --project DHDCShop.Models
+     ```
+
+4. **Run the project**:
+   - Run the project with the following command:
+     ```bash
+     dotnet run
+     ```
+
+5. **Access the application**:
+   - Once the project is running, open your browser and navigate to the provided URL.
+
+### Requirements:
+- **.NET Core SDK** must be installed on your machine to use CLI commands like `dotnet`.
+- Ensure your database configuration in `appsettings.json` or the relevant configuration file is correct, if needed.
 
 #### To use online payment feature, you have to follow example credit cards in this links: https://sandbox.vnpayment.vn/apis/vnpay-demo/
 
