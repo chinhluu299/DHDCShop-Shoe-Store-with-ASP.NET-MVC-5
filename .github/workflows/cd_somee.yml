@@ -26,10 +26,10 @@ jobs:
         run: msbuild /nologo /verbosity:m /t:Build /p:Configuration=Release /p:DeployOnBuild=True /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:publishUrl="published" /p:DeleteExistingFiles=True
 
       - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ASP-app
-          path: 'published/**'
+          path: '/published/**'
 
   deploy:
     runs-on: windows-latest
