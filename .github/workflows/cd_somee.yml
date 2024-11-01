@@ -44,7 +44,7 @@ jobs:
       - name: Deploy to Somee via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.3.1
         with:
-          server: ftp://dhdcstore.somee.com/www.dhdcstore.somee.com
+          server: www.dhdcstore.somee.com
           username: ${{ secrets.FTP_USERNAME }}  
           password: ${{ secrets.FTP_PASSWORD }} 
           #local-dir: /published/
