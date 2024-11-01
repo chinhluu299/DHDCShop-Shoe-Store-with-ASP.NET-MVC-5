@@ -24,22 +24,6 @@ jobs:
 
       - name: Publish to folder
         run: msbuild /nologo /verbosity:m /t:Build /p:Configuration=Release /p:DeployOnBuild=True /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:publishUrl="\published\" /p:DeleteExistingFiles=True
-        
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v4
-        with:
-          name: ASP-app
-          path: '/published/**'
-
-  deploy:
-    runs-on: windows-latest
-    needs: build
-
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v4
-        with:
-          name: ASP-app
 
       - name: Deploy to Somee via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.3.1
@@ -49,3 +33,28 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }} 
           local-dir: ./published/
           # server-dir: /  
+    
+  #     - name: Upload artifact for deployment job
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: ASP-app
+  #         path: '/published/**'
+
+  # deploy:
+  #   runs-on: windows-latest
+  #   needs: build
+
+  #   steps:
+  #     - name: Download artifact from build job
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: ASP-app
+
+  #     - name: Deploy to Somee via FTP
+  #       uses: SamKirkland/FTP-Deploy-Action@4.3.1
+  #       with:
+  #         server: www.dhdcstore.somee.com
+  #         username: ${{ secrets.FTP_USERNAME }}  
+  #         password: ${{ secrets.FTP_PASSWORD }} 
+  #         local-dir: ./published/
+  #         # server-dir: /  
