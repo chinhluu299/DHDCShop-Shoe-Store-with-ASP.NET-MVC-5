@@ -32,7 +32,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}  
           password: ${{ secrets.FTP_PASSWORD }} 
           local-dir: /published/
-          # server-dir: /  
+          server-dir: www.dhdcstore.somee.com/  
     
   #     - name: Upload artifact for deployment job
   #       uses: actions/upload-artifact@v4
