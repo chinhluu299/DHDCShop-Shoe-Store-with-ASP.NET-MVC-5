@@ -1,37 +1,51 @@
-name: Deploy ASP.NET MVC to Somee
+name: Build and deploy ASP app to Somee - sell-shoe
 
 on:
   push:
     branches:
-      - master  
+      - master
+  workflow_dispatch:
 
 jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup MSBuild path
+        uses: microsoft/setup-msbuild@v1.0.2
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.0.5
+
+      - name: Restore NuGet packages
+        run: nuget restore
+
+      - name: Publish to folder
+        run: msbuild /nologo /verbosity:m /t:Build /p:Configuration=Release /p:DeployOnBuild=True /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:publishUrl="published" /p:DeleteExistingFiles=True
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v3
+        with:
+          name: ASP-app
+          path: 'published/**'
+
   deploy:
     runs-on: windows-latest
-    
+    needs: build
+
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v2
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v1
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
         with:
-          dotnet-version: '4.7.2'
+          name: ASP-app
 
-      - name: Restore dependencies
-        run: dotnet restore
-
-      - name: Build solution
-        run: dotnet build --configuration Release --no-restore
-
-      - name: Publish solution
-        run: dotnet publish -c Release -o publish_output
-
-      - name: Upload to FTP server
+      - name: Deploy to Somee via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.3.1
         with:
-          server: ftp://dhdcstore.somee.com  # Thay bằng server FTP của bạn
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: publish_output
-          server-dir: / # Thay bằng đường dẫn thư mục trên server của bạn
+          server: ftp://dhdcstore.somee.com 
+          username: ${{ secrets.FTP_USERNAME }}  
+          password: ${{ secrets.FTP_PASSWORD }} 
+          local-dir: published
+          server-dir: /  
