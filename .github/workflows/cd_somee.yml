@@ -31,7 +31,7 @@ jobs:
           server: www.dhdcstore.somee.com
           username: ${{ secrets.FTP_USERNAME }}  
           password: ${{ secrets.FTP_PASSWORD }} 
-          local-dir: ./published/
+          local-dir: /published/
           # server-dir: /  
     
   #     - name: Upload artifact for deployment job
