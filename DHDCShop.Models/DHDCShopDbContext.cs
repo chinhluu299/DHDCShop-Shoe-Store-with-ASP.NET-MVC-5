@@ -1,4 +1,4 @@
-using DHDCShop.Models.Model;
+﻿using DHDCShop.Models.Model;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -16,9 +16,17 @@ namespace DHDCShop.Models
         // If you wish to target a different database and/or database provider, modify the 'DHDCShopDbContext' 
         // connection string in the application configuration file.
         public DHDCShopDbContext()
-            : base("name=DHDCShopDbContext")
+            : base(GetConnectionString())
         {
       
+        }
+        private static string GetConnectionString()
+        {
+            // Đọc connection string từ biến môi trường
+            var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+
+            // Nếu biến môi trường không có giá trị, lấy từ Web.config
+            return connectionString ?? "name=DHDCShopDbContext";
         }
 
         public DbSet<Admin> Admins { get; set; }
